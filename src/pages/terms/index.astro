@@ -1,0 +1,203 @@
+---
+import { Code2 } from '@lucide/astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteHeader from '../../components/SiteHeader.astro'
+
+const LINKS = {
+  github: 'https://github.com/Drovyu/preview-cli',
+  license: 'https://github.com/Drovyu/preview-cli/blob/main/LICENSE',
+  support: 'mailto:support@drovyu.com',
+}
+---
+
+<BaseLayout
+  title="利用規約 — Drovyu Preview"
+  description="Drovyu Preview（dvyu CLI と preview.drovyu.com）の利用規約。"
+>
+  <div class="subpage">
+    <SiteHeader />
+
+    <section class="subpage-hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="subpage-eyebrow">Terms of Service</p>
+        <h1 class="subpage-title"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms of Service</span></h1>
+        <p class="subpage-copy">
+          <span class="lang-block-ja">Drovyu Preview の利用条件を定めます。</span>
+          <span class="lang-block-en">The terms that apply to using Drovyu Preview.</span>
+        </p>
+      </div>
+    </section>
+
+    <main class="prose-main">
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">1. 適用</span><span class="lang-block-en">1. Scope</span></h2>
+        <div class="lang-block-ja"><p>本規約は、Drovyu Preview、dvyu CLI、および関連ドメインの利用に適用されます。サービスを利用することで、本規約に同意したものとみなします。</p></div>
+        <div class="lang-block-en"><p>These terms apply to Drovyu Preview, the dvyu CLI, and related domains. By using the service, you agree to these terms.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">2. サービス内容</span><span class="lang-block-en">2. The service</span></h2>
+        <div class="lang-block-ja"><p>Drovyu Preview は、静的 HTML ビルドから暗号化された一時的なプレビュー URL を作成・更新・配信するサービスです。提供機能、対応環境、利用上限は、ドキュメントに記載する内容に従います。</p></div>
+        <div class="lang-block-en"><p>Drovyu Preview creates, updates, and delivers temporary encrypted preview URLs from static HTML builds. Features, supported environments, and usage limits are described in the documentation.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">3. 禁止事項</span><span class="lang-block-en">3. Prohibited uses</span></h2>
+        <div class="lang-block-ja">
+          <p>次の行為を禁止します。</p>
+          <ul>
+            <li>法令に違反するコンテンツのアップロードや共有</li>
+            <li>マルウェアなど有害なプログラムの配布</li>
+            <li>他者の著作権、プライバシーその他の権利を侵害する行為</li>
+            <li>サービスへの攻撃、妨害、過度な負荷をかける行為</li>
+            <li>利用上限やアクセス制御を回避する行為</li>
+            <li>その他、サービスの運営上不適切と合理的に判断される行為</li>
+          </ul>
+        </div>
+        <div class="lang-block-en">
+          <p>The following are prohibited:</p>
+          <ul>
+            <li>Uploading or sharing content that violates applicable law</li>
+            <li>Distributing malware or other harmful programs</li>
+            <li>Infringing copyrights, privacy, or other rights of another person</li>
+            <li>Attacking, disrupting, or placing excessive load on the service</li>
+            <li>Circumventing usage limits or access controls</li>
+            <li>Other conduct reasonably determined to be harmful to operation of the service</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">4. コンテンツの権利と責任</span><span class="lang-block-en">4. Content rights and responsibility</span></h2>
+        <div class="lang-block-ja">
+          <p>利用者は、アップロードするコンテンツについて必要な権利または許諾を有し、その内容に責任を負うものとします。利用者はサービス提供に必要な範囲で、暗号化済みデータを保存、複製、配信、削除する権限を Drovyu に許諾します。</p>
+          <p>Drovyu は通常、保存済みの暗号化データを復号キーなしで確認できません。ただし、法令違反や権利侵害などの通報を受けた場合、内容を確認できないままプレビューを停止または削除することがあります。</p>
+        </div>
+        <div class="lang-block-en">
+          <p>You must hold the rights or permissions required for uploaded content and remain responsible for it. You grant Drovyu the limited permission necessary to store, copy, deliver, and delete encrypted data in order to provide the service.</p>
+          <p>Drovyu ordinarily cannot inspect stored encrypted data without the decryption key. If we receive a report of illegality or infringement, we may suspend or delete a preview without being able to inspect its contents.</p>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">5. プレビューリンクとセキュリティ</span><span class="lang-block-en">5. Preview links and security</span></h2>
+        <div class="lang-block-ja">
+          <p>復号キーを含む完全なプレビュー URL は、その内容へアクセスするための秘密情報です。信頼できる相手とのみ共有し、漏えいした場合はプレビューを削除または作り直してください。</p>
+          <p>プレビューは JavaScript や外部リソースを実行する場合があります。完全なセキュリティサンドボックスではなく、Viewer の JavaScript と配信基盤も信頼境界に含まれます。</p>
+        </div>
+        <div class="lang-block-en">
+          <p>The complete preview URL, including its decryption key, is a secret that grants access to the content. Share it only with trusted recipients, and delete or recreate the preview if the URL is exposed.</p>
+          <p>Previews may execute JavaScript and load external resources. They are not a complete security sandbox, and the Viewer JavaScript and delivery infrastructure are part of the trust boundary.</p>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">6. サポーター特典</span><span class="lang-block-en">6. Supporter benefits</span></h2>
+        <div class="lang-block-ja"><p>Ko-fi での支援には Ko-fi の規約が適用されます。Drovyu は支援へのお礼として、原則30日間のサポーター特典を提供します。特典はサービスレベルや継続提供を保証するものではありません。返金や決済上の取扱いは Ko-fi の規約および適用法に従います。特典の重要な変更は、可能な範囲で事前に告知します。</p></div>
+        <div class="lang-block-en"><p>Contributions through Ko-fi are subject to Ko-fi's terms. As a thank-you, Drovyu generally provides supporter benefits for 30 days. Benefits do not create a service-level or continued-availability guarantee. Refunds and payment matters are governed by Ko-fi's terms and applicable law. We will provide advance notice of material benefit changes where reasonably possible.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">7. 免責と責任制限</span><span class="lang-block-en">7. Disclaimer and limitation of liability</span></h2>
+        <div class="lang-block-ja"><p>サービスは現状有姿で提供されます。継続提供、特定目的への適合、可用性、完全な表示再現、データの保持や復旧を保証しません。重要なデータの原本とバックアップは利用者が保管してください。Drovyu の責任は、適用法で許容される範囲に限り制限されます。</p></div>
+        <div class="lang-block-en"><p>The service is provided as is. We do not guarantee continued operation, fitness for a particular purpose, availability, complete rendering fidelity, data retention, or recovery. You must retain originals and backups of important data. Drovyu's liability is limited only to the extent permitted by applicable law.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">8. 利用停止と削除</span><span class="lang-block-en">8. Suspension and deletion</span></h2>
+        <div class="lang-block-ja"><p>規約違反、不正利用、セキュリティ上の危険、法令または正当な権利者からの要請がある場合、事前の通知なく利用を制限し、プレビューまたは関連データを停止・削除することがあります。</p></div>
+        <div class="lang-block-en"><p>We may restrict use or suspend or delete previews and related data without prior notice in response to a terms violation, abuse, security risk, legal requirement, or valid request from a rights holder.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">9. 変更・終了</span><span class="lang-block-en">9. Changes and termination</span></h2>
+        <div class="lang-block-ja"><p>サービス内容、利用上限、本規約を変更し、またはサービスを終了することがあります。重要な変更は本サイトで告知します。変更後も利用を継続した場合、変更後の規約に同意したものとみなします。</p></div>
+        <div class="lang-block-en"><p>We may change the service, usage limits, or these terms, or discontinue the service. Material changes will be announced on this site. Continued use after a change constitutes acceptance of the updated terms.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">10. CLI のライセンス</span><span class="lang-block-en">10. CLI license</span></h2>
+        <div class="lang-block-ja"><p>CLI のソースコードは監査可能な形で公開していますが、オープンソースとして提供するものではありません。利用、複製、改変、再配布の条件は <a href={LINKS.license} target="_blank" rel="noreferrer">リポジトリの LICENSE</a> に従います。</p></div>
+        <div class="lang-block-en"><p>The CLI source is publicly available for audit, but it is not offered as open source. Use, copying, modification, and redistribution are governed by the repository's <a href={LINKS.license} target="_blank" rel="noreferrer">LICENSE</a>.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">11. 準拠法・管轄</span><span class="lang-block-en">11. Governing law and jurisdiction</span></h2>
+        <div class="lang-block-ja"><p>本規約は、抵触法の規定を除き、日本法に準拠します。本サービスに関する紛争は、適用法に従い管轄権を有する日本の裁判所で解決するものとします。</p></div>
+        <div class="lang-block-en"><p>These terms are governed by the laws of Japan, excluding conflict-of-law rules. Disputes relating to the service will be resolved by a court in Japan having jurisdiction under applicable law.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">12. 問い合わせ</span><span class="lang-block-en">12. Contact</span></h2>
+        <div class="lang-block-ja"><p>本規約に関する質問は <a href={LINKS.support}>support@drovyu.com</a> へ連絡してください。復号キー、支援コード、認証トークンなどの秘密情報を公開チャンネルへ投稿しないでください。</p></div>
+        <div class="lang-block-en"><p>Send questions about these terms to <a href={LINKS.support}>support@drovyu.com</a>. Do not post decryption keys, claim codes, verification tokens, or other secrets in public channels.</p></div>
+      </section>
+
+      <p class="prose-updated">
+        <span class="lang-block-ja">最終更新日: 2026年7月11日</span>
+        <span class="lang-block-en">Last updated: July 11, 2026</span>
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="/" class="footer-logo"><img src="/logo-purple.svg" alt="" class="logo-mark" width="17" height="16" />dvyu</a>
+          <span class="footer-copyright">© 2026 Drovyu</span>
+          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
+        </div>
+        <div class="footer-links">
+          <a href={LINKS.github} target="_blank" rel="noreferrer">
+            <Code2 size={15} strokeWidth={2} />
+            GitHub
+          </a>
+          <a href="/docs">Docs</a>
+          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+          <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
+          <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* ------------------------------- Language ------------------------------- */
+    let currentLang = localStorage.getItem('dvyu-lang') || (navigator.language && navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en')
+
+    function applyLanguage(lang) {
+      currentLang = lang
+      localStorage.setItem('dvyu-lang', lang)
+      document.documentElement.lang = lang
+      document.documentElement.classList.toggle('lang-ja', lang === 'ja')
+      document.documentElement.classList.toggle('lang-en', lang === 'en')
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+        el.classList.toggle('active', el.dataset.lang === lang)
+      })
+    }
+
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+      el.addEventListener('click', () => applyLanguage(el.dataset.lang))
+    })
+
+    applyLanguage(currentLang)
+
+    /* ----------------------- Navbar scroll + progress ----------------------- */
+    const navbar = document.getElementById('navbar')
+    const navProgress = document.getElementById('nav-progress')
+    let scrollFrame = 0
+
+    function onScrollFrame() {
+      scrollFrame = 0
+      const y = window.scrollY
+      navbar.classList.toggle('is-scrolled', y > 12)
+      const docRange = document.documentElement.scrollHeight - window.innerHeight
+      navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(onScrollFrame)
+    }, { passive: true })
+    onScrollFrame()
+  </script>
+</BaseLayout>
