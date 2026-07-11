@@ -2371,3 +2371,24 @@ html.lang-en .lang-block-en {
   height: 14px;
   display: block;
 }
+
+/* ------------------------------------------------------------------------
+   24. Legal prose pages (privacy / terms)
+   ------------------------------------------------------------------------ */
+.prose-main {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 56px 24px 96px;
+}
+
+.prose-main .doc-section h2 {
+  font-size: 1.3rem;
+}
+
+.prose-updated {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--lt-border);
+  font-size: 0.82rem;
+  color: var(--lt-secondary);
+}
