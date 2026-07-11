@@ -17,7 +17,7 @@ const LINKS = {
   kofi: 'https://ko-fi.com/drovyu',
 }
 
-const install = 'pnpm add -g dvyu'
+const install = 'pnpm add -g @dvyu/cli'
 
 const features = [
   { chip: 'AES-GCM', key: 'f1', title: 'アップロード前に暗号化', body: 'ファイルは AES-GCM でローカル暗号化してから送信。復号キーはURLフラグメントにあり、サーバー側はファイル名すら見えません。' },
@@ -575,9 +575,9 @@ const fileTypesReversed = [...fileTypes].reverse()
 
     /* ----------------------------- Install tabs ----------------------------- */
     const installCommands = {
-      pnpm: 'pnpm add -g dvyu',
-      npm: 'npm install -g dvyu',
-      npx: 'npx dvyu create ./dist',
+      pnpm: 'pnpm add -g @dvyu/cli',
+      npm: 'npm install -g @dvyu/cli',
+      npx: 'npx @dvyu/cli create ./dist',
     }
 
     const installTabButtons = document.querySelectorAll('.install-tab-list button')
@@ -676,7 +676,7 @@ const fileTypesReversed = [...fileTypes].reverse()
     const browserCard = document.getElementById('browser-card')
     const scrollyCaptions = document.querySelectorAll('.scrolly-caption')
 
-    const SC_CMD1 = 'pnpm add -g dvyu'
+    const SC_CMD1 = 'pnpm add -g @dvyu/cli'
     const SC_CMD2 = 'dvyu create ./dist'
 
     scrollyBody.innerHTML =
