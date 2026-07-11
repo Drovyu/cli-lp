@@ -2,6 +2,7 @@
 import { Code2, Send } from '@lucide/astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import SiteHeader from '../../components/SiteHeader.astro'
+import LogoMark from '../../components/LogoMark.astro'
 
 const GITHUB_URL = 'https://github.com/Drovyu/preview-cli'
 // Turnstile site keys are public by design. The matching secret stays in Cloudflare Pages.
@@ -92,7 +93,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.DEV ? '1x00000000000000000000AA' : '0
     <footer class="site-footer">
       <div class="footer-inner">
         <div class="footer-left">
-          <a href="/" class="footer-logo"><img src="/logo-purple.svg" alt="" class="logo-mark" width="17" height="16" />dvyu</a>
+          <a href="/" class="footer-logo"><LogoMark size={16} />dvyu</a>
           <span class="footer-copyright">© 2026 Drovyu</span>
           <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
         </div>
