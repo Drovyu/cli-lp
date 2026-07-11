@@ -30,6 +30,15 @@ Cloudflare Pages is connected to this repository.
 - Pull requests create preview deployments.
 - `release` is the production branch and deploys to `cli.drovyu.com`.
 
+Cloudflare Pages build settings:
+
+```text
+Production branch: release
+Build command: npm run build
+Build output directory: dist
+NODE_VERSION: 26.5.0
+```
+
 Promote a tested revision to production by merging `main` into `release`. Do not commit generated `dist` files.
 
 ## Public statistics
