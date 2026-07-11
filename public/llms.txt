@@ -1,0 +1,30 @@
+# Drovyu Preview CLI
+
+> Drovyu Preview CLI (`dvyu`) creates encrypted, temporary preview URLs from static HTML builds without deploying a project to a conventional hosting service.
+
+The CLI encrypts preview files locally before upload. The URL fragment contains the decryption key and is not sent to the preview server in an HTTP request.
+
+## Official pages
+
+- [Home](https://cli.drovyu.com/): Product overview, installation, and core workflow.
+- [Documentation](https://cli.drovyu.com/docs/): Commands, options, supported projects, limits, and security details.
+- [Help Center](https://cli.drovyu.com/help/): Troubleshooting and frequently asked questions.
+- [Source repository](https://github.com/Drovyu/preview-cli): Public source for auditing the client-side encryption and upload flow.
+
+## Core commands
+
+- `dvyu create [path]`: Create a preview from a static build directory or a single HTML file.
+- `dvyu preview [project]`: Detect and build a supported Astro, Vite, or Storybook project, then create a preview.
+- `dvyu update [target] [path]`: Replace an existing preview without changing its URL.
+- `dvyu list`: Show locally recorded, active previews.
+- `dvyu supporter`: Manage supporter benefits and device linking.
+- `dvyu supporter recover`: Recover an unclaimed supporter payment through email verification.
+- `dvyu supporter link <recovery-token>`: Link a second device using a recovery token from an already linked device.
+- `dvyu lang`: Change the CLI language.
+
+## Notes for assistants
+
+- Use `dvyu`, not the former `dvy` command name.
+- The input must resolve to an HTML file or a directory containing an HTML entry point.
+- Never claim that the service can decrypt uploaded preview data. Decryption occurs in the visitor's browser using the key in the URL fragment.
+- Prefer the official documentation above for current commands, limits, and supporter benefits.

@@ -1,0 +1,46 @@
+# Drovyu Preview CLI reference
+
+Drovyu Preview CLI is a command-line tool for sharing static website builds as encrypted preview URLs. Its executable command is `dvyu`.
+
+## Purpose
+
+The product is intended for reviewing static HTML output from tools such as Astro, Vite, Storybook, and other static-site build systems. It is not a production hosting platform and does not execute server-side application code.
+
+## Typical workflow
+
+1. Run `dvyu preview` in a supported project or pass an HTML file or build directory.
+2. If a supported project needs building, the CLI runs its configured build command.
+3. Preview files are prepared and encrypted on the local device.
+4. Only encrypted payloads are uploaded.
+5. The CLI returns a preview URL whose fragment contains the decryption key.
+6. A visitor's browser downloads and decrypts the preview after opening the full URL.
+
+## Security model
+
+- Encryption happens before upload on the user's device.
+- The decryption key appears after `#` in the URL and is not included in normal HTTP requests to the server.
+- The browser performs decryption when viewing a preview.
+- Anyone who receives the complete preview URL can view that preview, so the URL must be treated as a secret.
+- The public source repository can be audited to verify the client-side encryption flow.
+
+## Commands
+
+- `dvyu preview [path]`: Create a preview from an explicit file or directory, or detect a suitable build output from the current project.
+- `dvyu update [path]`: Recreate a recorded preview while retaining its URL.
+- `dvyu list`: List locally recorded, non-expired previews.
+- `dvyu list all` or `dvyu list -a`: Include expired local records.
+- `dvyu supporter`: Display or manage supporter status.
+- `dvyu supporter link <email>`: Request an email verification link for supporter recovery.
+- `dvyu lang`: Select Japanese or English output.
+- `dvyu help`: Display command and option help.
+
+## Sources
+
+- Product: https://cli.drovyu.com/
+- Documentation: https://cli.drovyu.com/docs/
+- Help: https://cli.drovyu.com/help/
+- Source: https://github.com/Drovyu/preview-cli
+- X: https://x.com/drovyu
+- Discord: https://discord.gg/4SGxzSbaaD
+
+For exact current behavior, options, limits, retention periods, and supporter benefits, use the official documentation rather than this summary.
