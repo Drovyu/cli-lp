@@ -1,0 +1,26 @@
+{
+  "name": "drovyu-cli-lp",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Landing page and documentation for the Drovyu Preview CLI.",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drovyu/cli-lp.git"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "astro": "latest"
+  },
+  "dependencies": {
+    "@lucide/astro": "^1.24.0"
+  }
+}

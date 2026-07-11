@@ -1,0 +1,364 @@
+---
+import { Check, Code2 } from '@lucide/astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteHeader from '../../components/SiteHeader.astro'
+import LogoMark from '../../components/LogoMark.astro'
+
+const LINKS = {
+  discord: 'https://discord.gg/4SGxzSbaaD',
+  x: 'https://x.com/drovyu',
+  github: 'https://github.com/Drovyu/preview-cli',
+  issues: 'https://github.com/Drovyu/preview-cli/issues',
+  kofi: 'https://ko-fi.com/drovyu',
+}
+
+const categories = [
+  { id: 'getting-started', ja: 'はじめに', en: 'Getting started' },
+  { id: 'preview-issues', ja: 'プレビューの問題', en: 'Preview issues' },
+  { id: 'upload-issues', ja: 'アップロードの問題', en: 'Upload issues' },
+  { id: 'limits-supporter', ja: '上限とサポーター', en: 'Limits and supporter' },
+  { id: 'data-security', ja: 'データとセキュリティ', en: 'Data and security' },
+]
+---
+
+<BaseLayout
+  title="ヘルプセンター — Drovyu Preview CLI"
+  description="Drovyu Preview CLI (dvyu) のよくある質問とトラブルシューティング。"
+>
+  <div class="subpage">
+    <SiteHeader />
+
+    <section class="subpage-hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="subpage-eyebrow">Help Center</p>
+        <h1 class="subpage-title"><span class="lang-block-ja">ヘルプセンター</span><span class="lang-block-en">Help Center</span></h1>
+        <p class="subpage-copy">
+          <span class="lang-block-ja">よくある質問とトラブルシューティング。解決しない場合は下部の連絡先へ。</span>
+          <span class="lang-block-en">Frequently asked questions and troubleshooting. Contact links are at the bottom.</span>
+        </p>
+        <div class="help-search">
+          <input type="search" id="faq-search" placeholder="質問を検索" autocomplete="off" />
+        </div>
+      </div>
+    </section>
+
+    <main class="help-main">
+      <div class="help-cats" id="help-cats">
+        {categories.map((cat) => (
+          <a class="help-cat-card" href={`#${cat.id}`}>
+            <span class="lang-block-ja">{cat.ja}</span><span class="lang-block-en">{cat.en}</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="help-no-results" id="no-results" hidden>
+        <span class="lang-block-ja">一致する質問が見つかりませんでした。下の連絡先からお問い合わせください。</span>
+        <span class="lang-block-en">No matching questions. Use the contact links below.</span>
+      </p>
+
+      <section class="faq-cat" id="getting-started">
+        <h2><span class="lang-block-ja">はじめに</span><span class="lang-block-en">Getting started</span></h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">どんなプロジェクトで使えますか</span><span class="lang-block-en">Which projects can I use it with?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu preview</code> は Storybook / Astro / Vite プロジェクトのビルドからプレビュー作成までを 1 コマンドで実行します。それ以外でも、HTML ファイルを含む静的ビルドディレクトリや単一の HTML ファイルがあれば <code>dvyu create</code> でプレビューを作成できます。</p></div>
+              <div class="lang-block-en"><p><code>dvyu preview</code> builds Storybook, Astro, and Vite projects and creates the preview in one command. For anything else, <code>dvyu create</code> works with any static build directory or single HTML file, as long as it contains an HTML file.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">CLI の表示言語を変えたい</span><span class="lang-block-en">How do I change the CLI language?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu lang ja</code> または <code>dvyu lang en</code> を実行します。引数なしの <code>dvyu lang</code> で現在の設定を確認できます。設定は <code>~/.dvyu/settings.json</code> に保存されます。</p></div>
+              <div class="lang-block-en"><p>Run <code>dvyu lang ja</code> or <code>dvyu lang en</code>. Running <code>dvyu lang</code> without an argument shows the current setting. It is stored in <code>~/.dvyu/settings.json</code>.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">URLを変えずに中身だけ更新したい</span><span class="lang-block-en">How do I update the content without changing the URL?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu update</code> を使います。最新のローカルプレビューを URL 変更なしで更新するので、送ったリンクはそのまま使えます。<code>dvyu update ./dist</code> のようにパスを、<code>dvyu update &lt;id&gt; ./dist</code> のように ID も指定できます。<code>recreate</code> は URL が変わる点に注意してください。</p></div>
+              <div class="lang-block-en"><p>Use <code>dvyu update</code>. It updates the latest local preview without changing its URL, so links you already shared keep working. You can pass a path like <code>dvyu update ./dist</code>, or an id like <code>dvyu update &lt;id&gt; ./dist</code>. Note that <code>recreate</code> changes the URL.</p></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="faq-cat" id="preview-issues">
+        <h2><span class="lang-block-ja">プレビューの問題</span><span class="lang-block-en">Preview issues</span></h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">プレビューURLを開くと期限切れと表示される</span><span class="lang-block-en">The preview URL says it has expired</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>通常のプレビューは作成から 48 時間で失効し、期限切れのプレビューは閲覧できません。<code>dvyu list</code> で有効なプレビューと期限を確認できます（期限切れの履歴は <code>dvyu list all</code>）。同じ内容を再共有するには <code>dvyu recreate</code> で新しい URL を作成してください。サポーターは <code>--ttl</code> で最長 30 日、<code>-p</code> で永続プレビューを作成できます。</p></div>
+              <div class="lang-block-en"><p>Standard previews expire 48 hours after creation, and expired previews are no longer viewable. Run <code>dvyu list</code> to check active previews and expiry (<code>dvyu list all</code> includes expired history). To share the same content again, run <code>dvyu recreate</code> to create a new URL. Supporters can set up to 30 days with <code>--ttl</code> or create permanent previews with <code>-p</code>.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">画像やCSSが読み込まれない</span><span class="lang-block-en">Images or CSS do not load</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>静的サイトは相対アセットパスでビルドするのが理想です。手動でビルドする場合は <code>vite build --base=./</code> を使ってください。Astro は通常どおり <code>astro build</code> でビルドすれば、<code>/_astro/...</code> のような root path は viewer 側で補完されます。外部 origin への完全な絶対 URL はそのまま扱われるため、プロジェクト側の調整が必要になる場合があります。</p></div>
+              <div class="lang-block-en"><p>Build static sites with relative asset paths when possible. For manual builds, use <code>vite build --base=./</code>. Astro can be built normally with <code>astro build</code>; the viewer rewrites root paths such as <code>/_astro/...</code>. Fully absolute URLs to external origins are left as-is and may need project-side adjustment.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">送ったURLを無効化したい</span><span class="lang-block-en">How do I revoke a URL I already shared?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu delete &lt;id&gt;</code> でプレビューを削除します。ID は <code>dvyu list</code> で確認できます。この端末で作成したプレビューをすべて削除するには <code>dvyu delete all</code> を使います。削除したプレビューは閲覧できなくなります。</p></div>
+              <div class="lang-block-en"><p>Run <code>dvyu delete &lt;id&gt;</code>. You can find the id with <code>dvyu list</code>. To remove every preview created from this device, run <code>dvyu delete all</code>. Deleted previews are no longer viewable.</p></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="faq-cat" id="upload-issues">
+        <h2><span class="lang-block-ja">アップロードの問題</span><span class="lang-block-en">Upload issues</span></h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">「Unsupported files were found」で止まる</span><span class="lang-block-en">Upload stops with "Unsupported files were found"</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>対応していない拡張子のファイルが含まれると、アップロードは開始前に中止されます。<code>.DS_Store</code>、<code>.gitkeep</code>、<code>Thumbs.db</code> などのよくあるメタファイルは自動で無視されます。それ以外の非対応ファイルは、CLI の確認に応じて除外して続行できます。対応拡張子の一覧は<a href="/docs#files">ドキュメント</a>を参照してください。</p></div>
+              <div class="lang-block-en"><p>Uploads stop before starting if files with unsupported extensions are found. Common metadata files such as <code>.DS_Store</code>, <code>.gitkeep</code>, and <code>Thumbs.db</code> are ignored automatically. For other unsupported files, the CLI can exclude them after confirmation. See the <a href="/docs#files">docs</a> for the full extension list.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">アップロードが遅い、または失敗する</span><span class="lang-block-en">Uploads are slow or fail</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>暗号化完了後のファイル送信は既定で 6 並列です。回線や proxy の制約がある場合は、環境変数 <code>DVYU_UPLOAD_CONCURRENCY</code> に <code>1</code> から <code>16</code> を指定して調整できます。例: <code>DVYU_UPLOAD_CONCURRENCY=3 dvyu create ./dist</code></p></div>
+              <div class="lang-block-en"><p>Ciphertext files upload with a default concurrency of six. If a connection or proxy needs a different limit, set the <code>DVYU_UPLOAD_CONCURRENCY</code> environment variable from <code>1</code> to <code>16</code>. Example: <code>DVYU_UPLOAD_CONCURRENCY=3 dvyu create ./dist</code></p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">HTMLファイルがないと言われる</span><span class="lang-block-en">The CLI says there is no HTML file</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>create</code> に渡すファイルまたはディレクトリには HTML ファイルが必要です。エントリーポイントは <code>index.html</code> を優先し、なければ最初の <code>.html</code> ファイルを使います。ビルド出力のパスが正しいか、<code>index.html</code> が生成されているかを確認してください。</p></div>
+              <div class="lang-block-en"><p>The file or directory passed to <code>create</code> must contain an HTML file. <code>index.html</code> is preferred as the entrypoint; otherwise the first <code>.html</code> file is used. Check that the build output path is correct and that it produced an <code>index.html</code>.</p></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="faq-cat" id="limits-supporter">
+        <h2><span class="lang-block-ja">上限とサポーター</span><span class="lang-block-en">Limits and supporter</span></h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">100MB / 20件の上限に達した</span><span class="lang-block-en">I hit the 100MB or 20 preview limit</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu usage</code> で使用中の容量とプレビュー数を確認し、不要なプレビューを <code>dvyu delete &lt;id&gt;</code> で削除してください。上限を広げたい場合は、Ko-fi での支援で 30 日間、容量 300MB・アクティブ数無制限のサポーター特典が有効になります。</p></div>
+              <div class="lang-block-en"><p>Check current usage with <code>dvyu usage</code> and delete previews you no longer need with <code>dvyu delete &lt;id&gt;</code>. To raise the limits, supporting on Ko-fi enables 30 days of supporter benefits: 300MB storage and unlimited active previews.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">サポーター特典が反映されない</span><span class="lang-block-en">Supporter benefits are not applied</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>初回の端末登録には、支援前に <code>dvyu supporter start</code> で発行したコードが必要です。表示された <code>DVYU-...</code> コードを Ko-fi 支払い時の非公開メッセージへ含めてください。コードの有効期限は 24 時間です。状態は <code>dvyu supporter status</code> で確認できます。</p></div>
+              <div class="lang-block-en"><p>The initial device registration requires a claim code created with <code>dvyu supporter start</code> before supporting. Include the displayed <code>DVYU-...</code> code in the private message for the Ko-fi payment. The code expires after 24 hours. Check the status with <code>dvyu supporter status</code>.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">支援時にコードを入力しそびれた</span><span class="lang-block-en">I forgot to include the code when I supported</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu supporter recover</code> を実行し、Ko-fi で使用したメールアドレスを入力してください。未紐付けの支払いと一致すると、15 分有効の認証リンクが届きます。リンク先で「この端末を登録」を押すと完了し、再支援は不要です。特典期限は認証日ではなく元の支援日から 30 日間です。入力したメールアドレスは送信のため Resend へ渡され、サーバーには平文ではなく HMAC hash を保存します。</p></div>
+              <div class="lang-block-en"><p>Run <code>dvyu supporter recover</code> and enter the email address used for Ko-fi. If it matches an unclaimed payment, you will receive a verification link valid for 15 minutes. Open it and select “Register this device” to finish; you do not need to support again. Benefits expire 30 days after the original payment, not 30 days after verification. The email address is sent to Resend for delivery, while the server stores only an HMAC hash rather than the plaintext address.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">2台目のデバイスで特典を使いたい</span><span class="lang-block-en">How do I use the benefits on a second device?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>1 台目で <code>dvyu supporter recovery</code> を実行して recovery token を表示し、2 台目で <code>dvyu supporter link &lt;recovery-token&gt;</code> を実行します。登録できる端末は同時に 2 台までです。recovery token は端末を特典へ登録できる秘密情報なので、パスワードと同様に扱ってください。</p></div>
+              <div class="lang-block-en"><p>Run <code>dvyu supporter recovery</code> on the first device to show the recovery token, then run <code>dvyu supporter link &lt;recovery-token&gt;</code> on the second. At most two devices can be linked at once. Treat the recovery token like a password because it can link a device to the benefits.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">支援期間が終わるとどうなる</span><span class="lang-block-en">What happens when the supporter period ends?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>新しい <code>-p</code> / <code>--ttl</code> 付きプレビューは作成できなくなります。既存の永続プレビューは直ちに削除されませんが、アクセスによる期限延長を停止し、その時点の削除予定日までは閲覧できます。再支援で既存の特典期限が短くなることはありません。</p></div>
+              <div class="lang-block-en"><p>New previews cannot use <code>-p</code> or <code>--ttl</code>. Existing permanent previews are not deleted immediately, but access no longer extends their expiry and they remain available only until the currently scheduled deletion time. A later payment never shortens an existing entitlement.</p></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="faq-cat" id="data-security">
+        <h2><span class="lang-block-ja">データとセキュリティ</span><span class="lang-block-en">Data and security</span></h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">プレビューは誰が見られますか</span><span class="lang-block-en">Who can view a preview?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>URL を知っている人だけが閲覧できます。復号キーは URL の <code>#k=</code> fragment に含まれ、HTTP リクエストでは送信されません。プレビューリンクは信頼できる相手への一時共有を想定しているため、リンクは公開せず、必要な相手にだけ共有してください。</p></div>
+              <div class="lang-block-en"><p>Only people who have the URL. The decryption key lives in the <code>#k=</code> fragment and is never sent in an HTTP request. Preview links are intended for temporary sharing with trusted recipients, so keep them private and share them only with the people who need them.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">サーバーには何が保存されますか</span><span class="lang-block-en">What is stored on the server?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>ファイル内容と manifest は、CLI が AES-256-GCM でローカル暗号化してからアップロードします。サーバーは元のファイル内容・ファイル名・MIME type・entrypoint・AES 鍵を受け取りません。一方、運用に必要な preview ID、device ID、合計サイズ、ファイル数、作成・アクセス日時、有効期限、保持モードは暗号化されずに保存します。暗号化設計と検証手順は <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.ja.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.ja.md</a> を参照してください。</p></div>
+              <div class="lang-block-en"><p>The CLI encrypts file contents and the manifest locally with AES-256-GCM before upload. The server does not receive original file contents, filenames, MIME types, the entrypoint, or the AES key. Operational metadata remains unencrypted, including the preview and device ids, aggregate sizes, file count, creation and access times, expiry, and retention mode. See <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.md</a> for the encryption design and executable verification.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">アンインストールしたい</span><span class="lang-block-en">How do I uninstall?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu uninstall</code> で、ローカルに保存された Drovyu Preview のデータ（<code>~/.dvyu</code> 以下）を削除します。CLI 本体はインストールに使ったパッケージマネージャで削除してください（例: <code>pnpm remove -g dvyu</code>）。</p></div>
+              <div class="lang-block-en"><p>Run <code>dvyu uninstall</code> to remove local Drovyu Preview data under <code>~/.dvyu</code>. Remove the CLI itself with the package manager you installed it with, such as <code>pnpm remove -g dvyu</code>.</p></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="help-contact" id="contact">
+        <h2><span class="lang-block-ja">解決しない場合</span><span class="lang-block-en">Still stuck?</span></h2>
+        <p>
+          <span class="lang-block-ja">不具合報告・要望・質問は以下からどうぞ。</span>
+          <span class="lang-block-en">Bug reports, requests, and questions are welcome through any of these.</span>
+        </p>
+        <div class="help-contact-grid">
+          <a class="help-contact-card" href={LINKS.discord} target="_blank" rel="noreferrer">
+            <strong>Discord</strong>
+            <span><span class="lang-block-ja">質問・バグ報告・雑談はこちら。開発者が直接返信します。</span><span class="lang-block-en">Questions, bug reports, and chat. The developer replies directly.</span></span>
+          </a>
+          <a class="help-contact-card" href={LINKS.issues} target="_blank" rel="noreferrer">
+            <strong>GitHub Issues</strong>
+            <span><span class="lang-block-ja">再現手順つきの不具合報告はこちらへ。</span><span class="lang-block-en">File bug reports with reproduction steps here.</span></span>
+          </a>
+          <a class="help-contact-card" href={LINKS.x} target="_blank" rel="noreferrer">
+            <strong>X</strong>
+            <span><span class="lang-block-ja">新機能や開発の進捗を発信しています。</span><span class="lang-block-en">New features and development progress.</span></span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="/" class="footer-logo"><LogoMark size={16} />dvyu</a>
+          <span class="footer-copyright">© 2026 Drovyu</span>
+          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
+        </div>
+        <div class="footer-links">
+          <a href={LINKS.github} target="_blank" rel="noreferrer">
+            <Code2 size={15} strokeWidth={2} />
+            GitHub
+          </a>
+          <a href="/docs">Docs</a>
+          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <Check size={16} strokeWidth={2.4} />
+    <span id="toast-text"><span class="lang-block-ja">コピーしました</span><span class="lang-block-en">Copied</span></span>
+  </div>
+
+  <script>
+    /* ------------------------------- Language ------------------------------- */
+    const searchInput = document.getElementById('faq-search')
+    let currentLang = localStorage.getItem('dvyu-lang') || (navigator.language && navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en')
+
+    function applyLanguage(lang) {
+      currentLang = lang
+      localStorage.setItem('dvyu-lang', lang)
+      document.documentElement.lang = lang
+      document.documentElement.classList.toggle('lang-ja', lang === 'ja')
+      document.documentElement.classList.toggle('lang-en', lang === 'en')
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+        el.classList.toggle('active', el.dataset.lang === lang)
+      })
+      searchInput.placeholder = lang === 'ja' ? '質問を検索' : 'Search questions'
+      filterFaq(searchInput.value)
+    }
+
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+      el.addEventListener('click', () => applyLanguage(el.dataset.lang))
+    })
+
+    /* ------------------------------ FAQ search ------------------------------ */
+    const faqCats = document.querySelectorAll('.faq-cat')
+    const noResults = document.getElementById('no-results')
+
+    function itemText(item) {
+      const selector = currentLang === 'ja' ? '.lang-block-ja' : '.lang-block-en'
+      let text = ''
+      item.querySelectorAll(selector).forEach((block) => {
+        text += ' ' + block.textContent
+      })
+      return text.toLowerCase()
+    }
+
+    function filterFaq(query) {
+      const q = (query || '').trim().toLowerCase()
+      let totalVisible = 0
+      faqCats.forEach((cat) => {
+        let catVisible = 0
+        cat.querySelectorAll('.faq-item').forEach((item) => {
+          const match = q === '' || itemText(item).includes(q)
+          item.hidden = !match
+          if (match) catVisible += 1
+        })
+        cat.hidden = catVisible === 0
+        totalVisible += catVisible
+      })
+      noResults.hidden = totalVisible > 0
+    }
+
+    searchInput.addEventListener('input', () => filterFaq(searchInput.value))
+
+    applyLanguage(currentLang)
+
+    /* -------------------------- Copy + toast -------------------------- */
+    const toast = document.getElementById('toast')
+    let toastTimer = null
+
+    function copyText(value) {
+      if (!value) return
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).catch(() => {})
+      }
+      toast.classList.add('is-visible')
+      if (toastTimer) clearTimeout(toastTimer)
+      toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1600)
+    }
+
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', () => copyText(button.dataset.copy))
+    })
+
+    /* --------------------- Inline command copy buttons --------------------- */
+    const COPY_SVG =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>'
+
+    document.querySelectorAll('.faq-body code').forEach((code) => {
+      const text = code.textContent.trim()
+      if (!text.startsWith('dvyu')) return
+      if (code.closest('pre') || code.closest('[data-copy]') || code.closest('summary') || code.closest('button')) return
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'code-copy'
+      btn.setAttribute('aria-label', 'Copy')
+      btn.innerHTML = COPY_SVG
+      btn.addEventListener('click', () => copyText(text))
+      code.after(btn)
+    })
+
+    /* ----------------------- Navbar scroll + progress ----------------------- */
+    const navbar = document.getElementById('navbar')
+    const navProgress = document.getElementById('nav-progress')
+    let scrollFrame = 0
+
+    function onScrollFrame() {
+      scrollFrame = 0
+      const y = window.scrollY
+      navbar.classList.toggle('is-scrolled', y > 12)
+      const docRange = document.documentElement.scrollHeight - window.innerHeight
+      navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(onScrollFrame)
+    }, { passive: true })
+    onScrollFrame()
+  </script>
+</BaseLayout>

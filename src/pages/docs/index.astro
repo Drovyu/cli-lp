@@ -1,0 +1,496 @@
+---
+import { Check, Code2, Copy } from '@lucide/astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteHeader from '../../components/SiteHeader.astro'
+import LogoMark from '../../components/LogoMark.astro'
+
+const LINKS = {
+  discord: 'https://discord.gg/4SGxzSbaaD',
+  x: 'https://x.com/drovyu',
+  github: 'https://github.com/Drovyu/preview-cli',
+  kofi: 'https://ko-fi.com/drovyu',
+}
+
+const fileTypes = ['.html', '.htm', '.md', '.txt', '.json', '.xml', '.map', '.css', '.js', '.mjs', '.cjs', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.avif', '.woff', '.woff2', '.ttf', '.otf', '.mp4', '.webm', '.mp3', '.wav', '.pdf']
+
+const toc = [
+  { id: 'overview', ja: '概要', en: 'Overview' },
+  { id: 'install', ja: 'インストール', en: 'Install' },
+  { id: 'quickstart', ja: 'クイックスタート', en: 'Quick start' },
+  { id: 'commands', ja: 'コマンドリファレンス', en: 'Command reference' },
+  { id: 'projects', ja: '対応プロジェクト', en: 'Supported projects' },
+  { id: 'files', ja: '対応ファイル', en: 'Supported files' },
+  { id: 'assets', ja: 'アセットパス', en: 'Asset paths' },
+  { id: 'limits', ja: '制限とサポーター', en: 'Limits and supporter' },
+  { id: 'security', ja: 'セキュリティと注意事項', en: 'Security and notes' },
+  { id: 'uninstall', ja: 'アンインストール', en: 'Uninstall' },
+]
+---
+
+<BaseLayout
+  title="ドキュメント — Drovyu Preview CLI"
+  description="Drovyu Preview CLI (dvyu) のインストール、コマンドリファレンス、制限、セキュリティの解説。"
+>
+  <div class="subpage">
+    <SiteHeader />
+
+    <section class="subpage-hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="subpage-eyebrow">Documentation</p>
+        <h1 class="subpage-title"><span class="lang-block-ja">ドキュメント</span><span class="lang-block-en">Documentation</span></h1>
+        <p class="subpage-copy">
+          <span class="lang-block-ja">Drovyu Preview CLI（dvyu）のインストール、コマンド、制限、セキュリティの解説です。</span>
+          <span class="lang-block-en">Install, commands, limits, and security for the Drovyu Preview CLI (dvyu).</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="docs-layout">
+      <aside class="docs-sidebar">
+        <nav>
+          <ul class="docs-toc" id="docs-toc">
+            {toc.map((item) => (
+              <li>
+                <a href={`#${item.id}`} data-target={item.id}>
+                  <span class="lang-block-ja">{item.ja}</span><span class="lang-block-en">{item.en}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="docs-content">
+        <section class="doc-section" id="overview">
+          <h2><span class="lang-block-ja">概要</span><span class="lang-block-en">Overview</span></h2>
+          <div class="lang-block-ja">
+            <p>Drovyu Preview CLI は、静的ビルドから一時的なプレビューリンクを作成する CLI です。Vite、React、Storybook などの静的ビルドを、本番公開せずに共有したいときに使います。</p>
+            <p>CLI は各ファイルと manifest をローカルで暗号化してからアップロードします。AES 鍵は <code>#k=</code> URL fragment にだけ保持され、HTTP リクエストでは送信されません。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>Drovyu Preview CLI creates temporary preview links for static builds. It is useful when you want to share a Vite, React, or Storybook static build without deploying it as a permanent site.</p>
+            <p>The CLI encrypts every file and its manifest locally before upload. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request.</p>
+          </div>
+          <div class="doc-code"><pre><code>dvyu create ./dist</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
+        <section class="doc-section" id="install">
+          <h2><span class="lang-block-ja">インストール</span><span class="lang-block-en">Install</span></h2>
+          <div class="lang-block-ja">
+            <p>必要なもの:</p>
+            <ul>
+              <li>Node.js 20 以上</li>
+              <li>Vite <code>dist</code> や Storybook の静的出力などのビルド済みディレクトリ</li>
+            </ul>
+            <p>npm packageからpnpmまたはnpmでインストールします。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>Requirements:</p>
+            <ul>
+              <li>Node.js 20 or later</li>
+              <li>A static build directory such as Vite <code>dist</code> or Storybook static output</li>
+            </ul>
+            <p>Install the npm package with pnpm or npm.</p>
+          </div>
+          <div class="doc-code"><pre><code>pnpm add -g dvyu
+npm install -g dvyu</code></pre><button type="button" data-copy="pnpm add -g dvyu" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          <div class="lang-block-ja"><p>インストールせずに一度だけ実行する場合:</p></div>
+          <div class="lang-block-en"><p>One-off execution also works:</p></div>
+          <div class="doc-code"><pre><code>pnpm dlx dvyu create ./dist
+npx dvyu create ./dist</code></pre><button type="button" data-copy="npx dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
+        <section class="doc-section" id="quickstart">
+          <h2><span class="lang-block-ja">クイックスタート</span><span class="lang-block-en">Quick start</span></h2>
+          <div class="lang-block-ja"><p>Storybook、Astro、Vite プロジェクトなら、ビルドからプレビュー作成まで 1 コマンドで完了します。</p></div>
+          <div class="lang-block-en"><p>For a Storybook, Astro, or Vite project, one command builds the project and creates the preview.</p></div>
+          <div class="doc-code"><pre><code>dvyu preview ./my-app</code></pre><button type="button" data-copy="dvyu preview ./my-app" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          <div class="lang-block-ja"><p>ビルド済みディレクトリがある場合は <code>create</code> を使います。パスを省略した場合、<code>dist</code> があれば <code>dist</code>、なければ <code>index.html</code> を使います。</p></div>
+          <div class="lang-block-en"><p>If you already have a build directory, use <code>create</code>. When no path is provided, it uses <code>dist</code> if it exists, otherwise <code>index.html</code> if it exists.</p></div>
+          <div class="doc-code"><pre><code>dvyu create ./dist</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          <div class="lang-block-ja"><p>出力された URL を相手に送ります。復号キーは URL の <code>#k=</code> 部分に含まれ、プレビューは 48 時間で失効します。</p></div>
+          <div class="lang-block-en"><p>Send the printed URL. The decryption key lives in the <code>#k=</code> fragment, and the preview expires after 48 hours.</p></div>
+        </section>
+
+        <section class="doc-section" id="commands">
+          <h2><span class="lang-block-ja">コマンドリファレンス</span><span class="lang-block-en">Command reference</span></h2>
+
+          <div class="doc-cmd" id="cmd-create">
+            <h3 class="cmd-sig">dvyu create [path]</h3>
+            <div class="lang-block-ja"><p>ビルド済みディレクトリまたは単一 HTML ファイルから暗号化プレビュー URL を作成します。パス省略時は <code>dist</code> → <code>index.html</code> の順に探します。選択したファイルまたはディレクトリには HTML ファイルが必要です。エントリーポイントは <code>index.html</code> を優先し、なければ最初の <code>.html</code> ファイルを使います。</p></div>
+            <div class="lang-block-en"><p>Create an encrypted preview URL from a build directory or a single HTML file. Without a path it tries <code>dist</code>, then <code>index.html</code>. The selected file or directory must contain an HTML file. <code>index.html</code> is preferred as the entrypoint; otherwise the first <code>.html</code> file is used.</p></div>
+            <div class="doc-code"><pre><code>dvyu create
+dvyu create ./dist
+dvyu create ./example.html
+dvyu create ./dist -p</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">アクセスが 1 ヶ月ない場合だけ削除される永続プレビューを作成します。<code>--ttl</code> と同時に指定できません。</span><span class="lang-block-en">Keep the preview alive until it has no access for 1 month. Cannot be combined with <code>--ttl</code>.</span></td></tr>
+                <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します（例: <code>--ttl 7d</code>）。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>, such as <code>--ttl 7d</code>.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-preview">
+            <h3 class="cmd-sig">dvyu preview [project]</h3>
+            <div class="lang-block-ja"><p>対象プロジェクトの <code>package.json</code> を読み、静的出力としてビルドしてから出力ディレクトリをプレビューします。同じ出力パスのプレビューがローカルに残っている場合は、古いプレビューを削除して作り直します。対応ビルダーは Storybook / Astro / Vite です。</p></div>
+            <div class="lang-block-en"><p>Reads the target <code>package.json</code>, builds the project for static output, then previews the output directory. If a local preview already exists for the same output path, it deletes the old preview and creates a new one. Supported builders are Storybook, Astro, and Vite.</p></div>
+            <div class="doc-code"><pre><code>dvyu preview
+dvyu preview ./my-app
+dvyu preview --out-dir build
+dvyu preview -p
+dvyu preview --ttl 7d</code></pre><button type="button" data-copy="dvyu preview ./my-app" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>-o, --out-dir &lt;path&gt;</code></td><td><span class="lang-block-ja">ビルドの出力ディレクトリを指定します。</span><span class="lang-block-en">Override the build output directory.</span></td></tr>
+                <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">アクセスが 1 ヶ月ない場合だけ削除される永続プレビューを作成します。</span><span class="lang-block-en">Keep the preview alive until it has no access for 1 month.</span></td></tr>
+                <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-update">
+            <h3 class="cmd-sig">dvyu update [target] [path]</h3>
+            <div class="lang-block-ja"><p>最新のローカルプレビューを URL 変更なしで更新します。送ったリンクはそのまま使えます。ID とパスを指定して特定のプレビューを更新することもできます。</p></div>
+            <div class="lang-block-en"><p>Update the latest local preview without changing its URL. Links you already shared keep working. You can also pass an id and a path to update a specific preview.</p></div>
+            <div class="doc-code"><pre><code>dvyu update
+dvyu update ./dist
+dvyu update &lt;id&gt; ./dist
+dvyu update -p</code></pre><button type="button" data-copy="dvyu update ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">更新時に永続プレビューへ切り替えます。</span><span class="lang-block-en">Switch the preview to permanence on update.</span></td></tr>
+                <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-recreate">
+            <h3 class="cmd-sig">dvyu recreate [target] [path]</h3>
+            <div class="lang-block-ja"><p>古いプレビューを削除し、同じローカルパスから新しい URL で作り直します。URL を変えたくない場合は <code>update</code> を使います。</p></div>
+            <div class="lang-block-en"><p>Deletes the old preview and creates a new preview URL from the same local path. Use <code>update</code> when the URL must stay the same.</p></div>
+            <div class="doc-code"><pre><code>dvyu recreate
+dvyu recreate ./dist</code></pre><button type="button" data-copy="dvyu recreate" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">作り直したプレビューを永続にします。</span><span class="lang-block-en">Make the recreated preview permanent.</span></td></tr>
+                <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-list">
+            <h3 class="cmd-sig">dvyu list</h3>
+            <div class="lang-block-ja"><p><code>~/.dvyu/previews.json</code> を読み、有効なプレビューの URL・状態・期限を一覧表示します。ローカルに復号キーがない有効なプレビューは <code>#k=</code> なしで表示されます。</p></div>
+            <div class="lang-block-en"><p>Reads <code>~/.dvyu/previews.json</code> and shows active previews with their URLs, state, and expiry. Active remote previews without a local key are shown without the <code>#k=</code> fragment.</p></div>
+            <div class="doc-code"><pre><code>dvyu list
+dvyu list all
+dvyu list -a</code></pre><button type="button" data-copy="dvyu list" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>all</code> / <code>-a, --all</code></td><td><span class="lang-block-ja">期限切れのローカル履歴も表示します。</span><span class="lang-block-en">Include expired local history.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-delete">
+            <h3 class="cmd-sig">dvyu delete &lt;id&gt;</h3>
+            <div class="lang-block-ja"><p>ID を指定してプレビューを削除します。<code>dvyu delete all</code> で、この端末から作成したプレビューをすべて削除します。削除したプレビューは閲覧できなくなります。</p></div>
+            <div class="lang-block-en"><p>Delete a preview by id. <code>dvyu delete all</code> removes every preview created from this device. Deleted previews are no longer viewable.</p></div>
+            <div class="doc-code"><pre><code>dvyu delete &lt;id&gt;
+dvyu delete all</code></pre><button type="button" data-copy="dvyu delete all" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          </div>
+
+          <div class="doc-cmd" id="cmd-usage">
+            <h3 class="cmd-sig">dvyu usage</h3>
+            <div class="lang-block-ja"><p>使用中のストレージ容量とプレビュー数を確認します。上限は通常利用で 100MB / 20 件です。</p></div>
+            <div class="lang-block-en"><p>Show current storage usage and preview count. Standard limits are 100MB and 20 previews.</p></div>
+            <div class="doc-code"><pre><code>dvyu usage</code></pre><button type="button" data-copy="dvyu usage" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          </div>
+
+          <div class="doc-cmd" id="cmd-lang">
+            <h3 class="cmd-sig">dvyu lang [en|ja]</h3>
+            <div class="lang-block-ja"><p>CLI の表示言語を確認・変更します。言語設定は <code>~/.dvyu/settings.json</code> に保存されます。</p></div>
+            <div class="lang-block-en"><p>Show or set the CLI language. The language setting is stored in <code>~/.dvyu/settings.json</code>.</p></div>
+            <div class="doc-code"><pre><code>dvyu lang
+dvyu lang en
+dvyu lang ja</code></pre><button type="button" data-copy="dvyu lang ja" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          </div>
+
+          <div class="doc-cmd" id="cmd-supporter">
+            <h3 class="cmd-sig">dvyu supporter</h3>
+            <div class="lang-block-ja"><p>Ko-fi 支援者特典を確認・設定します。サブコマンドなしで実行すると <code>status</code> と同じく特典の状態を表示します。詳しい流れは<a href="#limits">制限とサポーター</a>を参照してください。</p></div>
+            <div class="lang-block-en"><p>Show or configure Ko-fi supporter benefits. Without a subcommand it shows the benefit status, same as <code>status</code>. See <a href="#limits">Limits and supporter</a> for the full flow.</p></div>
+            <div class="doc-code"><pre><code>dvyu supporter
+dvyu supporter start
+dvyu supporter status
+dvyu supporter recover
+dvyu supporter recovery
+dvyu supporter link &lt;recovery-token&gt;
+dvyu supporter unlink</code></pre><button type="button" data-copy="dvyu supporter start" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+            <table class="doc-table">
+              <thead><tr><th><span class="lang-block-ja">サブコマンド</span><span class="lang-block-en">Subcommand</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
+              <tbody>
+                <tr><td><code>start</code></td><td><span class="lang-block-ja">Ko-fi 支援コード（<code>DVYU-...</code>）を発行します。コードの有効期限は 24 時間です。</span><span class="lang-block-en">Create a Ko-fi support claim code (<code>DVYU-...</code>). The code expires after 24 hours.</span></td></tr>
+                <tr><td><code>status</code></td><td><span class="lang-block-ja">支援者特典の状態を表示します。</span><span class="lang-block-en">Show supporter benefit status.</span></td></tr>
+                <tr><td><code>recover</code></td><td><span class="lang-block-ja">支援コードを入れ忘れた未紐付けの支払いを、Ko-fi のメールアドレスへ届く 15 分有効の認証リンクでこの端末へ登録します。</span><span class="lang-block-en">Link an unclaimed payment that omitted the support code by using a 15-minute verification link sent to the Ko-fi email address.</span></td></tr>
+                <tr><td><code>recovery</code></td><td><span class="lang-block-ja">2 台目登録用の recovery token を表示します。</span><span class="lang-block-en">Show the token used to link a second device.</span></td></tr>
+                <tr><td><code>link &lt;recovery-token&gt;</code></td><td><span class="lang-block-ja">2 台目を支援者特典へ登録します。登録できる端末は同時に 2 台までです。</span><span class="lang-block-en">Link a second device. At most two devices can be linked at once.</span></td></tr>
+                <tr><td><code>unlink</code></td><td><span class="lang-block-ja">この端末の支援者特典を解除します。解除しても作成済みプレビューは削除されず、同じ支援者容量へ計上され続けます。</span><span class="lang-block-en">Unlink supporter benefits from this device. Unlinking does not delete previews created by that device; they continue to count against the same supporter storage quota.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-cmd" id="cmd-uninstall">
+            <h3 class="cmd-sig">dvyu uninstall</h3>
+            <div class="lang-block-ja"><p>ローカルに保存された Drovyu Preview のデータを削除します。詳細は<a href="#uninstall">アンインストール</a>を参照してください。</p></div>
+            <div class="lang-block-en"><p>Remove local Drovyu Preview data. See <a href="#uninstall">Uninstall</a> for details.</p></div>
+            <div class="doc-code"><pre><code>dvyu uninstall</code></pre><button type="button" data-copy="dvyu uninstall" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="projects">
+          <h2><span class="lang-block-ja">対応プロジェクト</span><span class="lang-block-en">Supported projects</span></h2>
+          <div class="lang-block-ja">
+            <p><code>dvyu preview</code> が対応しているビルダー:</p>
+            <ul>
+              <li>Storybook（既定の出力先: <code>storybook-static</code>）</li>
+              <li>Astro（既定の出力先: <code>dist</code>）</li>
+              <li>Vite（既定の出力先: <code>dist</code>）</li>
+            </ul>
+            <p>Vite には相対 base と選択した出力先を渡してビルドします。Astro の <code>base</code> はデプロイ先 pathname なので通常どおりビルドし、root asset path は Drovyu viewer 側で補完します。出力先を変えている場合は <code>--out-dir</code> で指定できます。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>Builders supported by <code>dvyu preview</code>:</p>
+            <ul>
+              <li>Storybook (default output: <code>storybook-static</code>)</li>
+              <li>Astro (default output: <code>dist</code>)</li>
+              <li>Vite (default output: <code>dist</code>)</li>
+            </ul>
+            <p>Vite is built with a relative base and the selected output directory. Astro is built normally because its <code>base</code> option is a deployment pathname; the Drovyu viewer resolves Astro's root asset paths. Use <code>--out-dir</code> when your project uses a different output directory.</p>
+          </div>
+        </section>
+
+        <section class="doc-section" id="files">
+          <h2><span class="lang-block-ja">対応ファイル</span><span class="lang-block-en">Supported files</span></h2>
+          <div class="lang-block-ja"><p>対応していないファイルが含まれる場合、アップロードは開始前に中止されます。<code>.DS_Store</code>、<code>.gitkeep</code>、<code>Thumbs.db</code> などのよくあるメタファイルは自動で無視します。それ以外の非対応ファイルが見つかった場合は、確認後に除外して続行できます。</p></div>
+          <div class="lang-block-en"><p>Uploads stop before starting if unsupported files are found. Common metadata files such as <code>.DS_Store</code>, <code>.gitkeep</code>, and <code>Thumbs.db</code> are ignored automatically. If other unsupported files are found, the CLI can exclude them after confirmation.</p></div>
+          <div class="lang-block-ja"><p>対応拡張子:</p></div>
+          <div class="lang-block-en"><p>Supported extensions:</p></div>
+          <div class="doc-ext-list">
+            {fileTypes.map((ext) => <code>{ext}</code>)}
+          </div>
+          <div class="lang-block-ja"><p>アップロードルートに <code>index.html</code> がある場合は、それをプレビューのエントリーポイントとして使います。暗号化完了後のファイル送信は既定で 6 並列です。回線や proxy の制約に合わせる場合は、<code>DVYU_UPLOAD_CONCURRENCY</code> へ <code>1</code> から <code>16</code> を指定できます。</p></div>
+          <div class="lang-block-en"><p>If <code>index.html</code> exists at the upload root, it is used as the preview entrypoint. Ciphertext files upload with a default concurrency of six after encryption finishes. Set <code>DVYU_UPLOAD_CONCURRENCY</code> from <code>1</code> to <code>16</code> when a connection or proxy needs a different limit.</p></div>
+          <div class="doc-code"><pre><code>DVYU_UPLOAD_CONCURRENCY=3 dvyu create ./dist</code></pre><button type="button" data-copy="DVYU_UPLOAD_CONCURRENCY=3 dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
+        <section class="doc-section" id="assets">
+          <h2><span class="lang-block-ja">アセットパス</span><span class="lang-block-en">Asset paths</span></h2>
+          <div class="lang-block-ja">
+            <p>安定して表示するには、静的サイトを相対アセットパスでビルドするのが理想です。Astro など一部のビルダーは <code>/_astro/...</code> のような root path を出力しますが、Drovyu Preview の viewer は下層ページも含めて同一 origin の asset link を補完します。外部 origin への完全な絶対 URL はそのまま扱います。</p>
+            <p>手動でビルドしてから <code>dvyu create</code> する場合は、以下を優先してください。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>For the most reliable previews, build static sites with relative asset paths. Astro and some other builders emit root paths such as <code>/_astro/...</code>. The Drovyu Preview viewer rewrites those paths, including nested pages, but fully absolute URLs to external origins are left as-is.</p>
+            <p>If you build manually before running <code>dvyu create</code>, prefer:</p>
+          </div>
+          <div class="doc-code"><pre><code>vite build --base=./
+astro build</code></pre><button type="button" data-copy="vite build --base=./" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
+        <section class="doc-section" id="limits">
+          <h2><span class="lang-block-ja">制限とサポーター</span><span class="lang-block-en">Limits and supporter</span></h2>
+          <table class="doc-table">
+            <thead><tr>
+              <th><span class="lang-block-ja">項目</span><span class="lang-block-en">Item</span></th>
+              <th><span class="lang-block-ja">通常利用</span><span class="lang-block-en">Standard</span></th>
+              <th><span class="lang-block-ja">支援者</span><span class="lang-block-en">Supporter</span></th>
+            </tr></thead>
+            <tbody>
+              <tr><td><span class="lang-block-ja">有効な容量</span><span class="lang-block-en">Active storage</span></td><td><code>100MB</code></td><td><span class="lang-block-ja"><code>300MB</code>（2 端末合計）</span><span class="lang-block-en"><code>300MB</code> shared by two devices</span></td></tr>
+              <tr><td><span class="lang-block-ja">有効なプレビュー数</span><span class="lang-block-en">Active previews</span></td><td><code>20</code></td><td><span class="lang-block-ja">無制限</span><span class="lang-block-en">Unlimited</span></td></tr>
+              <tr><td><span class="lang-block-ja">有効期限</span><span class="lang-block-en">Lifetime</span></td><td><span class="lang-block-ja"><code>48時間</code></span><span class="lang-block-en"><code>48 hours</code></span></td><td><span class="lang-block-ja"><code>48時間</code>、または <code>--ttl</code> で <code>1時間</code> から <code>30日</code></span><span class="lang-block-en"><code>48 hours</code>, or <code>1 hour</code> to <code>30 days</code> with <code>--ttl</code></span></td></tr>
+              <tr><td><span class="lang-block-ja">永続オプション</span><span class="lang-block-en">Permanence</span></td><td><span class="lang-block-ja">利用不可</span><span class="lang-block-en">Not available</span></td><td><code>-p, --permanence</code></td></tr>
+              <tr><td><span class="lang-block-ja">登録端末</span><span class="lang-block-en">Linked devices</span></td><td><span class="lang-block-ja">端末単位</span><span class="lang-block-en">Device-scoped</span></td><td><span class="lang-block-ja">最大 <code>2台</code></span><span class="lang-block-en">Up to <code>2</code></span></td></tr>
+            </tbody>
+          </table>
+          <div class="lang-block-ja">
+            <p>サポーター特典は、<a href={LINKS.kofi} target="_blank" rel="noreferrer">Ko-fi</a> での支援（金額自由）1 回につき通常 30 日間有効です。再支援で既存の特典期限が短くなることはありません。</p>
+            <p>有効化の流れ: 支援前に 1 台目の端末で <code>dvyu supporter start</code> を実行し、表示された <code>DVYU-...</code> コードを Ko-fi 支払い時の非公開メッセージへ含めます。コードの有効期限は 24 時間で、初回の端末登録には支援前に発行したコードが必要です。状態は <code>dvyu supporter status</code> で確認できます。</p>
+            <p>コードを入れ忘れた場合は、再支援せずに <code>dvyu supporter recover</code> を実行します。Ko-fi で使用したメールアドレスと未紐付けの支払いが一致すると、15 分有効の認証リンクが届きます。特典期限は元の支援日から 30 日間です。メールアドレスは送信のため Resend へ渡し、サーバーには平文ではなく HMAC hash を保存します。</p>
+            <p>支援期間が終了すると、新しい <code>-p</code> / <code>--ttl</code> 付きプレビューは作成できなくなります。既存の永続プレビューは直ちに削除されませんが、アクセスによる期限延長を停止し、その時点の削除予定日までは閲覧できます。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>Supporter benefits are normally active for 30 days after each <a href={LINKS.kofi} target="_blank" rel="noreferrer">Ko-fi</a> support, any amount. A later payment never shortens an existing entitlement.</p>
+            <p>Activation flow: before supporting, run <code>dvyu supporter start</code> on the first device and include the displayed <code>DVYU-...</code> code in the private message for the Ko-fi payment. A claim code expires after 24 hours, and the initial device registration requires a code created before supporting. Check the status with <code>dvyu supporter status</code>.</p>
+            <p>If you forgot the code, run <code>dvyu supporter recover</code> instead of supporting again. When the Ko-fi email address matches an unclaimed payment, a verification link valid for 15 minutes is sent. Benefits expire 30 days after the original payment. The email address is sent to Resend for delivery, while the server stores an HMAC hash rather than the plaintext address.</p>
+            <p>After the supporter period ends, new previews cannot use <code>-p</code> or <code>--ttl</code>. Existing permanent previews are not deleted immediately, but access no longer extends their expiry and they remain available only until the currently scheduled deletion time.</p>
+          </div>
+        </section>
+
+        <section class="doc-section" id="security">
+          <h2><span class="lang-block-ja">セキュリティと注意事項</span><span class="lang-block-en">Security and notes</span></h2>
+          <div class="lang-block-ja">
+            <p>CLI は各ファイルと manifest を AES-256-GCM でローカル暗号化してからアップロードします。AES 鍵は URL の <code>#k=</code> fragment にだけ保持され、HTTP リクエストでは送信されません。サーバーは元のファイル内容・ファイル名・MIME type・entrypoint・AES 鍵を受け取りません。一方、運用に必要な preview ID、device ID、合計サイズ、ファイル数、作成・アクセス日時、有効期限、保持モードは暗号化されずに保存します。暗号化設計と検証手順は <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.ja.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.ja.md</a> を参照してください。</p>
+            <p>注意事項:</p>
+            <ul>
+              <li>プレビューリンクは、信頼できる相手への一時共有を想定しています。</li>
+              <li>Drovyu Preview は完全なセキュリティサンドボックスではありません。</li>
+              <li>ビューアーは暗号化プレビュー内の同一オリジンのアセットリンクを補完しますが、特殊なランタイムルーティングや外部絶対 URL のアセットはプロジェクト側の調整が必要になる場合があります。</li>
+              <li>発行されたプレビューリンクは公開せず、必要な相手にだけ共有してください。</li>
+              <li>支援者 credential は <code>~/.dvyu/support.json</code> へ保存されます。device token と recovery token を含むため、このファイルを共有したり repository へ commit したりしないでください。</li>
+            </ul>
+          </div>
+          <div class="lang-block-en">
+            <p>The CLI encrypts every file and its manifest locally with AES-256-GCM before upload. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request. The server does not receive original file contents, filenames, MIME types, the entrypoint, or the AES key. Operational metadata remains unencrypted, including the preview and device ids, aggregate sizes, file count, creation and access times, expiry, and retention mode. See <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.md</a> for the encryption design and executable verification.</p>
+            <p>Notes:</p>
+            <ul>
+              <li>Preview links are intended for temporary sharing with trusted recipients.</li>
+              <li>Drovyu Preview is not a full security sandbox.</li>
+              <li>The viewer rewrites same-origin asset links for encrypted previews, but unusual runtime routing or external absolute assets may still need project-side adjustment.</li>
+              <li>Keep generated preview links private.</li>
+              <li>Supporter credentials are stored in <code>~/.dvyu/support.json</code>. It contains the device and recovery tokens, so never share it or commit it to a repository.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="doc-section" id="uninstall">
+          <h2><span class="lang-block-ja">アンインストール</span><span class="lang-block-en">Uninstall</span></h2>
+          <div class="lang-block-ja"><p>ローカルに保存された Drovyu Preview のデータ（<code>~/.dvyu</code> 以下の <code>previews.json</code>、<code>settings.json</code>、<code>device.json</code>、<code>support.json</code>）を削除します。</p></div>
+          <div class="lang-block-en"><p>Removes local Drovyu Preview data (<code>previews.json</code>, <code>settings.json</code>, <code>device.json</code>, and <code>support.json</code> under <code>~/.dvyu</code>).</p></div>
+          <div class="doc-code"><pre><code>dvyu uninstall</code></pre><button type="button" data-copy="dvyu uninstall" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+          <div class="lang-block-ja"><p>CLI 本体はインストールに使ったパッケージマネージャで削除します。</p></div>
+          <div class="lang-block-en"><p>Remove the CLI itself with the package manager you installed it with.</p></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="/" class="footer-logo"><LogoMark size={16} />dvyu</a>
+          <span class="footer-copyright">© 2026 Drovyu</span>
+          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
+        </div>
+        <div class="footer-links">
+          <a href={LINKS.github} target="_blank" rel="noreferrer">
+            <Code2 size={15} strokeWidth={2} />
+            GitHub
+          </a>
+          <a href="/docs">Docs</a>
+          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <Check size={16} strokeWidth={2.4} />
+    <span id="toast-text"><span class="lang-block-ja">コピーしました</span><span class="lang-block-en">Copied</span></span>
+  </div>
+
+  <script>
+    /* ------------------------------- Language ------------------------------- */
+    let currentLang = localStorage.getItem('dvyu-lang') || (navigator.language && navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en')
+
+    function applyLanguage(lang) {
+      currentLang = lang
+      localStorage.setItem('dvyu-lang', lang)
+      document.documentElement.lang = lang
+      document.documentElement.classList.toggle('lang-ja', lang === 'ja')
+      document.documentElement.classList.toggle('lang-en', lang === 'en')
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+        el.classList.toggle('active', el.dataset.lang === lang)
+      })
+    }
+
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+      el.addEventListener('click', () => applyLanguage(el.dataset.lang))
+    })
+
+    applyLanguage(currentLang)
+
+    /* -------------------------- Copy + toast -------------------------- */
+    const toast = document.getElementById('toast')
+    let toastTimer = null
+
+    function copyText(value) {
+      if (!value) return
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).catch(() => {})
+      }
+      toast.classList.add('is-visible')
+      if (toastTimer) clearTimeout(toastTimer)
+      toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1600)
+    }
+
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', () => copyText(button.dataset.copy))
+    })
+
+    /* --------------------- Inline command copy buttons --------------------- */
+    const COPY_SVG =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>'
+
+    document.querySelectorAll('.docs-content code').forEach((code) => {
+      const text = code.textContent.trim()
+      if (!text.startsWith('dvyu')) return
+      if (code.closest('pre') || code.closest('[data-copy]') || code.closest('summary') || code.closest('button')) return
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'code-copy'
+      btn.setAttribute('aria-label', 'Copy')
+      btn.innerHTML = COPY_SVG
+      btn.addEventListener('click', () => copyText(text))
+      code.after(btn)
+    })
+
+    /* ----------------------- Navbar scroll + progress ----------------------- */
+    const navbar = document.getElementById('navbar')
+    const navProgress = document.getElementById('nav-progress')
+    let scrollFrame = 0
+
+    function onScrollFrame() {
+      scrollFrame = 0
+      const y = window.scrollY
+      navbar.classList.toggle('is-scrolled', y > 12)
+      const docRange = document.documentElement.scrollHeight - window.innerHeight
+      navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
+    }
+
+    /* ------------------------------ TOC scrollspy ---------------------------- */
+    const tocLinks = document.querySelectorAll('#docs-toc a')
+    const sections = []
+    tocLinks.forEach((link) => {
+      const section = document.getElementById(link.dataset.target)
+      if (section) sections.push(section)
+    })
+
+    function setActiveToc(id) {
+      tocLinks.forEach((link) => link.classList.toggle('active', link.dataset.target === id))
+    }
+
+    function updateSpy() {
+      const marker = window.scrollY + 110
+      let active = sections.length > 0 ? sections[0].id : null
+      sections.forEach((section) => {
+        if (section.offsetTop <= marker) active = section.id
+      })
+      if (active) setActiveToc(active)
+    }
+
+    window.addEventListener('scroll', () => {
+      updateSpy()
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(onScrollFrame)
+    }, { passive: true })
+    onScrollFrame()
+    updateSpy()
+  </script>
+</BaseLayout>

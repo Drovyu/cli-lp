@@ -1,0 +1,36 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'Drovyu Preview CLI — 静的ビルドを共有URLに',
+  description = 'dvyu create するだけで、暗号化された一時プレビューURLを作成。デプロイ不要、ターミナルだけで完結する静的ビルド共有ツール。',
+} = Astro.props
+
+// Inlined favicon (public/favicon.svg) to avoid an extra request
+const faviconDataUri =
+  'data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 1024 1024%22 role%3D%22img%22 aria-label%3D%22Drovyu app icon%22%3E %3Cdefs%3E %3Cfilter id%3D%22soft-shadow%22 x%3D%22-20%25%22 y%3D%22-20%25%22 width%3D%22140%25%22 height%3D%22140%25%22%3E %3CfeDropShadow dx%3D%220%22 dy%3D%2218%22 stdDeviation%3D%2222%22 flood-color%3D%22%23102E8A%22 flood-opacity%3D%22.28%22%2F%3E %3C%2Ffilter%3E %3C%2Fdefs%3E %3Crect width%3D%221024%22 height%3D%221024%22 rx%3D%22224%22 fill%3D%22%23A259FF%22%2F%3E %3Cg opacity%3D%22.42%22%3E %3Ccircle cx%3D%22512%22 cy%3D%22512%22 r%3D%22445%22 fill%3D%22%23FFFFFF%22 fill-opacity%3D%22.08%22 stroke%3D%22%23FFFFFF%22 stroke-opacity%3D%22.16%22 stroke-width%3D%222%22%2F%3E %3Ccircle cx%3D%22512%22 cy%3D%22512%22 r%3D%22360%22 fill%3D%22none%22 stroke%3D%22%23FFFFFF%22 stroke-width%3D%223%22 opacity%3D%22.18%22%2F%3E %3Ccircle cx%3D%22512%22 cy%3D%22512%22 r%3D%22276%22 fill%3D%22none%22 stroke%3D%22%23FFFFFF%22 stroke-width%3D%223%22 opacity%3D%22.12%22%2F%3E %3C%2Fg%3E %3Cg transform%3D%22translate(198 214) scale(1.81)%22 filter%3D%22url(%23soft-shadow)%22%3E %3Cpath fill%3D%22%2300D084%22 d%3D%22M332.13%2C70.64l-50.04.04c-2.21%2C0-4.01-1.8-4-4.01l.12-50.71c0-3.57%2C4.34-5.34%2C6.85-2.8l49.92%2C50.67c2.49%2C2.53.7%2C6.8-2.85%2C6.81Z%22%2F%3E %3Cpath fill%3D%22%23FFFFFF%22 d%3D%22M346.87%2C87.48l-.04%2C149.4c0%2C3.28-3.74%2C5.17-6.38%2C3.21l-43.33-32.05-146.46-107.73c-1.03-.75-1.63-1.95-1.63-3.23l.07-93.09C149.11%2C1.79%2C150.9%2C0%2C153.11%2C0l108.55.03c2.21%2C0%2C4%2C1.79%2C4%2C4l-.07%2C75.2c0%2C2.21%2C1.78%2C4%2C3.99%2C4l73.31.24c2.2%2C0%2C3.99%2C1.8%2C3.99%2C4Z%22%2F%3E %3Cpath fill%3D%22%23FFFFFF%22 d%3D%22M201.34%2C242.31L29.03%2C120.5C12.8%2C109.02%2C2.3%2C92.03.6%2C71.98c0-.1-.01-.19-.02-.29-.22-10.23-.93-20.1-.38-30.91.16-3.13%2C3.72-4.85%2C6.29-3.06l235.27%2C164.33c1.07.75%2C1.71%2C1.97%2C1.71%2C3.28v59.22c.01%2C3.25-3.66%2C5.14-6.31%2C3.26l-35.83-25.5Z%22%2F%3E %3Cpath fill%3D%22%23FFFFFF%22 d%3D%22M207.07%2C332.26L54.36%2C223.69c-.17-.12-.33-.26-.48-.4-12.09-11.63-19.71-26.29-19.6-42.96l.14-22.35c.02-3.24%2C3.67-5.11%2C6.31-3.24l199.61%2C141.59c1.42%2C1.01%2C2.04%2C2.82%2C1.51%2C4.47-4.73%2C14.76-15.5%2C26.93-31.18%2C31.98-1.22.39-2.55.2-3.59-.54Z%22%2F%3E %3Cpath fill%3D%22%23FFFFFF%22 d%3D%22M108.54%2C330.81l-28.07-19.96c-12.75-9.06-15.47-27.69-14.65-44.47.16-3.17%2C3.72-4.94%2C6.31-3.1l90.08%2C63.89c3.16%2C2.24%2C1.6%2C7.23-2.28%2C7.26l-40.37.39c-4.21.04-7.87-1.73-11.03-4.01Z%22%2F%3E %3C%2Fg%3E %3C%2Fsvg%3E'
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d0a14" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={faviconDataUri} />
+    <link rel="apple-touch-icon" href="/app-icon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
