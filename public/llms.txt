@@ -9,6 +9,7 @@ The CLI encrypts preview files locally before upload. The URL fragment contains 
 - [Home](https://cli.drovyu.com/): Product overview, installation, and core workflow.
 - [Documentation](https://cli.drovyu.com/docs/): Commands, options, supported projects, limits, and security details.
 - [Help Center](https://cli.drovyu.com/help/): Troubleshooting and frequently asked questions.
+- [Contact](https://cli.drovyu.com/contact/): Private contact form for questions, bug reports, and requests.
 - [Privacy Policy](https://cli.drovyu.com/privacy/): Information collection, encryption boundaries, retention, and deletion.
 - [Terms of Service](https://cli.drovyu.com/terms/): Terms that apply to using the CLI and preview service.
 - [Source repository](https://github.com/Drovyu/preview-cli): Public source for auditing the client-side encryption and upload flow.

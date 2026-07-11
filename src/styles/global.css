@@ -2392,3 +2392,155 @@ html.lang-en .lang-block-en {
   font-size: 0.82rem;
   color: var(--lt-secondary);
 }
+
+/* ------------------------------------------------------------------------
+   25. Contact
+   ------------------------------------------------------------------------ */
+.contact-main {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 56px 24px 96px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 24px;
+}
+
+.contact-field {
+  display: grid;
+  gap: 8px;
+}
+
+.contact-field label {
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--lt-text);
+}
+
+.contact-field input,
+.contact-field select,
+.contact-field textarea {
+  width: 100%;
+  border: 1px solid var(--lt-border);
+  border-radius: var(--radius-card);
+  background: var(--lt-bg);
+  color: var(--lt-text);
+  font: inherit;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 180px;
+}
+
+.contact-field input:focus,
+.contact-field select:focus,
+.contact-field textarea:focus {
+  border-color: var(--purple-lt);
+  box-shadow: 0 0 0 3px rgb(162 89 255 / 12%);
+}
+
+.contact-count {
+  justify-self: end;
+  color: var(--lt-secondary);
+  font-size: 0.76rem;
+}
+
+.contact-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.contact-privacy,
+.contact-config-error {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--lt-secondary);
+}
+
+.contact-privacy a {
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-config-error {
+  color: #b42318;
+}
+
+.contact-turnstile {
+  min-height: 65px;
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 42px;
+}
+
+.contact-submit {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+  min-height: 42px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--purple);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.contact-submit:hover:not(:disabled) {
+  background: var(--purple-lt);
+}
+
+.contact-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.contact-status {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--lt-secondary);
+}
+
+.contact-status[data-kind='success'] {
+  color: #067647;
+}
+
+.contact-status[data-kind='error'] {
+  color: #b42318;
+}
+
+@media (max-width: 520px) {
+  .contact-main {
+    padding-top: 40px;
+  }
+
+  .contact-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contact-submit {
+    width: 100%;
+  }
+}

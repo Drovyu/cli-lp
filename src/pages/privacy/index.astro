@@ -5,7 +5,7 @@ import SiteHeader from '../../components/SiteHeader.astro'
 
 const LINKS = {
   github: 'https://github.com/Drovyu/preview-cli',
-  support: 'mailto:support@drovyu.com',
+  contact: '/contact',
 }
 ---
 
@@ -31,8 +31,8 @@ const LINKS = {
     <main class="prose-main">
       <section class="doc-section">
         <h2><span class="lang-block-ja">1. 運営者と適用範囲</span><span class="lang-block-en">1. Operator and scope</span></h2>
-        <div class="lang-block-ja"><p>Drovyu は、Drovyu Preview、dvyu CLI、および関連ドメインを運営します。本ポリシーに関する問い合わせ先は <a href={LINKS.support}>support@drovyu.com</a> です。</p></div>
-        <div class="lang-block-en"><p>Drovyu operates Drovyu Preview, the dvyu CLI, and related domains. Contact <a href={LINKS.support}>support@drovyu.com</a> with questions about this policy.</p></div>
+        <div class="lang-block-ja"><p>Drovyu は、Drovyu Preview、dvyu CLI、および関連ドメインを運営します。本ポリシーに関する問い合わせは<a href={LINKS.contact}>お問い合わせフォーム</a>から受け付けます。</p></div>
+        <div class="lang-block-en"><p>Drovyu operates Drovyu Preview, the dvyu CLI, and related domains. Use the <a href={LINKS.contact}>contact form</a> for questions about this policy.</p></div>
       </section>
 
       <section class="doc-section">
@@ -40,11 +40,13 @@ const LINKS = {
         <div class="lang-block-ja">
           <p>アカウント登録はありません。CLI はデバイスごとに識別子（UUID）を生成し、<code>~/.dvyu/device.json</code> に保存してリクエストヘッダで送信します。通常利用では氏名やメールアドレスを求めません。サポーター機能を利用した場合は、デバイス識別子がハッシュ化されたメールアドレスを持つサポーター記録に紐づきます。</p>
           <p>プレビューの作成時に、暗号化済みファイルと暗号化済みマニフェスト、ランダムな保存キー、プレビューID、デバイスID、ファイル数、合計サイズ、作成・更新・最終アクセス日時、状態、有効期限、保持設定を保存します。</p>
+          <p>お問い合わせフォームでは、選択した種別、返信先メールアドレス、件名、本文、言語、およびTurnstileの認証情報を取得します。本文とメールアドレスはCloudflare経由でDiscordへ送信されます。</p>
           <p>配信・セキュリティ・障害対応のため、Cloudflare が IP アドレス、User-Agent、リクエスト日時などの標準的なインフラログを処理する場合があります。</p>
         </div>
         <div class="lang-block-en">
           <p>No account registration is required. The CLI generates a per-device identifier (UUID), stores it in <code>~/.dvyu/device.json</code>, and sends it in request headers. Names and email addresses are not requested for standard use. When supporter features are used, the device identifier is linked to a supporter record containing a hashed email address.</p>
           <p>When a preview is created, we store encrypted files and an encrypted manifest, random storage keys, the preview id, device id, file count, total size, created / updated / last accessed timestamps, status, expiry, and retention settings.</p>
+          <p>The contact form collects the selected category, reply-to email address, subject, message, language, and Turnstile verification data. The message and email address are sent through Cloudflare to Discord.</p>
           <p>Cloudflare may process standard infrastructure logs such as IP addresses, User-Agent strings, and request timestamps for delivery, security, and incident response.</p>
         </div>
       </section>
@@ -75,8 +77,8 @@ const LINKS = {
 
       <section class="doc-section">
         <h2><span class="lang-block-ja">5. 利用目的</span><span class="lang-block-en">5. Purposes</span></h2>
-        <div class="lang-block-ja"><p>取得した情報は、プレビューの作成・更新・配信・削除、利用上限の適用、サポーター特典の提供、不正利用の防止、障害対応、匿名の利用統計の作成に使用します。</p></div>
-        <div class="lang-block-en"><p>We use the information to create, update, deliver, and delete previews; enforce usage limits; provide supporter benefits; prevent abuse; respond to incidents; and produce aggregate usage statistics.</p></div>
+        <div class="lang-block-ja"><p>取得した情報は、プレビューの作成・更新・配信・削除、利用上限の適用、サポーター特典の提供、お問い合わせへの対応、不正利用の防止、障害対応、匿名の利用統計の作成に使用します。</p></div>
+        <div class="lang-block-en"><p>We use the information to create, update, deliver, and delete previews; enforce usage limits; provide supporter benefits; respond to inquiries; prevent abuse; respond to incidents; and produce aggregate usage statistics.</p></div>
       </section>
 
       <section class="doc-section">
@@ -101,6 +103,7 @@ const LINKS = {
             <li>プレビューのメタデータ行には、現在、固定の自動削除期間を設定していません。</li>
             <li>支援コードやメール認証の記録はおおむね90日、Ko-fi イベントIDと回収可能な支援記録はおおむね180日保持します。</li>
             <li>サポーター記録と端末の紐付けには、現在、固定の自動削除期間を設定していません。削除依頼は問い合わせ先へ連絡してください。</li>
+            <li>お問い合わせ内容は対応と記録に必要な期間、Discord上に保持します。固定の自動削除期間は設定していません。</li>
           </ul>
         </div>
         <div class="lang-block-en">
@@ -111,6 +114,7 @@ const LINKS = {
             <li>Preview metadata rows currently have no fixed automatic deletion period.</li>
             <li>Claim and email verification records are generally retained for about 90 days; Ko-fi event ids and recoverable contribution records for about 180 days.</li>
             <li>Supporter records and device links currently have no fixed automatic deletion period. Contact us to request deletion.</li>
+            <li>Contact messages are retained in Discord for as long as needed for support and recordkeeping. No fixed automatic deletion period is currently set.</li>
           </ul>
         </div>
       </section>
@@ -118,19 +122,19 @@ const LINKS = {
       <section class="doc-section">
         <h2><span class="lang-block-ja">8. 外部サービスと第三者提供</span><span class="lang-block-en">8. Service providers and disclosures</span></h2>
         <div class="lang-block-ja">
-          <p>Cloudflare を保存・配信・セキュリティに、Ko-fi を支援決済に、Resend を認証メール配信に利用します。GitHub と npm はソースコードおよび CLI の配布に利用しますが、通常のプレビューデータは送信しません。</p>
+          <p>Cloudflare を保存・配信・セキュリティ・Turnstile認証に、Discordをお問い合わせの受信に、Ko-fi を支援決済に、Resend を認証メール配信に利用します。GitHub と npm はソースコードおよび CLI の配布に利用しますが、通常のプレビューデータは送信しません。</p>
           <p>情報を販売しません。法令への対応、権利・安全の保護、不正利用への対処、事業承継に必要な場合には、適用法の範囲で情報を開示することがあります。</p>
         </div>
         <div class="lang-block-en">
-          <p>We use Cloudflare for storage, delivery, and security; Ko-fi for contribution payments; and Resend for verification email delivery. GitHub and npm distribute source code and the CLI, but normal preview data is not sent to them.</p>
+          <p>We use Cloudflare for storage, delivery, security, and Turnstile verification; Discord to receive contact messages; Ko-fi for contribution payments; and Resend for verification email delivery. GitHub and npm distribute source code and the CLI, but normal preview data is not sent to them.</p>
           <p>We do not sell information. We may disclose information as permitted by applicable law to comply with legal obligations, protect rights and safety, address abuse, or complete a business transfer.</p>
         </div>
       </section>
 
       <section class="doc-section">
         <h2><span class="lang-block-ja">9. 問い合わせと削除依頼</span><span class="lang-block-en">9. Contact and deletion requests</span></h2>
-        <div class="lang-block-ja"><p>質問や削除依頼は <a href={LINKS.support}>support@drovyu.com</a> へ連絡してください。復号キー、支援コード、認証トークンなどの秘密情報を Discord や公開 Issue に投稿しないでください。</p></div>
-        <div class="lang-block-en"><p>Send questions or deletion requests to <a href={LINKS.support}>support@drovyu.com</a>. Do not post decryption keys, claim codes, verification tokens, or other secrets in Discord or public issues.</p></div>
+        <div class="lang-block-ja"><p>質問や削除依頼は<a href={LINKS.contact}>お問い合わせフォーム</a>から送信してください。フォームを含め、復号キー、支援コード、認証トークンなどの秘密情報を送信しないでください。</p></div>
+        <div class="lang-block-en"><p>Send questions or deletion requests through the <a href={LINKS.contact}>contact form</a>. Do not submit decryption keys, claim codes, verification tokens, or other secrets, including through the form.</p></div>
       </section>
 
       <section class="doc-section">
@@ -159,6 +163,7 @@ const LINKS = {
           </a>
           <a href="/docs">Docs</a>
           <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
           <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
           <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
         </div>
