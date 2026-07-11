@@ -1,0 +1,222 @@
+---
+import { Code2, Send } from '@lucide/astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteHeader from '../../components/SiteHeader.astro'
+
+const GITHUB_URL = 'https://github.com/Drovyu/preview-cli'
+// Turnstile site keys are public by design. The matching secret stays in Cloudflare Pages.
+const TURNSTILE_SITE_KEY = import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAADzxbo2h77LOPhF5'
+---
+
+<BaseLayout
+  title="お問い合わせ — Drovyu Preview"
+  description="Drovyu Previewへの質問、不具合報告、要望を送信するお問い合わせフォーム。"
+>
+  <div class="subpage">
+    <SiteHeader />
+
+    <section class="subpage-hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="subpage-eyebrow">Contact</p>
+        <h1 class="subpage-title"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></h1>
+        <p class="subpage-copy">
+          <span class="lang-block-ja">質問、不具合報告、要望を運営者へ送信できます。</span>
+          <span class="lang-block-en">Send questions, bug reports, and requests to the operator.</span>
+        </p>
+      </div>
+    </section>
+
+    <main class="contact-main">
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="contact-field">
+          <label for="contact-category"><span class="lang-block-ja">お問い合わせ種別</span><span class="lang-block-en">Category</span></label>
+          <select id="contact-category" name="category" required>
+            <option value="general" data-ja="一般的な質問" data-en="General question">一般的な質問</option>
+            <option value="bug" data-ja="不具合報告" data-en="Bug report">不具合報告</option>
+            <option value="feature" data-ja="機能要望" data-en="Feature request">機能要望</option>
+            <option value="supporter" data-ja="サポーターについて" data-en="Supporter">サポーターについて</option>
+            <option value="privacy" data-ja="プライバシー・法務" data-en="Privacy / legal">プライバシー・法務</option>
+            <option value="security" data-ja="セキュリティ" data-en="Security">セキュリティ</option>
+            <option value="other" data-ja="その他" data-en="Other">その他</option>
+          </select>
+        </div>
+
+        <div class="contact-field">
+          <label for="contact-email"><span class="lang-block-ja">返信先メールアドレス</span><span class="lang-block-en">Reply-to email</span></label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+        </div>
+
+        <div class="contact-field">
+          <label for="contact-subject"><span class="lang-block-ja">件名</span><span class="lang-block-en">Subject</span></label>
+          <input id="contact-subject" name="subject" type="text" minlength="2" maxlength="120" required />
+        </div>
+
+        <div class="contact-field">
+          <label for="contact-message"><span class="lang-block-ja">内容</span><span class="lang-block-en">Message</span></label>
+          <textarea id="contact-message" name="message" minlength="10" maxlength="3000" rows="9" required></textarea>
+          <span class="contact-count" id="contact-count">0 / 3000</span>
+        </div>
+
+        <div class="contact-honeypot" aria-hidden="true">
+          <label for="contact-website">Website</label>
+          <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="contact-privacy">
+          <span class="lang-block-ja">送信内容とメールアドレスは、対応のためCloudflare経由でDiscordへ送信されます。復号キー、支援コード、認証トークンなどの秘密情報は入力しないでください。詳しくは<a href="/privacy">プライバシーポリシー</a>をご確認ください。</span>
+          <span class="lang-block-en">Your message and email address are sent through Cloudflare to Discord for support. Do not include decryption keys, claim codes, verification tokens, or other secrets. See the <a href="/privacy">Privacy Policy</a>.</span>
+        </p>
+
+        {TURNSTILE_SITE_KEY ? (
+          <div class="contact-turnstile">
+            <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" data-action="contact" data-response-field="false"></div>
+          </div>
+        ) : (
+          <p class="contact-config-error" role="alert">
+            <span class="lang-block-ja">現在、お問い合わせフォームを利用できません。</span>
+            <span class="lang-block-en">The contact form is currently unavailable.</span>
+          </p>
+        )}
+
+        <div class="contact-actions">
+          <button class="contact-submit" type="submit" disabled={!TURNSTILE_SITE_KEY}>
+            <Send size={17} strokeWidth={2} aria-hidden="true" />
+            <span class="lang-block-ja">送信する</span><span class="lang-block-en">Send</span>
+          </button>
+          <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="/" class="footer-logo"><img src="/logo-purple.svg" alt="" class="logo-mark" width="17" height="16" />dvyu</a>
+          <span class="footer-copyright">© 2026 Drovyu</span>
+          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
+        </div>
+        <div class="footer-links">
+          <a href={GITHUB_URL} target="_blank" rel="noreferrer"><Code2 size={15} strokeWidth={2} />GitHub</a>
+          <a href="/docs">Docs</a>
+          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
+          <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
+          <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  {TURNSTILE_SITE_KEY && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+  <script>
+    declare global {
+      interface Window {
+        turnstile?: { getResponse: () => string; reset: () => void }
+      }
+    }
+
+    const form = document.getElementById('contact-form') as HTMLFormElement
+    const message = document.getElementById('contact-message') as HTMLTextAreaElement
+    const count = document.getElementById('contact-count') as HTMLElement
+    const status = document.getElementById('contact-status') as HTMLElement
+    const submit = form.querySelector('button[type="submit"]') as HTMLButtonElement
+    let currentLang = localStorage.getItem('dvyu-lang') || (navigator.language?.toLowerCase().startsWith('ja') ? 'ja' : 'en')
+
+    const statusText = {
+      sending: { ja: '送信しています...', en: 'Sending...' },
+      sent: { ja: '送信しました。返信までしばらくお待ちください。', en: 'Sent. Please allow some time for a reply.' },
+      invalid: { ja: '入力内容を確認してください。', en: 'Check the form fields.' },
+      challenge: { ja: '認証を完了してください。', en: 'Complete the verification challenge.' },
+      error: { ja: '送信できませんでした。時間をおいて再度お試しください。', en: 'Could not send the message. Please try again later.' },
+    }
+
+    function setStatus(key, kind = '') {
+      status.textContent = statusText[key][currentLang]
+      status.dataset.kind = kind
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang
+      localStorage.setItem('dvyu-lang', lang)
+      document.documentElement.lang = lang
+      document.documentElement.classList.toggle('lang-ja', lang === 'ja')
+      document.documentElement.classList.toggle('lang-en', lang === 'en')
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => el.classList.toggle('active', el.dataset.lang === lang))
+      document.querySelectorAll('#contact-category option').forEach((option) => {
+        option.textContent = option.dataset[lang]
+      })
+    }
+
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+      el.addEventListener('click', () => applyLanguage(el.dataset.lang))
+    })
+    applyLanguage(currentLang)
+
+    message.addEventListener('input', () => {
+      count.textContent = `${message.value.length} / 3000`
+    })
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      status.textContent = ''
+      if (!form.reportValidity()) {
+        setStatus('invalid', 'error')
+        return
+      }
+
+      const turnstileToken = window.turnstile?.getResponse() || ''
+      if (!turnstileToken) {
+        setStatus('challenge', 'error')
+        return
+      }
+
+      const data = new FormData(form)
+      submit.disabled = true
+      setStatus('sending')
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            category: data.get('category'),
+            email: data.get('email'),
+            subject: data.get('subject'),
+            message: data.get('message'),
+            website: data.get('website'),
+            locale: currentLang,
+            turnstileToken,
+          }),
+        })
+
+        if (!response.ok) throw new Error('delivery failed')
+        form.reset()
+        count.textContent = '0 / 3000'
+        window.turnstile?.reset()
+        setStatus('sent', 'success')
+      } catch {
+        window.turnstile?.reset()
+        setStatus('error', 'error')
+      } finally {
+        submit.disabled = false
+      }
+    })
+
+    const navbar = document.getElementById('navbar')
+    const navProgress = document.getElementById('nav-progress')
+    let scrollFrame = 0
+    function onScrollFrame() {
+      scrollFrame = 0
+      const y = window.scrollY
+      navbar.classList.toggle('is-scrolled', y > 12)
+      const docRange = document.documentElement.scrollHeight - window.innerHeight
+      navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
+    }
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(onScrollFrame)
+    }, { passive: true })
+    onScrollFrame()
+  </script>
+</BaseLayout>

@@ -41,6 +41,17 @@ NODE_VERSION: 26.5.0
 
 Promote a tested revision to production by merging `main` into `release`. Do not commit generated `dist` files.
 
+## Contact form
+
+`/contact` posts to the Cloudflare Pages Function at `/api/contact`. The function verifies Cloudflare Turnstile and forwards validated submissions to a Discord webhook. Configure these encrypted values for both preview and production deployments:
+
+```text
+TURNSTILE_SECRET_KEY            Encrypted Pages secret
+DISCORD_CONTACT_WEBHOOK_URL     Encrypted Pages secret
+```
+
+The public Turnstile site key is embedded in the contact page. Never put the Turnstile secret or Discord webhook URL in source files, build variables, or GitHub secrets used by client-side code. The endpoint also enforces same-origin requests, input and body-size limits, a honeypot field, and disables Discord mentions.
+
 ## Public statistics
 
 The landing page reads aggregate service statistics from:

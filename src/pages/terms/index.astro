@@ -6,7 +6,7 @@ import SiteHeader from '../../components/SiteHeader.astro'
 const LINKS = {
   github: 'https://github.com/Drovyu/preview-cli',
   license: 'https://github.com/Drovyu/preview-cli/blob/main/LICENSE',
-  support: 'mailto:support@drovyu.com',
+  contact: '/contact',
 }
 ---
 
@@ -130,8 +130,8 @@ const LINKS = {
 
       <section class="doc-section">
         <h2><span class="lang-block-ja">12. 問い合わせ</span><span class="lang-block-en">12. Contact</span></h2>
-        <div class="lang-block-ja"><p>本規約に関する質問は <a href={LINKS.support}>support@drovyu.com</a> へ連絡してください。復号キー、支援コード、認証トークンなどの秘密情報を公開チャンネルへ投稿しないでください。</p></div>
-        <div class="lang-block-en"><p>Send questions about these terms to <a href={LINKS.support}>support@drovyu.com</a>. Do not post decryption keys, claim codes, verification tokens, or other secrets in public channels.</p></div>
+        <div class="lang-block-ja"><p>本規約に関する質問は<a href={LINKS.contact}>お問い合わせフォーム</a>から送信してください。復号キー、支援コード、認証トークンなどの秘密情報は、フォームを含むいかなる窓口にも送信しないでください。</p></div>
+        <div class="lang-block-en"><p>Send questions about these terms through the <a href={LINKS.contact}>contact form</a>. Do not submit decryption keys, claim codes, verification tokens, or other secrets through the form or any other channel.</p></div>
       </section>
 
       <p class="prose-updated">
@@ -154,6 +154,7 @@ const LINKS = {
           </a>
           <a href="/docs">Docs</a>
           <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
           <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
           <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
         </div>

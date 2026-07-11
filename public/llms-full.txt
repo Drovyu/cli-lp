@@ -39,6 +39,9 @@ The product is intended for reviewing static HTML output from tools such as Astr
 - Product: https://cli.drovyu.com/
 - Documentation: https://cli.drovyu.com/docs/
 - Help: https://cli.drovyu.com/help/
+- Contact: https://cli.drovyu.com/contact/
+- Privacy Policy: https://cli.drovyu.com/privacy/
+- Terms of Service: https://cli.drovyu.com/terms/
 - Source: https://github.com/Drovyu/preview-cli
 - X: https://x.com/drovyu
 - Discord: https://discord.gg/4SGxzSbaaD

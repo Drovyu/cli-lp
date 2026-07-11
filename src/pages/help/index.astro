@@ -34,8 +34,8 @@ const categories = [
         <p class="subpage-eyebrow">Help Center</p>
         <h1 class="subpage-title"><span class="lang-block-ja">ヘルプセンター</span><span class="lang-block-en">Help Center</span></h1>
         <p class="subpage-copy">
-          <span class="lang-block-ja">よくある質問とトラブルシューティング。解決しない場合は下部の連絡先へ。</span>
-          <span class="lang-block-en">Frequently asked questions and troubleshooting. Contact links are at the bottom.</span>
+          <span class="lang-block-ja">よくある質問とトラブルシューティング。解決しない場合はお問い合わせフォームへ。</span>
+          <span class="lang-block-en">Frequently asked questions and troubleshooting. Use the contact form if you are still stuck.</span>
         </p>
         <div class="help-search">
           <input type="search" id="faq-search" placeholder="質問を検索" autocomplete="off" />
@@ -54,7 +54,7 @@ const categories = [
 
       <p class="help-no-results" id="no-results" hidden>
         <span class="lang-block-ja">一致する質問が見つかりませんでした。下の連絡先からお問い合わせください。</span>
-        <span class="lang-block-en">No matching questions. Use the contact links below.</span>
+        <span class="lang-block-en">No matching questions. Use the contact form below.</span>
       </p>
 
       <section class="faq-cat" id="getting-started">
@@ -209,21 +209,21 @@ const categories = [
       <section class="help-contact" id="contact">
         <h2><span class="lang-block-ja">解決しない場合</span><span class="lang-block-en">Still stuck?</span></h2>
         <p>
-          <span class="lang-block-ja">不具合報告・要望・質問は以下からどうぞ。</span>
-          <span class="lang-block-en">Bug reports, requests, and questions are welcome through any of these.</span>
+          <span class="lang-block-ja">不具合報告・要望・質問はお問い合わせフォームから送信できます。</span>
+          <span class="lang-block-en">Send bug reports, requests, and questions through the contact form.</span>
         </p>
         <div class="help-contact-grid">
+          <a class="help-contact-card" href="/contact">
+            <strong><span class="lang-block-ja">お問い合わせフォーム</span><span class="lang-block-en">Contact form</span></strong>
+            <span><span class="lang-block-ja">運営者へ非公開でお問い合わせを送信します。</span><span class="lang-block-en">Send a private inquiry to the operator.</span></span>
+          </a>
           <a class="help-contact-card" href={LINKS.discord} target="_blank" rel="noreferrer">
             <strong>Discord</strong>
-            <span><span class="lang-block-ja">質問・バグ報告・雑談はこちら。開発者が直接返信します。</span><span class="lang-block-en">Questions, bug reports, and chat. The developer replies directly.</span></span>
+            <span><span class="lang-block-ja">コミュニティでの質問や雑談はこちら。</span><span class="lang-block-en">Community questions and chat.</span></span>
           </a>
           <a class="help-contact-card" href={LINKS.issues} target="_blank" rel="noreferrer">
             <strong>GitHub Issues</strong>
             <span><span class="lang-block-ja">再現手順つきの不具合報告はこちらへ。</span><span class="lang-block-en">File bug reports with reproduction steps here.</span></span>
-          </a>
-          <a class="help-contact-card" href={LINKS.x} target="_blank" rel="noreferrer">
-            <strong>X</strong>
-            <span><span class="lang-block-ja">新機能や開発の進捗を発信しています。</span><span class="lang-block-en">New features and development progress.</span></span>
           </a>
         </div>
       </section>
@@ -243,6 +243,7 @@ const categories = [
           </a>
           <a href="/docs">Docs</a>
           <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
+          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
           <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
           <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
         </div>
