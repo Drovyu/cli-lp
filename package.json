@@ -18,7 +18,6 @@
     "node": ">=22.12.0"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.7.3",
     "astro": "latest"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cli.drovyu.com/sitemap-index.xml
+Sitemap: https://cli.drovyu.com/sitemap.xml
