@@ -12,7 +12,7 @@ The CLI encrypts preview files locally before upload. The URL fragment contains 
 - [Contact](https://cli.drovyu.com/contact/): Private contact form for questions, bug reports, and requests.
 - [Security](https://cli.drovyu.com/security/): Encryption design, URL handling, package verification, and vulnerability reporting.
 - [Transparency and Trust](https://cli.drovyu.com/trust/): Public assurance scope, Viewer trust boundary, and recommended use.
-- [Service Status](https://cli.drovyu.com/status/): Manually maintained known service conditions and incident history.
+- [Service Status](https://status.drovyu.com/): Live service monitoring and incident history.
 - [About](https://cli.drovyu.com/about/): Operator, purpose, publication policy, and official contacts.
 - [Privacy Policy](https://cli.drovyu.com/privacy/): Information collection, encryption boundaries, retention, and deletion.
 - [Terms of Service](https://cli.drovyu.com/terms/): Terms that apply to using the CLI and preview service.
