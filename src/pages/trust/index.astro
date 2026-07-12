@@ -1,0 +1,88 @@
+---
+import InfoPageLayout from '../../layouts/InfoPageLayout.astro'
+
+const LINKS = {
+  source: 'https://github.com/Drovyu/preview-cli',
+  license: 'https://github.com/Drovyu/preview-cli/blob/main/LICENSE',
+  releases: 'https://github.com/Drovyu/preview-cli/releases',
+  npm: 'https://www.npmjs.com/package/@dvyu/cli',
+}
+---
+
+<InfoPageLayout
+  title="透明性・信頼モデル — Drovyu Preview"
+  description="Drovyu Previewの公開CLIが保証する範囲、Viewerと配信基盤の信頼境界、推奨用途を説明します。"
+  eyebrow="Transparency & Trust"
+  headingJa="透明性・信頼モデル"
+  headingEn="Transparency & Trust"
+  copyJa="公開ソースで確認できることと、確認できないことを明確にします。"
+  copyEn="What public source can verify, and what remains outside that boundary."
+>
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">1. 公開CLIが保証する範囲</span><span class="lang-block-en">1. What the public CLI shows</span></h2>
+    <div class="lang-block-ja"><p><a href={LINKS.source} target="_blank" rel="noreferrer">公開CLIソース</a>から、ローカルファイル収集、AES-256-GCM暗号化、manifest暗号化、復号キーをHTTPで送らないupload処理を確認できます。testは実際のCLIリクエストを記録し、平文ファイル名、検査用平文、鍵、URL fragmentが送信されないことを検証します。</p></div>
+    <div class="lang-block-en"><p>The <a href={LINKS.source} target="_blank" rel="noreferrer">public CLI source</a> makes local file collection, AES-256-GCM encryption, manifest encryption, and upload behavior that excludes the decryption key reviewable. Tests record real CLI requests and verify that plaintext filenames, test plaintext, the key, and URL fragment are not transmitted.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">2. 受動的な保存データ</span><span class="lang-block-en">2. Passively stored data</span></h2>
+    <div class="lang-block-ja"><p>正常な公式CLIで作成された保存済みblobとmanifestは暗号文です。完全なプレビューURLを持たず、保存済みデータを受動的に参照するだけの運営者は、その内容を復号できません。運用metadataは暗号化されず、Privacy Policyに記載した範囲で確認できます。</p></div>
+    <div class="lang-block-en"><p>Stored blobs and manifests produced by the unmodified official CLI are ciphertext. An operator who does not possess the complete preview URL and only passively inspects stored data cannot decrypt its contents. Operational metadata is not encrypted and remains visible as described in the Privacy Policy.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">3. Viewerと配信基盤の信頼境界</span><span class="lang-block-en">3. Viewer and delivery trust boundary</span></h2>
+    <div class="lang-block-ja">
+      <p>復号はブラウザへ配信されるViewer JavaScriptが行います。そのためViewer JavaScript、Worker、DNS、CDN、TLSを含む配信経路は信頼境界に含まれます。侵害された配信基盤が改変したViewerを返した場合、ブラウザが保持するfragment keyや復号後データへアクセスするコードを配信できる可能性があります。</p>
+      <p>したがって本サービスはactive-server zero-knowledgeではありません。「保存先が通常の状態で暗号文を読むことはできない」という保護と、「将来配信されるコードを一切信頼しなくてよい」という保証は別です。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>Decryption is performed by Viewer JavaScript delivered to the browser. The Viewer, Worker, DNS, CDN, TLS, and delivery path are therefore part of the trust boundary. If delivery infrastructure is compromised and serves a modified Viewer, that code could potentially access the fragment key or decrypted data in the browser.</p>
+      <p>The service is therefore not active-server zero knowledge. Protection against an operator passively reading stored ciphertext is different from a guarantee that future delivered code never needs to be trusted.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">4. 公開範囲</span><span class="lang-block-en">4. Publication boundary</span></h2>
+    <div class="lang-block-ja"><p>CLIと暗号化・upload path、関連文書は公開しています。運用中のWorker、データベースschema、監視・通知設定、secret、インフラ構成全体は公開していません。公開CLIだけから本番バックエンド全体が同じ実装であることを証明することはできません。</p></div>
+    <div class="lang-block-en"><p>The CLI, encryption and upload path, and related documentation are public. The deployed Worker, database schema, monitoring and alert configuration, secrets, and complete infrastructure are not public. The public CLI alone cannot prove the complete implementation of the production backend.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">5. Source-Availableライセンス</span><span class="lang-block-en">5. Source-Available license</span></h2>
+    <div class="lang-block-ja"><p>リポジトリは透明性とセキュリティレビューのため公開していますが、OSSではありません。閲覧、公式CLIの未改変利用、複製・改変・再配布などの条件は<a href={LINKS.license} target="_blank" rel="noreferrer">LICENSE</a>に従います。</p></div>
+    <div class="lang-block-en"><p>The repository is public for transparency and security review, but it is not open source. Viewing, use of the unmodified official CLI, copying, modification, and redistribution are governed by the <a href={LINKS.license} target="_blank" rel="noreferrer">LICENSE</a>.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">6. npm、commit、Releaseの対応</span><span class="lang-block-en">6. npm, commit, and Release relationship</span></h2>
+    <div class="lang-block-ja">
+      <p><a href={LINKS.npm} target="_blank" rel="noreferrer">npm package</a>にはGitHub Actions由来のprovenanceを付与します。<code>npm view</code>で得た<code>gitHead</code>を、対応する<a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Release</a>のcommitと比較できます。</p>
+      <pre class="info-code"><code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json
+npm audit signatures</code></pre>
+      <p>Provenanceはbuild・publish経路の確認材料であり、脆弱性がないこと、運用中のViewerやバックエンドが同じcommitであることを保証しません。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>The <a href={LINKS.npm} target="_blank" rel="noreferrer">npm package</a> includes provenance from GitHub Actions. You can compare the <code>gitHead</code> returned by <code>npm view</code> with the commit for the corresponding <a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Release</a>.</p>
+      <pre class="info-code"><code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json
+npm audit signatures</code></pre>
+      <p>Provenance provides evidence about the build and publication path. It does not prove the absence of vulnerabilities or that the deployed Viewer and backend use the same commit.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">7. 推奨用途と非推奨用途</span><span class="lang-block-en">7. Recommended and discouraged uses</span></h2>
+    <div class="trust-use-grid">
+      <div>
+        <h3><span class="lang-block-ja">推奨</span><span class="lang-block-en">Recommended</span></h3>
+        <ul><li><span class="lang-block-ja">一般的な静的サイト・LPレビュー</span><span class="lang-block-en">Ordinary static-site and landing-page review</span></li><li>Storybook / UI review</li><li><span class="lang-block-ja">短期間、限定相手との共有</span><span class="lang-block-en">Short-term sharing with known recipients</span></li></ul>
+      </div>
+      <div>
+        <h3><span class="lang-block-ja">非推奨</span><span class="lang-block-en">Discouraged</span></h3>
+        <ul><li><span class="lang-block-ja">機密情報、NDA対象、個人情報</span><span class="lang-block-en">Confidential, NDA, or personal data</span></li><li><span class="lang-block-ja">秘密鍵、認証情報、顧客データ</span><span class="lang-block-en">Private keys, credentials, or customer data</span></li><li><span class="lang-block-ja">法令・監査上の保存保証が必要な用途</span><span class="lang-block-en">Uses requiring regulated retention or audit guarantees</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月12日</span><span class="lang-block-en">Last updated: July 12, 2026</span></p>
+</InfoPageLayout>

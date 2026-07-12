@@ -1,0 +1,67 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+
+interface Props {
+  title: string
+  description: string
+  eyebrow: string
+  headingJa: string
+  headingEn: string
+  copyJa: string
+  copyEn: string
+  mainClass?: string
+}
+
+const { title, description, eyebrow, headingJa, headingEn, copyJa, copyEn, mainClass = 'prose-main' } = Astro.props
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="subpage">
+    <SiteHeader />
+    <section class="subpage-hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="subpage-eyebrow">{eyebrow}</p>
+        <h1 class="subpage-title"><span class="lang-block-ja">{headingJa}</span><span class="lang-block-en">{headingEn}</span></h1>
+        <p class="subpage-copy"><span class="lang-block-ja">{copyJa}</span><span class="lang-block-en">{copyEn}</span></p>
+      </div>
+    </section>
+    <main class={mainClass}><slot /></main>
+    <SiteFooter />
+  </div>
+
+  <script>
+    let currentLang = localStorage.getItem('dvyu-lang') || (navigator.language && navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en')
+
+    function applyLanguage(lang) {
+      currentLang = lang
+      localStorage.setItem('dvyu-lang', lang)
+      document.documentElement.lang = lang
+      document.documentElement.classList.toggle('lang-ja', lang === 'ja')
+      document.documentElement.classList.toggle('lang-en', lang === 'en')
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => el.classList.toggle('active', el.dataset.lang === lang))
+    }
+
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((el) => {
+      el.addEventListener('click', () => applyLanguage(el.dataset.lang))
+    })
+    applyLanguage(currentLang)
+
+    const navbar = document.getElementById('navbar')
+    const navProgress = document.getElementById('nav-progress')
+    let scrollFrame = 0
+    function onScrollFrame() {
+      scrollFrame = 0
+      const y = window.scrollY
+      navbar.classList.toggle('is-scrolled', y > 12)
+      const docRange = document.documentElement.scrollHeight - window.innerHeight
+      navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
+    }
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(onScrollFrame)
+    }, { passive: true })
+    onScrollFrame()
+  </script>
+</BaseLayout>

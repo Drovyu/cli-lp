@@ -1,0 +1,52 @@
+---
+import InfoPageLayout from '../../layouts/InfoPageLayout.astro'
+
+const LINKS = {
+  github: 'https://github.com/Drovyu/preview-cli',
+  x: 'https://x.com/drovyu',
+  discord: 'https://discord.gg/4SGxzSbaaD',
+  license: 'https://github.com/Drovyu/preview-cli/blob/main/LICENSE',
+}
+---
+
+<InfoPageLayout
+  title="運営情報 — Drovyu Preview"
+  description="Drovyu Previewの運営者、目的、公開方針、連絡先について説明します。"
+  eyebrow="About"
+  headingJa="運営情報"
+  headingEn="About"
+  copyJa="Drovyu Previewの目的、運営主体、公開方針を紹介します。"
+  copyEn="The purpose, operator, and publication policy behind Drovyu Preview."
+>
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">サービス概要</span><span class="lang-block-en">Service overview</span></h2>
+    <dl class="about-facts">
+      <div><dt><span class="lang-block-ja">運営名</span><span class="lang-block-en">Operator name</span></dt><dd>Drovyu</dd></div>
+      <div><dt><span class="lang-block-ja">所在国</span><span class="lang-block-en">Country</span></dt><dd>Japan</dd></div>
+      <div><dt><span class="lang-block-ja">開発・運営</span><span class="lang-block-en">Development and operations</span></dt><dd>Drovyu</dd></div>
+      <div><dt><span class="lang-block-ja">公開開始</span><span class="lang-block-en">Public launch</span></dt><dd><span class="lang-block-ja">2026年7月11日</span><span class="lang-block-en">July 11, 2026</span></dd></div>
+      <div><dt><span class="lang-block-ja">問い合わせメール</span><span class="lang-block-en">Contact email</span></dt><dd><a href="mailto:support@drovyu.com">support@drovyu.com</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">目的</span><span class="lang-block-en">Purpose</span></h2>
+    <div class="lang-block-ja"><p>Drovyu Previewは、静的サイトの確認用buildを本番hostingへdeployせず、短時間で共有するためのCLIとpreview serviceです。手軽さを保ちながら、ファイル内容とmanifestを端末上で暗号化してからuploadする仕組みを提供します。</p></div>
+    <div class="lang-block-en"><p>Drovyu Preview is a CLI and preview service for quickly sharing static-site review builds without deploying them to production hosting. It aims to remain convenient while encrypting file contents and the manifest on the device before upload.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">公開方針</span><span class="lang-block-en">Publication policy</span></h2>
+    <div class="lang-block-ja"><p>利用者がupload前暗号化を監査できるよう、CLIの暗号化・upload pathと検証testを<a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>で公開しています。これは信頼性確認のためのSource-Available公開であり、OSS提供ではありません。利用条件は<a href={LINKS.license} target="_blank" rel="noreferrer">LICENSE</a>に従います。</p></div>
+    <div class="lang-block-en"><p>The CLI encryption and upload path and its verification tests are public on <a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a> so users can audit encryption before upload. This is Source-Available publication for transparency, not an open-source release. Use is governed by the <a href={LINKS.license} target="_blank" rel="noreferrer">LICENSE</a>.</p></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">連絡先</span><span class="lang-block-en">Contact</span></h2>
+    <div class="lang-block-ja"><p>個別の問い合わせ、削除依頼、障害報告は<a href="/contact">お問い合わせフォーム</a>または<a href="mailto:support@drovyu.com">support@drovyu.com</a>へ送信してください。一般的な交流はDiscord、開発情報はX、ソース確認はGitHubを利用できます。</p></div>
+    <div class="lang-block-en"><p>Use the <a href="/contact">contact form</a> or <a href="mailto:support@drovyu.com">support@drovyu.com</a> for private inquiries, deletion requests, and incident reports. Discord is available for community discussion, X for development updates, and GitHub for source review.</p></div>
+    <div class="about-links"><a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a><a href={LINKS.x} target="_blank" rel="noreferrer">X</a><a href={LINKS.discord} target="_blank" rel="noreferrer">Discord</a><a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a></div>
+  </section>
+
+  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月12日</span><span class="lang-block-en">Last updated: July 12, 2026</span></p>
+</InfoPageLayout>

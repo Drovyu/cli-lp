@@ -1,10 +1,9 @@
 ---
-import { Code2 } from '@lucide/astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteFooter from '../../components/SiteFooter.astro'
 import SiteHeader from '../../components/SiteHeader.astro'
 
 const LINKS = {
-  github: 'https://github.com/Drovyu/preview-cli',
   license: 'https://github.com/Drovyu/preview-cli/blob/main/LICENSE',
   contact: '/contact',
 }
@@ -38,8 +37,8 @@ const LINKS = {
 
       <section class="doc-section">
         <h2><span class="lang-block-ja">2. サービス内容</span><span class="lang-block-en">2. The service</span></h2>
-        <div class="lang-block-ja"><p>Drovyu Preview は、静的 HTML ビルドから暗号化された一時的なプレビュー URL を作成・更新・配信するサービスです。提供機能、対応環境、利用上限は、ドキュメントに記載する内容に従います。</p></div>
-        <div class="lang-block-en"><p>Drovyu Preview creates, updates, and delivers temporary encrypted preview URLs from static HTML builds. Features, supported environments, and usage limits are described in the documentation.</p></div>
+        <div class="lang-block-ja"><p>Drovyu Preview は、静的 HTML ビルドから暗号化された一時的なプレビュー URL を作成・更新・配信するサービスです。提供機能、対応環境、利用上限は、ドキュメントに記載する内容に従います。本番hosting、backup、厳格なaccess controlや法令上の保存保証が必要な用途を対象としません。</p></div>
+        <div class="lang-block-en"><p>Drovyu Preview creates, updates, and delivers temporary encrypted preview URLs from static HTML builds. Features, supported environments, and usage limits are described in the documentation. It is not intended as production hosting, backup, or storage requiring strict access controls or regulated retention guarantees.</p></div>
       </section>
 
       <section class="doc-section">
@@ -49,6 +48,7 @@ const LINKS = {
           <ul>
             <li>法令に違反するコンテンツのアップロードや共有</li>
             <li>マルウェアなど有害なプログラムの配布</li>
+            <li>フィッシング、なりすまし、credential窃取を目的とする利用</li>
             <li>他者の著作権、プライバシーその他の権利を侵害する行為</li>
             <li>サービスへの攻撃、妨害、過度な負荷をかける行為</li>
             <li>利用上限やアクセス制御を回避する行為</li>
@@ -60,6 +60,7 @@ const LINKS = {
           <ul>
             <li>Uploading or sharing content that violates applicable law</li>
             <li>Distributing malware or other harmful programs</li>
+            <li>Phishing, impersonation, or attempts to steal credentials</li>
             <li>Infringing copyrights, privacy, or other rights of another person</li>
             <li>Attacking, disrupting, or placing excessive load on the service</li>
             <li>Circumventing usage limits or access controls</li>
@@ -106,8 +107,8 @@ const LINKS = {
 
       <section class="doc-section">
         <h2><span class="lang-block-ja">8. 利用停止と削除</span><span class="lang-block-en">8. Suspension and deletion</span></h2>
-        <div class="lang-block-ja"><p>規約違反、不正利用、セキュリティ上の危険、法令または正当な権利者からの要請がある場合、事前の通知なく利用を制限し、プレビューまたは関連データを停止・削除することがあります。</p></div>
-        <div class="lang-block-en"><p>We may restrict use or suspend or delete previews and related data without prior notice in response to a terms violation, abuse, security risk, legal requirement, or valid request from a rights holder.</p></div>
+        <div class="lang-block-ja"><p>プレビューはドキュメントに記載された保存期限に従って失効し、容量・件数・サービス全体の上限が適用されます。規約違反、不正利用、上限超過、セキュリティ上の危険、法令または正当な権利者からの要請、運営上必要な場合には、事前の通知なく利用を制限し、プレビューまたは関連データを停止・削除することがあります。</p></div>
+        <div class="lang-block-en"><p>Previews expire under the retention periods documented for the service, and storage, count, and service-wide capacity limits apply. We may restrict use or suspend or delete previews and related data without prior notice in response to a terms violation, abuse, exceeded limits, security risk, legal requirement, valid rights-holder request, or operational necessity.</p></div>
       </section>
 
       <section class="doc-section">
@@ -135,31 +136,12 @@ const LINKS = {
       </section>
 
       <p class="prose-updated">
-        <span class="lang-block-ja">最終更新日: 2026年7月11日</span>
-        <span class="lang-block-en">Last updated: July 11, 2026</span>
+        <span class="lang-block-ja">最終更新日: 2026年7月12日</span>
+        <span class="lang-block-en">Last updated: July 12, 2026</span>
       </p>
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <a href="/" class="footer-logo"><img src="/logo-purple.svg" alt="" class="logo-mark" width="17" height="16" />dvyu</a>
-          <span class="footer-copyright">© 2026 Drovyu</span>
-          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
-        </div>
-        <div class="footer-links">
-          <a href={LINKS.github} target="_blank" rel="noreferrer">
-            <Code2 size={15} strokeWidth={2} />
-            GitHub
-          </a>
-          <a href="/docs">Docs</a>
-          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
-          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
-          <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
-          <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>
 
   <script>

@@ -1,10 +1,9 @@
 ---
-import { Code2 } from '@lucide/astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteFooter from '../../components/SiteFooter.astro'
 import SiteHeader from '../../components/SiteHeader.astro'
 
 const LINKS = {
-  github: 'https://github.com/Drovyu/preview-cli',
   contact: '/contact',
 }
 ---
@@ -132,43 +131,30 @@ const LINKS = {
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">9. 問い合わせと削除依頼</span><span class="lang-block-en">9. Contact and deletion requests</span></h2>
+        <h2><span class="lang-block-ja">9. 国外での処理</span><span class="lang-block-en">9. International processing</span></h2>
+        <div class="lang-block-ja"><p>Cloudflare、Discord、Ko-fi、Resend、GitHub、npmは国外を含む複数地域で情報を処理・保存する場合があります。処理地域は各事業者のインフラ、契約、利用状況により変わり、Drovyuが特定の保存国を保証するものではありません。各事業者のプライバシー情報も確認してください。</p></div>
+        <div class="lang-block-en"><p>Cloudflare, Discord, Ko-fi, Resend, GitHub, and npm may process or store information in multiple regions, including outside Japan. Processing locations vary with each provider's infrastructure, terms, and service use; Drovyu does not guarantee a specific storage country. Review each provider's privacy information as well.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">10. 問い合わせと削除依頼</span><span class="lang-block-en">10. Contact and deletion requests</span></h2>
         <div class="lang-block-ja"><p>質問や削除依頼は<a href={LINKS.contact}>お問い合わせフォーム</a>から送信してください。フォームを含め、復号キー、支援コード、認証トークンなどの秘密情報を送信しないでください。</p></div>
         <div class="lang-block-en"><p>Send questions or deletion requests through the <a href={LINKS.contact}>contact form</a>. Do not submit decryption keys, claim codes, verification tokens, or other secrets, including through the form.</p></div>
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">10. 本ポリシーの変更</span><span class="lang-block-en">10. Changes to this policy</span></h2>
-        <div class="lang-block-ja"><p>サービスや法令の変更に応じて本ポリシーを更新することがあります。重要な変更は本サイトで告知します。</p></div>
-        <div class="lang-block-en"><p>We may update this policy as the service or applicable law changes. Material changes will be announced on this site.</p></div>
+        <h2><span class="lang-block-ja">11. 変更と更新履歴</span><span class="lang-block-en">11. Changes and revision history</span></h2>
+        <div class="lang-block-ja"><p>サービスや法令の変更に応じて本ポリシーを更新することがあります。重要な変更は本サイトで告知します。</p><ul><li>2026年7月12日: 国外処理、Trust・Securityページへの説明拡充に伴う更新。</li><li>2026年7月11日: 初版公開。</li></ul></div>
+        <div class="lang-block-en"><p>We may update this policy as the service or applicable law changes. Material changes will be announced on this site.</p><ul><li>July 12, 2026: Added international processing and aligned disclosures with the Trust and Security pages.</li><li>July 11, 2026: Initial publication.</li></ul></div>
       </section>
 
       <p class="prose-updated">
-        <span class="lang-block-ja">最終更新日: 2026年7月11日</span>
-        <span class="lang-block-en">Last updated: July 11, 2026</span>
+        <span class="lang-block-ja">最終更新日: 2026年7月12日</span>
+        <span class="lang-block-en">Last updated: July 12, 2026</span>
       </p>
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <a href="/" class="footer-logo"><img src="/logo-purple.svg" alt="" class="logo-mark" width="17" height="16" />dvyu</a>
-          <span class="footer-copyright">© 2026 Drovyu</span>
-          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
-        </div>
-        <div class="footer-links">
-          <a href={LINKS.github} target="_blank" rel="noreferrer">
-            <Code2 size={15} strokeWidth={2} />
-            GitHub
-          </a>
-          <a href="/docs">Docs</a>
-          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
-          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
-          <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
-          <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>
 
   <script>

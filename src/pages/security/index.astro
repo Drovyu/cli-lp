@@ -1,0 +1,102 @@
+---
+import InfoPageLayout from '../../layouts/InfoPageLayout.astro'
+
+const LINKS = {
+  encryptionJa: 'https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.ja.md',
+  encryptionEn: 'https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.md',
+  advisories: 'https://github.com/Drovyu/preview-cli/security/advisories/new',
+  releases: 'https://github.com/Drovyu/preview-cli/releases',
+}
+---
+
+<InfoPageLayout
+  title="セキュリティ — Drovyu Preview"
+  description="Drovyu Previewの暗号化、プレビューリンクの扱い、サプライチェーン検証、脆弱性報告について説明します。"
+  eyebrow="Security"
+  headingJa="セキュリティ"
+  headingEn="Security"
+  copyJa="暗号化の仕組み、利用時の注意点、検証・報告方法を説明します。"
+  copyEn="Encryption, usage precautions, verification, and vulnerability reporting."
+>
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">1. アップロード前暗号化</span><span class="lang-block-en">1. Encryption before upload</span></h2>
+    <div class="lang-block-ja">
+      <p>CLIは端末上で32バイトのランダム鍵を生成し、AES-256-GCMとして読み込みます。各ファイルには異なる12バイトのランダムIVを使用し、ファイル名、MIME type、entrypointなどを含むmanifestも別のIVで暗号化します。ファイル送信APIへ送るのは暗号文です。</p>
+      <p>実装と実行可能な検証手順は<a href={LINKS.encryptionJa} target="_blank" rel="noreferrer">暗号化設計</a>で公開しています。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>The CLI generates a random 32-byte key on the device and imports it as AES-256-GCM. Every file uses a different random 12-byte IV, and the manifest containing paths, MIME types, and the entrypoint uses another IV. File upload endpoints receive ciphertext.</p>
+      <p>The implementation and executable verification steps are documented in the public <a href={LINKS.encryptionEn} target="_blank" rel="noreferrer">encryption design</a>.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">2. 復号キーとURL</span><span class="lang-block-en">2. Decryption key and URL</span></h2>
+    <div class="lang-block-ja">
+      <p>復号キーは完全なプレビューURLの<code>#k=</code> fragmentに入ります。URL fragmentは通常のHTTPリクエストに含まれないため、CLIは復号キーをリクエストURL、header、bodyへ送信しません。</p>
+      <p>一方、完全なURLを入手した人はプレビューを復号できます。URL全体をパスワードと同様に扱い、公開チャンネル、Issue、アクセス解析、スクリーンショットへ載せないでください。漏えいした場合はプレビューを削除または作り直してください。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>The decryption key is stored in the <code>#k=</code> fragment of the complete preview URL. URL fragments are not included in normal HTTP requests, so the CLI does not send the key in request URLs, headers, or bodies.</p>
+      <p>Anyone who obtains the complete URL can decrypt the preview. Treat the full URL like a password. Do not place it in public channels, issues, analytics, or screenshots. Delete or recreate the preview if it is exposed.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">3. 暗号化されるものとメタデータ</span><span class="lang-block-en">3. Encrypted data and metadata</span></h2>
+    <div class="lang-block-ja">
+      <p>ファイル内容、元のファイル名、MIME type、entrypointを含むmanifestは暗号化されます。運用に必要なpreview ID、device ID、平文と暗号文の合計サイズ、ファイル数、ランダムなstorage key、日時、有効期限、保持モード、状態は暗号化されません。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>File contents and the manifest containing original filenames, MIME types, and the entrypoint are encrypted. Operational metadata is not encrypted, including preview and device ids, aggregate plaintext and ciphertext sizes, file count, random storage keys, timestamps, expiry, retention mode, and status.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">4. Viewerと実行されるJavaScript</span><span class="lang-block-en">4. Viewer and executed JavaScript</span></h2>
+    <div class="lang-block-ja">
+      <p>ブラウザはViewer JavaScriptを受け取り、URL fragmentの鍵を使って復号します。プレビュー内のJavaScriptは実行され、外部リソースを読み込む場合があります。Drovyu Previewは完全なセキュリティサンドボックスではありません。受信者は信頼できる送信者のプレビューだけを開いてください。</p>
+      <p>Viewer JavaScriptとその配信基盤も信頼境界に含まれます。詳しくは<a href="/trust">透明性・信頼モデル</a>を確認してください。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>The browser receives Viewer JavaScript and uses the URL-fragment key to decrypt the preview. JavaScript inside a preview may execute and load external resources. Drovyu Preview is not a complete security sandbox. Recipients should open previews only from trusted senders.</p>
+      <p>The Viewer JavaScript and its delivery infrastructure are part of the trust boundary. See the <a href="/trust">transparency and trust model</a> for details.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">5. npm packageの真正性確認</span><span class="lang-block-en">5. Verifying the npm package</span></h2>
+    <div class="lang-block-ja">
+      <p>公式packageは<code>@dvyu/cli</code>です。npm metadataからversion、ソースcommit、integrity、provenance attestationを確認できます。</p>
+      <pre class="info-code"><code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json
+npm audit signatures</code></pre>
+      <p><code>gitHead</code>を対応する<a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Release</a>のcommitと比較してください。ProvenanceはpackageがGitHub Actionsの公開リポジトリworkflowから発行されたことを検証する材料です。ソース自体の安全性を保証するものではありません。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>The official package is <code>@dvyu/cli</code>. npm metadata exposes its version, source commit, integrity value, and provenance attestation.</p>
+      <pre class="info-code"><code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json
+npm audit signatures</code></pre>
+      <p>Compare <code>gitHead</code> with the commit for the corresponding <a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Release</a>. Provenance helps verify that the package was published by a GitHub Actions workflow from the public repository. It does not prove that the source itself is secure.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">6. 脆弱性報告</span><span class="lang-block-en">6. Vulnerability reporting</span></h2>
+    <div class="lang-block-ja">
+      <p>脆弱性は<a href={LINKS.advisories} target="_blank" rel="noreferrer">GitHubの非公開脆弱性報告</a>、または<a href="/contact">お問い合わせフォーム</a>の「セキュリティ」から報告してください。公開IssueへプレビューURL、復号キー、credential、個人情報を投稿しないでください。</p>
+      <p>CLI、暗号化・upload protocol、Viewer、公式packageと公開ソースの不一致は報告対象です。利用者自身によるURL公開、第三者サービス単体の障害、利用規約違反コンテンツは脆弱性報告の対象外ですが、必要に応じてお問い合わせフォームから連絡できます。</p>
+    </div>
+    <div class="lang-block-en">
+      <p>Report vulnerabilities through <a href={LINKS.advisories} target="_blank" rel="noreferrer">GitHub private vulnerability reporting</a> or the Security category of the <a href="/contact">contact form</a>. Never post preview URLs, decryption keys, credentials, or personal information in a public issue.</p>
+      <p>Reports may cover the CLI, encryption and upload protocol, Viewer, or a mismatch between the official package and public source. A user publishing their own URL, an isolated third-party outage, or prohibited user content is outside vulnerability-report scope, but can still be reported through the contact form when appropriate.</p>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">7. 推奨される利用範囲</span><span class="lang-block-en">7. Recommended use</span></h2>
+    <div class="lang-block-ja"><p>公開前の静的サイト、UI、Storybook、一般的なレビュー用途を想定しています。法令・契約上の厳格な管理が必要な機密情報、NDA対象情報、個人情報、秘密鍵、認証情報、医療・金融情報には使用しないでください。</p></div>
+    <div class="lang-block-en"><p>The service is intended for unreleased static sites, UI work, Storybook, and ordinary review. Do not use it for confidential data requiring strict legal or contractual controls, NDA material, personal data, private keys, credentials, or medical or financial information.</p></div>
+  </section>
+
+  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月12日</span><span class="lang-block-en">Last updated: July 12, 2026</span></p>
+</InfoPageLayout>
