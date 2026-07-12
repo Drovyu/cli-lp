@@ -6,23 +6,39 @@ const GITHUB_URL = 'https://github.com/Drovyu/preview-cli'
 ---
 
 <footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-left">
+  <div class="footer-grid">
+    <div class="footer-brand">
       <a href="/" class="footer-logo"><LogoMark size={16} />dvyu</a>
+      <p class="footer-note">
+        <span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span>
+        <span class="lang-block-en">Encrypted previews for static builds.</span>
+      </p>
       <span class="footer-copyright">© 2026 Drovyu</span>
-      <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
     </div>
-    <div class="footer-links">
-      <a href={GITHUB_URL} target="_blank" rel="noreferrer"><Code2 size={15} strokeWidth={2} />GitHub</a>
-      <a href="/docs">Docs</a>
-      <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
-      <a href="/security"><span class="lang-block-ja">セキュリティ</span><span class="lang-block-en">Security</span></a>
-      <a href="/trust">Trust</a>
+
+    <nav class="footer-col" aria-label="Product">
+      <span class="footer-col-title"><span class="lang-block-ja">プロダクト</span><span class="lang-block-en">Product</span></span>
+      <a href="/#features"><span class="lang-block-ja">機能</span><span class="lang-block-en">Features</span></a>
+      <a href="/#terminal-demo"><span class="lang-block-ja">コマンド</span><span class="lang-block-en">Commands</span></a>
+      <a href="/#pricing"><span class="lang-block-ja">料金</span><span class="lang-block-en">Pricing</span></a>
       <a href="/status"><span class="lang-block-ja">稼働状況</span><span class="lang-block-en">Status</span></a>
-      <a href="/about"><span class="lang-block-ja">運営情報</span><span class="lang-block-en">About</span></a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Resources">
+      <span class="footer-col-title"><span class="lang-block-ja">リソース</span><span class="lang-block-en">Resources</span></span>
+      <a href="/docs"><span class="lang-block-ja">ドキュメント</span><span class="lang-block-en">Docs</span></a>
+      <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
       <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
+      <a href={GITHUB_URL} target="_blank" rel="noreferrer"><Code2 size={14} strokeWidth={2} />GitHub</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Trust">
+      <span class="footer-col-title"><span class="lang-block-ja">信頼性</span><span class="lang-block-en">Trust</span></span>
+      <a href="/security"><span class="lang-block-ja">セキュリティ</span><span class="lang-block-en">Security</span></a>
+      <a href="/trust"><span class="lang-block-ja">透明性</span><span class="lang-block-en">Transparency</span></a>
+      <a href="/about"><span class="lang-block-ja">運営情報</span><span class="lang-block-en">About</span></a>
       <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
       <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
-    </div>
+    </nav>
   </div>
 </footer>
