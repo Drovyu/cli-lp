@@ -1473,25 +1473,23 @@ button {
 .site-footer {
   background: var(--dk-bg);
   border-top: 1px solid var(--dk-border);
-  padding-block: 24px;
+  padding-block: 48px 40px;
 }
 
-.footer-inner {
+.footer-grid {
   max-width: var(--max-width);
   margin-inline: auto;
   padding-inline: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 40px 32px;
 }
 
-.footer-left {
+.footer-brand {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .footer-logo {
@@ -1500,40 +1498,50 @@ button {
   gap: 6px;
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   color: var(--dk-text);
-}
-
-.footer-copyright {
-  font-size: 0.75rem;
-  color: var(--dk-dim);
 }
 
 .footer-note {
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  line-height: 1.6;
   color: var(--dk-dim);
 }
 
-.footer-links {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  max-width: 680px;
+.footer-copyright {
+  font-size: 0.72rem;
+  color: var(--dk-dim);
+  opacity: 0.75;
 }
 
-.footer-links a {
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-col-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--dk-dim);
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.footer-col a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--dk-dim);
   transition: color 0.2s ease;
 }
 
-.footer-links a:hover {
+.footer-col a:hover {
   color: var(--dk-text);
 }
 
@@ -1693,9 +1701,12 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .footer-inner {
-    flex-direction: column;
-    align-items: flex-start;
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
   }
 
   /* Scrollytelling static layout (also toggled by JS via .is-static) */
@@ -1730,7 +1741,7 @@ button {
   .section-inner,
   .hero-inner,
   .stats-inner,
-  .footer-inner {
+  .footer-grid {
     padding-inline: 16px;
   }
 
