@@ -15,16 +15,23 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
     <header class="trial-modal-header">
       <div>
         <p class="trial-kicker">Browser trial</p>
-        <h2 id="trial-title"><span class="lang-block-ja">プレビューを作成しますか？</span><span class="lang-block-en">Create a preview?</span></h2>
+        <h2 id="trial-title">
+          <span id="trial-title-default"><span class="lang-block-ja">ブラウザで試す</span><span class="lang-block-en">Try it in your browser</span></span>
+          <span id="trial-title-confirm" hidden><span class="lang-block-ja">この内容で作成しますか？</span><span class="lang-block-en">Create this preview?</span></span>
+        </h2>
       </div>
       <button type="button" class="trial-icon-button" id="trial-close" aria-label="Close"><X size={18} /></button>
     </header>
 
     <div class="trial-body">
       <div class="trial-picker" id="trial-picker">
+        <p class="trial-note"><span class="lang-block-ja">ファイルはブラウザ内で暗号化してからアップロードされます。</span><span class="lang-block-en">Files are encrypted in your browser before upload.</span></p>
         <div class="trial-dropzone" id="trial-dropzone" tabindex="0" role="button">
           <Upload size={24} strokeWidth={1.8} />
-          <strong><span class="lang-block-ja">ここにドロップ</span><span class="lang-block-en">Drop files here</span></strong>
+          <strong>
+            <span class="dz-desktop"><span class="lang-block-ja">ここにドロップ</span><span class="lang-block-en">Drop files here</span></span>
+            <span class="dz-mobile"><span class="lang-block-ja">タップしてファイルを選択</span><span class="lang-block-en">Tap to choose files</span></span>
+          </strong>
           <span><span class="lang-block-ja">index.html、distフォルダ、ZIP</span><span class="lang-block-en">index.html, a dist folder, or ZIP</span></span>
         </div>
         <div class="trial-pick-actions">
@@ -47,16 +54,21 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
 
       <div class="trial-progress" id="trial-progress" hidden>
         <div class="trial-progress-label"><span id="trial-progress-text"></span><span id="trial-progress-value">0%</span></div>
-        <progress id="trial-progress-bar" max="100" value="0"></progress>
+        <div class="trial-bar"><div class="trial-bar-fill" id="trial-progress-bar"></div></div>
       </div>
 
       <div class="trial-result" id="trial-result" hidden>
-        <p class="trial-result-label"><span class="lang-block-ja">プレビューを作成しました</span><span class="lang-block-en">Preview created</span></p>
+        <p class="trial-result-label" id="trial-result-label"><span class="lang-block-ja">プレビューを作成しました</span><span class="lang-block-en">Preview created</span></p>
+        <p class="trial-result-existing" id="trial-result-existing" hidden></p>
         <div class="trial-result-url"><code id="trial-result-url"></code></div>
         <div class="trial-result-actions">
           <button type="button" id="trial-copy"><Copy size={15} /><span class="lang-block-ja">URLをコピー</span><span class="lang-block-en">Copy URL</span></button>
           <a id="trial-open-result" href="#" target="_blank" rel="noreferrer"><ExternalLink size={15} /><span class="lang-block-ja">開く</span><span class="lang-block-en">Open</span></a>
         </div>
+        <p class="trial-result-next">
+          <span class="lang-block-ja">CLI なら 100MB・20件・48時間。<a href="/docs">インストール方法を見る</a></span>
+          <span class="lang-block-en">The CLI gives you 100MB, 20 previews, and 48 hours. <a href="/docs">See how to install</a></span>
+        </p>
       </div>
 
       <p class="trial-error" id="trial-error" role="alert" hidden></p>
@@ -75,8 +87,12 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
 <script>
   import { unzipSync } from 'fflate'
 
-  const API_ORIGIN = ['localhost', '127.0.0.1'].includes(location.hostname)
-    ? 'http://127.0.0.1:8787'
+  const isLocalHost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+    || location.hostname.startsWith('10.')
+    || location.hostname.startsWith('192.168.')
+    || /^172\.(1[6-9]|2\d|3[01])\./.test(location.hostname)
+  const API_ORIGIN = isLocalHost
+    ? `http://${location.hostname}:8787`
     : 'https://preview.drovyu.com'
   const MAX_BYTES = 10 * 1024 * 1024
   const MAX_FILES = 100
@@ -114,6 +130,58 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
   const folderInput = document.getElementById('trial-folder-input')
   let prepared = null
   let busy = false
+
+  const RESULT_KEY = 'dvyu-trial-result'
+  const titleDefault = document.getElementById('trial-title-default')
+  const titleConfirm = document.getElementById('trial-title-confirm')
+  const existingLabel = document.getElementById('trial-result-existing')
+
+  function setTitle(state) {
+    titleDefault.hidden = state === 'confirm'
+    titleConfirm.hidden = state !== 'confirm'
+  }
+
+  function loadSavedResult() {
+    try {
+      const raw = localStorage.getItem(RESULT_KEY)
+      if (!raw) return null
+      const saved = JSON.parse(raw)
+      if (!saved || typeof saved.url !== 'string' || typeof saved.expiresAt !== 'number' || saved.expiresAt <= Date.now()) {
+        localStorage.removeItem(RESULT_KEY)
+        return null
+      }
+      return saved
+    } catch {
+      localStorage.removeItem(RESULT_KEY)
+      return null
+    }
+  }
+
+  function saveResult(url) {
+    try {
+      localStorage.setItem(RESULT_KEY, JSON.stringify({ url, expiresAt: Date.now() + 24 * 60 * 60 * 1000 }))
+    } catch {}
+  }
+
+  function showResult(url, savedExpiresAt) {
+    document.getElementById('trial-result-url').textContent = url
+    document.getElementById('trial-open-result').href = url
+    picker.hidden = true
+    summary.hidden = true
+    progress.hidden = true
+    result.hidden = false
+    footer.hidden = true
+    closeButton.disabled = false
+    setTitle('default')
+    showError('')
+    if (savedExpiresAt) {
+      const hours = Math.max(1, Math.ceil((savedExpiresAt - Date.now()) / 3600000))
+      existingLabel.textContent = message(`作成済みのプレビュー（残り約${hours}h）`, `Your existing preview (about ${hours}h left)`)
+      existingLabel.hidden = false
+    } else {
+      existingLabel.hidden = true
+    }
+  }
 
   function language() {
     return document.documentElement.classList.contains('lang-en') ? 'en' : 'ja'
@@ -289,6 +357,7 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
     summary.hidden = false
     resetButton.hidden = false
     confirmButton.disabled = false
+    setTitle('confirm')
     showError('')
   }
 
@@ -318,10 +387,13 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
     result.hidden = true
     footer.hidden = false
     resetButton.hidden = true
+    resetButton.disabled = false
     confirmButton.disabled = true
     closeButton.disabled = false
     fileInput.value = ''
     folderInput.value = ''
+    existingLabel.hidden = true
+    setTitle('default')
     showError('')
   }
 
@@ -353,7 +425,7 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
 
   function setProgress(value, ja, en) {
     const rounded = Math.max(0, Math.min(100, Math.round(value)))
-    document.getElementById('trial-progress-bar').value = rounded
+    document.getElementById('trial-progress-bar').style.width = `${rounded}%`
     document.getElementById('trial-progress-value').textContent = `${rounded}%`
     document.getElementById('trial-progress-text').textContent = message(ja, en)
   }
@@ -363,7 +435,11 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
     if (!response.ok) {
       let detail = ''
       try { detail = (await response.json()).error || '' } catch {}
-      if (response.status === 429) throw new Error(message('このブラウザでは試用プレビューを1件作成済みです。24時間後にもう一度お試しください。', 'This browser already has a trial preview. Try again after 24 hours.'))
+      if (response.status === 429) {
+        const limitError = new Error(message('このブラウザでは試用プレビューを1件作成済みです。24時間後にもう一度お試しください。', 'This browser already has a trial preview. Try again after 24 hours.'))
+        limitError.trialLimit = true
+        throw limitError
+      }
       throw new Error(detail || message('プレビューAPIでエラーが発生しました。', 'The preview API returned an error.'))
     }
     return response
@@ -449,28 +525,33 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
       })
       const url = `${API_ORIGIN}/p/${created.id}#k=${base64Url(rawKey)}`
       setProgress(100, '完了しました', 'Complete')
-      document.getElementById('trial-result-url').textContent = url
-      document.getElementById('trial-open-result').href = url
-      progress.hidden = true
-      result.hidden = false
-      footer.hidden = true
-      closeButton.disabled = false
+      saveResult(url)
+      showResult(url, null)
     } catch (error) {
       if (created?.uploadBase) {
         fetch(created.uploadBase, { method: 'DELETE', headers }).catch(() => {})
+      }
+      busy = false
+      resetButton.disabled = false
+      closeButton.disabled = false
+      if (error && error.trialLimit) {
+        const saved = loadSavedResult()
+        if (saved) {
+          showResult(saved.url, saved.expiresAt)
+          return
+        }
       }
       progress.hidden = true
       summary.hidden = false
       showError(error instanceof Error ? error.message : message('プレビューを作成できませんでした。', 'The preview could not be created.'))
       confirmButton.disabled = false
-      resetButton.disabled = false
-      closeButton.disabled = false
-      busy = false
     }
   }
 
   document.getElementById('trial-open').addEventListener('click', () => {
     resetState()
+    const saved = loadSavedResult()
+    if (saved) showResult(saved.url, saved.expiresAt)
     dialog.showModal()
   })
   closeButton.addEventListener('click', () => { if (!busy || !closeButton.disabled) dialog.close() })
@@ -497,8 +578,16 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
       showError(error instanceof Error ? error.message : message('ファイルを読み込めませんでした。', 'The files could not be read.'))
     }
   })
+  let trialToastTimer = null
   document.getElementById('trial-copy').addEventListener('click', async () => {
     const url = document.getElementById('trial-result-url').textContent
-    if (url) await navigator.clipboard.writeText(url)
+    if (!url) return
+    try { await navigator.clipboard.writeText(url) } catch {}
+    const toast = document.getElementById('toast')
+    if (toast) {
+      toast.classList.add('is-visible')
+      if (trialToastTimer) clearTimeout(trialToastTimer)
+      trialToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1600)
+    }
   })
 </script>
