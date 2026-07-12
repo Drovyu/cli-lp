@@ -54,6 +54,10 @@ DISCORD_CONTACT_WEBHOOK_URL     Encrypted Pages secret
 
 The public Turnstile site key is embedded in the contact page. Never put the Turnstile secret or Discord webhook URL in source files, build variables, or GitHub secrets used by client-side code. The endpoint also enforces same-origin requests, input and body-size limits, a honeypot field, and disables Discord mentions.
 
+## Browser trial
+
+The landing-page trial uses the dedicated `/api/trials` Worker API. It encrypts files and the manifest in the browser, requires explicit confirmation before creating an upload, and accepts the same extension allowlist as the CLI. Trials are limited to 10 MiB, 100 files, one active preview per browser, and a fixed 24-hour lifetime. Trial previews cannot be updated, extended, or manually deleted.
+
 ## Public statistics
 
 The landing page reads aggregate service statistics from:

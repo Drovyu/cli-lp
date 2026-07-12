@@ -8,6 +8,7 @@ import {
 import BaseLayout from '../layouts/BaseLayout.astro'
 import SiteFooter from '../components/SiteFooter.astro'
 import SiteHeader from '../components/SiteHeader.astro'
+import TrialPreview from '../components/TrialPreview.astro'
 
 const LINKS = {
   discord: 'https://discord.gg/4SGxzSbaaD',
@@ -72,7 +73,8 @@ const fileTypesReversed = [...fileTypes].reverse()
             </div>
           </div>
           <div class="hero-actions">
-            <a href="/docs" class="hero-cta">
+            <TrialPreview />
+            <a href="/docs" class="hero-doc-link">
               <span data-i18n="hero-cta">コマンド一覧を見る</span>
               <ArrowRight size={15} strokeWidth={2.2} />
             </a>
