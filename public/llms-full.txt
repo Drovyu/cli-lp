@@ -42,7 +42,7 @@ The product is intended for reviewing static HTML output from tools such as Astr
 - Contact: https://cli.drovyu.com/contact/
 - Security: https://cli.drovyu.com/security/
 - Transparency and Trust: https://cli.drovyu.com/trust/
-- Service Status: https://cli.drovyu.com/status/
+- Service Status: https://status.drovyu.com/
 - About: https://cli.drovyu.com/about/
 - Privacy Policy: https://cli.drovyu.com/privacy/
 - Terms of Service: https://cli.drovyu.com/terms/

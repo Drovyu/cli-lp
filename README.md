@@ -2,7 +2,7 @@
 
 Static Astro site for the Drovyu Preview CLI landing page, documentation, and help center.
 
-Public information pages include `/security`, `/trust`, `/status`, `/about`, `/privacy`, `/terms`, and `/contact`.
+Public information pages include `/security`, `/trust`, `/about`, `/privacy`, `/terms`, and `/contact`. Live service status is published at <https://status.drovyu.com>.
 
 - Production: <https://cli.drovyu.com>
 - Preview service: <https://preview.drovyu.com>
