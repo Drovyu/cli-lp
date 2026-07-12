@@ -1,15 +1,12 @@
 ---
-import { Check, Code2 } from '@lucide/astro'
+import { Check } from '@lucide/astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteFooter from '../../components/SiteFooter.astro'
 import SiteHeader from '../../components/SiteHeader.astro'
-import LogoMark from '../../components/LogoMark.astro'
 
 const LINKS = {
   discord: 'https://discord.gg/4SGxzSbaaD',
-  x: 'https://x.com/drovyu',
-  github: 'https://github.com/Drovyu/preview-cli',
   issues: 'https://github.com/Drovyu/preview-cli/issues',
-  kofi: 'https://ko-fi.com/drovyu',
 }
 
 const categories = [
@@ -197,6 +194,27 @@ const categories = [
             </div>
           </details>
           <details class="faq-item">
+            <summary><span class="lang-block-ja">npm packageが公式のものか確認したい</span><span class="lang-block-en">How do I verify the official npm package?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>公式packageは<code>@dvyu/cli</code>です。<code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json</code>でprovenanceとソースcommitを確認し、<code>npm audit signatures</code>で署名を検証できます。<code>gitHead</code>は対応するGitHub Releaseのcommitと比較してください。詳しくは<a href="/security">Security</a>を参照してください。</p></div>
+              <div class="lang-block-en"><p>The official package is <code>@dvyu/cli</code>. Run <code>npm view @dvyu/cli@latest version gitHead dist.integrity dist.attestations --json</code> to inspect provenance and the source commit, and <code>npm audit signatures</code> to verify signatures. Compare <code>gitHead</code> with the corresponding GitHub Release commit. See <a href="/security">Security</a> for details.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">脆弱性を報告したい</span><span class="lang-block-en">How do I report a vulnerability?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><a href="https://github.com/Drovyu/preview-cli/security/advisories/new" target="_blank" rel="noreferrer">GitHubの非公開脆弱性報告</a>、または<a href="/contact">お問い合わせフォーム</a>の「セキュリティ」を利用してください。公開IssueへプレビューURL、復号キー、credential、個人情報を投稿しないでください。</p></div>
+              <div class="lang-block-en"><p>Use <a href="https://github.com/Drovyu/preview-cli/security/advisories/new" target="_blank" rel="noreferrer">GitHub private vulnerability reporting</a> or the Security category in the <a href="/contact">contact form</a>. Never post preview URLs, decryption keys, credentials, or personal information in a public issue.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">保存データやサポーター情報の削除を依頼したい</span><span class="lang-block-en">How do I request deletion of stored or supporter data?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>プレビューは<code>dvyu delete &lt;id&gt;</code>で削除できます。サポーター記録、端末紐付け、お問い合わせ記録などの削除依頼は<a href="/contact">お問い合わせフォーム</a>の「プライバシー・法務」から送信してください。本人確認に必要な最小限の情報だけを確認します。</p></div>
+              <div class="lang-block-en"><p>Delete a preview with <code>dvyu delete &lt;id&gt;</code>. For deletion of supporter records, device links, or contact history, use the Privacy / legal category in the <a href="/contact">contact form</a>. We will request only the minimum information needed to verify the request.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
             <summary><span class="lang-block-ja">アンインストールしたい</span><span class="lang-block-en">How do I uninstall?</span></summary>
             <div class="faq-body">
               <div class="lang-block-ja"><p><code>dvyu uninstall</code> で、ローカルに保存された Drovyu Preview のデータ（<code>~/.dvyu</code> 以下）を削除します。CLI 本体はインストールに使ったパッケージマネージャで削除してください（例: <code>pnpm remove -g dvyu</code>）。</p></div>
@@ -229,26 +247,7 @@ const categories = [
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <a href="/" class="footer-logo"><LogoMark size={16} />dvyu</a>
-          <span class="footer-copyright">© 2026 Drovyu</span>
-          <span class="footer-note"><span class="lang-block-ja">静的ビルドのための、暗号化プレビュー。</span><span class="lang-block-en">Encrypted previews for static builds.</span></span>
-        </div>
-        <div class="footer-links">
-          <a href={LINKS.github} target="_blank" rel="noreferrer">
-            <Code2 size={15} strokeWidth={2} />
-            GitHub
-          </a>
-          <a href="/docs">Docs</a>
-          <a href="/help"><span class="lang-block-ja">ヘルプ</span><span class="lang-block-en">Help</span></a>
-          <a href="/contact"><span class="lang-block-ja">お問い合わせ</span><span class="lang-block-en">Contact</span></a>
-          <a href="/privacy"><span class="lang-block-ja">プライバシー</span><span class="lang-block-en">Privacy</span></a>
-          <a href="/terms"><span class="lang-block-ja">利用規約</span><span class="lang-block-en">Terms</span></a>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite">
