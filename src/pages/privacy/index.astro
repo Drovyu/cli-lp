@@ -30,8 +30,8 @@ const LINKS = {
     <main class="prose-main">
       <section class="doc-section">
         <h2><span class="lang-block-ja">1. 運営者と適用範囲</span><span class="lang-block-en">1. Operator and scope</span></h2>
-        <div class="lang-block-ja"><p>Drovyu は、Drovyu Preview、dvyu CLI、および関連ドメインを運営します。本ポリシーに関する問い合わせは<a href={LINKS.contact}>お問い合わせフォーム</a>から受け付けます。</p></div>
-        <div class="lang-block-en"><p>Drovyu operates Drovyu Preview, the dvyu CLI, and related domains. Use the <a href={LINKS.contact}>contact form</a> for questions about this policy.</p></div>
+        <div class="lang-block-ja"><p>Drovyu（運営責任者: 津田 朔也）は、Drovyu Preview、dvyu CLI、および関連ドメインを運営します。本ポリシーに関する問い合わせは<a href={LINKS.contact}>お問い合わせフォーム</a>から受け付けます。</p></div>
+        <div class="lang-block-en"><p>Drovyu (operations manager: Sakuya Tsuda) operates Drovyu Preview, the dvyu CLI, and related domains. Use the <a href={LINKS.contact}>contact form</a> for questions about this policy.</p></div>
       </section>
 
       <section class="doc-section">
@@ -119,7 +119,21 @@ const LINKS = {
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">8. 外部サービスと第三者提供</span><span class="lang-block-en">8. Service providers and disclosures</span></h2>
+        <h2><span class="lang-block-ja">8. バックアップと復旧</span><span class="lang-block-en">8. Backups and recovery</span></h2>
+        <div class="lang-block-ja">
+          <p>Drovyuは、利用者がアップロードした暗号化プレビューファイルについて、独自の二次バックアップや定期バックアップを作成していません。ソースコードはGitHubで管理していますが、GitHubには利用者のアップロードデータを保存しません。利用者は元のファイルを自身で保管してください。</p>
+          <p>暗号化プレビューファイルを保存するCloudflare R2は、耐久性確保のため内部的な複製や冗長化を行います。失効または削除要求後、ファイルは前項のクリーンアップ処理で稼働中のbucketから削除され、Drovyuは削除済みファイルの復元機能を提供しません。</p>
+          <p>プレビューやサポーター情報などのmetadataを保存するCloudflare D1では、プロバイダー標準のTime Travel履歴が自動的に有効です。変更または削除されたmetadataは、Cloudflareのプランと仕様に応じて最大30日間、復元可能な履歴に含まれる場合があります。この履歴はデータベース全体の障害復旧用であり、個別プレビューの復元やデータ保持を利用者へ保証するものではありません。</p>
+        </div>
+        <div class="lang-block-en">
+          <p>Drovyu does not create independent secondary or scheduled backups of encrypted preview files uploaded by users. Source code is version-controlled on GitHub, but user-uploaded data is not stored there. Users must retain their original files.</p>
+          <p>Cloudflare R2, which stores encrypted preview files, uses internal replication and redundancy for durability. After expiry or a deletion request, files are removed from the active bucket by the cleanup process described above. Drovyu does not provide restoration of deleted files.</p>
+          <p>Cloudflare D1, which stores metadata such as preview and supporter records, automatically enables provider-managed Time Travel history. Depending on the Cloudflare plan and service specifications, changed or deleted metadata may remain in recoverable history for up to 30 days. This history is for database-level disaster recovery and does not guarantee restoration of an individual preview or data retention for users.</p>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">9. 外部サービスと第三者提供</span><span class="lang-block-en">9. Service providers and disclosures</span></h2>
         <div class="lang-block-ja">
           <p>Cloudflare を保存・配信・セキュリティ・Turnstile認証に、Discordをお問い合わせの受信に、Ko-fi を支援決済に、Resend を認証メール配信に利用します。GitHub と npm はソースコードおよび CLI の配布に利用しますが、通常のプレビューデータは送信しません。</p>
           <p>情報を販売しません。法令への対応、権利・安全の保護、不正利用への対処、事業承継に必要な場合には、適用法の範囲で情報を開示することがあります。</p>
@@ -131,21 +145,27 @@ const LINKS = {
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">9. 国外での処理</span><span class="lang-block-en">9. International processing</span></h2>
+        <h2><span class="lang-block-ja">10. 国外での処理</span><span class="lang-block-en">10. International processing</span></h2>
         <div class="lang-block-ja"><p>Cloudflare、Discord、Ko-fi、Resend、GitHub、npmは国外を含む複数地域で情報を処理・保存する場合があります。処理地域は各事業者のインフラ、契約、利用状況により変わり、Drovyuが特定の保存国を保証するものではありません。各事業者のプライバシー情報も確認してください。</p></div>
         <div class="lang-block-en"><p>Cloudflare, Discord, Ko-fi, Resend, GitHub, and npm may process or store information in multiple regions, including outside Japan. Processing locations vary with each provider's infrastructure, terms, and service use; Drovyu does not guarantee a specific storage country. Review each provider's privacy information as well.</p></div>
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">10. 問い合わせと削除依頼</span><span class="lang-block-en">10. Contact and deletion requests</span></h2>
+        <h2><span class="lang-block-ja">11. セキュリティ事故と通知</span><span class="lang-block-en">11. Security incidents and notice</span></h2>
+        <div class="lang-block-ja"><p>セキュリティ事故または情報漏えいが確認された場合、影響範囲を調査し、封じ込め、復旧および再発防止に取り組みます。利用者への重大な影響がある場合は、合理的に可能な限り速やかに、公式サイト、<a href="https://status.drovyu.com/">ステータスページ</a>その他の適切な方法で、判明した影響、対応状況、利用者に必要な対応を公表します。連絡先を把握している対象者には、必要に応じて個別に通知し、法令上必要な場合は関係機関へ報告します。アカウント登録のない匿名利用者には個別連絡できない場合があります。</p></div>
+        <div class="lang-block-en"><p>If a security incident or data breach is confirmed, we will investigate its scope and work to contain, recover from, and prevent recurrence of the incident. When users may be materially affected, we will disclose the known impact, response status, and any action users should take as soon as reasonably practicable through the official site, the <a href="https://status.drovyu.com/">status page</a>, or another appropriate channel. Where contact information is available, affected individuals may be notified directly as appropriate, and legally required reports will be made to relevant authorities. Direct notice may not be possible for anonymous users who have not registered an account.</p></div>
+      </section>
+
+      <section class="doc-section">
+        <h2><span class="lang-block-ja">12. 問い合わせと削除依頼</span><span class="lang-block-en">12. Contact and deletion requests</span></h2>
         <div class="lang-block-ja"><p>質問や削除依頼は<a href={LINKS.contact}>お問い合わせフォーム</a>から送信してください。フォームを含め、復号キー、支援コード、認証トークンなどの秘密情報を送信しないでください。</p></div>
         <div class="lang-block-en"><p>Send questions or deletion requests through the <a href={LINKS.contact}>contact form</a>. Do not submit decryption keys, claim codes, verification tokens, or other secrets, including through the form.</p></div>
       </section>
 
       <section class="doc-section">
-        <h2><span class="lang-block-ja">11. 変更と更新履歴</span><span class="lang-block-en">11. Changes and revision history</span></h2>
-        <div class="lang-block-ja"><p>サービスや法令の変更に応じて本ポリシーを更新することがあります。重要な変更は本サイトで告知します。</p><ul><li>2026年7月12日: 国外処理、Trust・Securityページへの説明拡充に伴う更新。</li><li>2026年7月11日: 初版公開。</li></ul></div>
-        <div class="lang-block-en"><p>We may update this policy as the service or applicable law changes. Material changes will be announced on this site.</p><ul><li>July 12, 2026: Added international processing and aligned disclosures with the Trust and Security pages.</li><li>July 11, 2026: Initial publication.</li></ul></div>
+        <h2><span class="lang-block-ja">13. 変更と更新履歴</span><span class="lang-block-en">13. Changes and revision history</span></h2>
+        <div class="lang-block-ja"><p>サービスや法令の変更に応じて本ポリシーを更新することがあります。重要な変更は本サイトで告知します。</p><ul><li>2026年7月12日: 運営責任者、バックアップ、事故通知方針を追加。</li><li>2026年7月12日: 国外処理、Trust・Securityページへの説明拡充に伴う更新。</li><li>2026年7月11日: 初版公開。</li></ul></div>
+        <div class="lang-block-en"><p>We may update this policy as the service or applicable law changes. Material changes will be announced on this site.</p><ul><li>July 12, 2026: Added the operations manager, backup disclosures, and incident notification policy.</li><li>July 12, 2026: Added international processing and aligned disclosures with the Trust and Security pages.</li><li>July 11, 2026: Initial publication.</li></ul></div>
       </section>
 
       <p class="prose-updated">
