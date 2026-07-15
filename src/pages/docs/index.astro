@@ -12,6 +12,7 @@ const fileTypes = ['.html', '.htm', '.md', '.txt', '.json', '.xml', '.map', '.cs
 
 const toc = [
   { id: 'overview', ja: '概要', en: 'Overview' },
+  { id: 'browser-trial', ja: 'ブラウザで試す', en: 'Browser trial' },
   { id: 'install', ja: 'インストール', en: 'Install' },
   { id: 'quickstart', ja: 'クイックスタート', en: 'Quick start' },
   { id: 'commands', ja: 'コマンドリファレンス', en: 'Command reference' },
@@ -70,6 +71,24 @@ const toc = [
             <p>The CLI encrypts every file and its manifest locally before upload. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request.</p>
           </div>
           <div class="doc-code"><pre><code>dvyu create ./dist</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
+        <section class="doc-section" id="browser-trial">
+          <h2><span class="lang-block-ja">ブラウザで試す</span><span class="lang-block-en">Browser trial</span></h2>
+          <div class="lang-block-ja">
+            <p>製品ページの「ブラウザで試す」から、CLIをインストールせずに静的プレビューを1件作成できます。<code>index.html</code>、静的出力フォルダ、またはZIPを選択し、内容と制限を確認してから作成します。確認前にファイルが送信されることはありません。</p>
+            <p>ファイル内容、ファイル名、パス、MIMEタイプ、エントリーポイントはブラウザ内で暗号化します。サーバーで禁止形式を拒否するため、各ファイルの拡張子だけは平文で送信します。</p>
+            <ul>
+              <li>合計10MiB、100ファイルまで</li><li>HTMLファイル必須。CLIと同じ許可拡張子だけを受付</li><li>作成から24時間で失効</li><li>1ブラウザにつき有効な試用プレビュー1件</li><li>更新、延長、手動削除には非対応</li>
+            </ul>
+          </div>
+          <div class="lang-block-en">
+            <p>The “Try in browser” action creates one static preview without installing the CLI. Select an <code>index.html</code> file, a static output folder, or a ZIP, then review the selection and limits before creating it. No file is sent before confirmation.</p>
+            <p>File contents, names, paths, MIME types, and the entrypoint are encrypted in the browser. Only each file extension is sent in plaintext so the server can reject prohibited formats.</p>
+            <ul>
+              <li>Up to 10 MiB and 100 files</li><li>An HTML file is required; only the CLI allowlist is accepted</li><li>Expires 24 hours after creation</li><li>One active trial preview per browser</li><li>No update, extension, or manual deletion</li>
+            </ul>
+          </div>
         </section>
 
         <section class="doc-section" id="install">

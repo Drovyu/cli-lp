@@ -38,12 +38,14 @@ const LINKS = {
         <h2><span class="lang-block-ja">2. 取得・保存する情報</span><span class="lang-block-en">2. Information collected and stored</span></h2>
         <div class="lang-block-ja">
           <p>アカウント登録はありません。CLI はデバイスごとに識別子（UUID）を生成し、<code>~/.dvyu/device.json</code> に保存してリクエストヘッダで送信します。通常利用では氏名やメールアドレスを求めません。サポーター機能を利用した場合は、デバイス識別子がハッシュ化されたメールアドレスを持つサポーター記録に紐づきます。</p>
+          <p>ブラウザ試用では、試用識別子（UUID）をlocalStorageへ保存し、リクエストヘッダで送信します。また、禁止形式をサーバー側でも拒否するため、ファイル名やパスではなく各ファイルの拡張子を平文で送信します。</p>
           <p>プレビューの作成時に、暗号化済みファイルと暗号化済みマニフェスト、ランダムな保存キー、プレビューID、デバイスID、ファイル数、合計サイズ、作成・更新・最終アクセス日時、状態、有効期限、保持設定を保存します。</p>
           <p>お問い合わせフォームでは、選択した種別、返信先メールアドレス、件名、本文、言語、およびTurnstileの認証情報を取得します。本文とメールアドレスはCloudflare経由でDiscordへ送信されます。</p>
           <p>配信・セキュリティ・障害対応のため、Cloudflare が IP アドレス、User-Agent、リクエスト日時などの標準的なインフラログを処理する場合があります。</p>
         </div>
         <div class="lang-block-en">
           <p>No account registration is required. The CLI generates a per-device identifier (UUID), stores it in <code>~/.dvyu/device.json</code>, and sends it in request headers. Names and email addresses are not requested for standard use. When supporter features are used, the device identifier is linked to a supporter record containing a hashed email address.</p>
+          <p>The browser trial stores a trial identifier (UUID) in localStorage and sends it in a request header. It also sends each file extension, but not the file name or path, in plaintext so prohibited formats can be rejected by the server.</p>
           <p>When a preview is created, we store encrypted files and an encrypted manifest, random storage keys, the preview id, device id, file count, total size, created / updated / last accessed timestamps, status, expiry, and retention settings.</p>
           <p>The contact form collects the selected category, reply-to email address, subject, message, language, and Turnstile verification data. The message and email address are sent through Cloudflare to Discord.</p>
           <p>Cloudflare may process standard infrastructure logs such as IP addresses, User-Agent strings, and request timestamps for delivery, security, and incident response.</p>
@@ -84,11 +86,11 @@ const LINKS = {
         <h2><span class="lang-block-ja">6. ローカルとウェブサイト</span><span class="lang-block-en">6. Local storage and website</span></h2>
         <div class="lang-block-ja">
           <p>CLI は <code>~/.dvyu</code> 配下に <code>previews.json</code>、<code>settings.json</code>、<code>device.json</code>、<code>support.json</code> を保存します。これらは <code>dvyu uninstall</code> で削除できます。</p>
-          <p>Drovyu は独自のアクセス解析や広告 Cookie を使用しません。サイトは言語設定を localStorage に保存し、集計値のみを返す統計 API を取得します。Cloudflare による標準的なインフラログの処理は前記のとおりです。</p>
+          <p>Drovyu は独自のアクセス解析や広告 Cookie を使用しません。サイトは言語設定とブラウザ試用識別子をlocalStorageに保存し、集計値のみを返す統計APIを取得します。Cloudflare による標準的なインフラログの処理は前記のとおりです。</p>
         </div>
         <div class="lang-block-en">
           <p>The CLI stores <code>previews.json</code>, <code>settings.json</code>, <code>device.json</code>, and <code>support.json</code> under <code>~/.dvyu</code>. They can be removed with <code>dvyu uninstall</code>.</p>
-          <p>Drovyu does not use its own analytics or advertising cookies. The site stores the language preference in localStorage and fetches an API that returns aggregate statistics only. Cloudflare's processing of standard infrastructure logs is described above.</p>
+          <p>Drovyu does not use its own analytics or advertising cookies. The site stores the language preference and browser trial identifier in localStorage and fetches an API that returns aggregate statistics only. Cloudflare's processing of standard infrastructure logs is described above.</p>
         </div>
       </section>
 
@@ -97,6 +99,7 @@ const LINKS = {
         <div class="lang-block-ja">
           <ul>
             <li>通常のプレビューは原則48時間で失効します。暗号化済みファイルは、1時間ごとのクリーンアップ処理で失効後に順次削除されます。</li>
+            <li>ブラウザ試用のプレビューは作成から24時間で失効し、同じクリーンアップ処理で順次削除されます。</li>
             <li>永続設定のプレビューは30日間アクセスがない場合に失効します。サポーター特典終了後は、この期間を延長できません。</li>
             <li><code>dvyu delete</code> で削除を要求できます。暗号化済みファイルはクリーンアップ処理で削除されます。</li>
             <li>プレビューのメタデータ行には、現在、固定の自動削除期間を設定していません。</li>
@@ -108,6 +111,7 @@ const LINKS = {
         <div class="lang-block-en">
           <ul>
             <li>Standard previews generally expire after 48 hours. Encrypted files are progressively removed after expiry by an hourly cleanup process.</li>
+            <li>Browser trial previews expire 24 hours after creation and are removed by the same cleanup process.</li>
             <li>Previews using the permanent setting expire after 30 days without access. This period cannot be extended after supporter benefits end.</li>
             <li><code>dvyu delete</code> requests deletion. Encrypted files are removed by the cleanup process.</li>
             <li>Preview metadata rows currently have no fixed automatic deletion period.</li>

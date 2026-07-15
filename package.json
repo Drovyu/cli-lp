@@ -22,6 +22,7 @@
     "astro": "latest"
   },
   "dependencies": {
-    "@lucide/astro": "^1.24.0"
+    "@lucide/astro": "^1.24.0",
+    "fflate": "^0.8.2"
   }
 }

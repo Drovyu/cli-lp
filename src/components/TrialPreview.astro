@@ -1,0 +1,593 @@
+---
+import { Copy, ExternalLink, FolderOpen, Upload, X } from '@lucide/astro'
+
+const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.cjs,.png,.jpg,.jpeg,.gif,.svg,.webp,.ico,.avif,.woff,.woff2,.ttf,.otf,.mp4,.webm,.mp3,.wav,.pdf,.zip'
+---
+
+<button type="button" class="hero-cta trial-open" id="trial-open">
+  <Upload size={15} strokeWidth={2.2} />
+  <span class="lang-block-ja">ブラウザで試す</span>
+  <span class="lang-block-en">Try in browser</span>
+</button>
+
+<dialog class="trial-dialog" id="trial-dialog" aria-labelledby="trial-title">
+  <div class="trial-panel">
+    <header class="trial-modal-header">
+      <div>
+        <p class="trial-kicker">Browser trial</p>
+        <h2 id="trial-title">
+          <span id="trial-title-default"><span class="lang-block-ja">ブラウザで試す</span><span class="lang-block-en">Try it in your browser</span></span>
+          <span id="trial-title-confirm" hidden><span class="lang-block-ja">この内容で作成しますか？</span><span class="lang-block-en">Create this preview?</span></span>
+        </h2>
+      </div>
+      <button type="button" class="trial-icon-button" id="trial-close" aria-label="Close"><X size={18} /></button>
+    </header>
+
+    <div class="trial-body">
+      <div class="trial-picker" id="trial-picker">
+        <p class="trial-note"><span class="lang-block-ja">ファイルはブラウザ内で暗号化してからアップロードされます。</span><span class="lang-block-en">Files are encrypted in your browser before upload.</span></p>
+        <div class="trial-dropzone" id="trial-dropzone" tabindex="0" role="button">
+          <Upload size={24} strokeWidth={1.8} />
+          <strong>
+            <span class="dz-desktop"><span class="lang-block-ja">ここにドロップ</span><span class="lang-block-en">Drop files here</span></span>
+            <span class="dz-mobile"><span class="lang-block-ja">タップしてファイルを選択</span><span class="lang-block-en">Tap to choose files</span></span>
+          </strong>
+          <span><span class="lang-block-ja">index.html、distフォルダ、ZIP</span><span class="lang-block-en">index.html, a dist folder, or ZIP</span></span>
+        </div>
+        <div class="trial-pick-actions">
+          <button type="button" id="trial-files"><Upload size={15} /><span class="lang-block-ja">ファイル・ZIP</span><span class="lang-block-en">Files or ZIP</span></button>
+          <button type="button" id="trial-folder"><FolderOpen size={15} /><span class="lang-block-ja">フォルダ</span><span class="lang-block-en">Folder</span></button>
+        </div>
+        <input id="trial-file-input" type="file" accept={acceptedExtensions} multiple hidden />
+        <input id="trial-folder-input" type="file" webkitdirectory directory multiple hidden />
+      </div>
+
+      <div class="trial-summary" id="trial-summary" hidden>
+        <dl>
+          <div><dt><span class="lang-block-ja">入力</span><span class="lang-block-en">Input</span></dt><dd id="trial-source">-</dd></div>
+          <div><dt><span class="lang-block-ja">ファイル</span><span class="lang-block-en">Files</span></dt><dd id="trial-file-count">-</dd></div>
+          <div><dt><span class="lang-block-ja">サイズ</span><span class="lang-block-en">Size</span></dt><dd id="trial-size">-</dd></div>
+          <div><dt><span class="lang-block-ja">開始HTML</span><span class="lang-block-en">Entrypoint</span></dt><dd id="trial-entrypoint">-</dd></div>
+        </dl>
+        <p><span class="lang-block-ja">作成すると24時間後に自動削除されます。更新、延長、手動削除はできません。</span><span class="lang-block-en">The preview expires after 24 hours. It cannot be updated, extended, or manually deleted.</span></p>
+      </div>
+
+      <div class="trial-progress" id="trial-progress" hidden>
+        <div class="trial-progress-label"><span id="trial-progress-text"></span><span id="trial-progress-value">0%</span></div>
+        <div class="trial-bar"><div class="trial-bar-fill" id="trial-progress-bar"></div></div>
+      </div>
+
+      <div class="trial-result" id="trial-result" hidden>
+        <p class="trial-result-label" id="trial-result-label"><span class="lang-block-ja">プレビューを作成しました</span><span class="lang-block-en">Preview created</span></p>
+        <p class="trial-result-existing" id="trial-result-existing" hidden></p>
+        <div class="trial-result-url"><code id="trial-result-url"></code></div>
+        <div class="trial-result-actions">
+          <button type="button" id="trial-copy"><Copy size={15} /><span class="lang-block-ja">URLをコピー</span><span class="lang-block-en">Copy URL</span></button>
+          <a id="trial-open-result" href="#" target="_blank" rel="noreferrer"><ExternalLink size={15} /><span class="lang-block-ja">開く</span><span class="lang-block-en">Open</span></a>
+        </div>
+        <p class="trial-result-next">
+          <span class="lang-block-ja">CLI なら 100MB・20件・48時間。<a href="/docs">インストール方法を見る</a></span>
+          <span class="lang-block-en">The CLI gives you 100MB, 20 previews, and 48 hours. <a href="/docs">See how to install</a></span>
+        </p>
+      </div>
+
+      <p class="trial-error" id="trial-error" role="alert" hidden></p>
+    </div>
+
+    <footer class="trial-modal-footer" id="trial-footer">
+      <span><span class="lang-block-ja">上限 10MB・100ファイル・24時間</span><span class="lang-block-en">10MB, 100 files, 24 hours</span></span>
+      <div>
+        <button type="button" class="trial-secondary" id="trial-reset" hidden><span class="lang-block-ja">選び直す</span><span class="lang-block-en">Choose again</span></button>
+        <button type="button" class="trial-primary" id="trial-confirm" disabled><span class="lang-block-ja">プレビューを作成</span><span class="lang-block-en">Create preview</span></button>
+      </div>
+    </footer>
+  </div>
+</dialog>
+
+<script>
+  import { unzipSync } from 'fflate'
+
+  const isLocalHost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+    || location.hostname.startsWith('10.')
+    || location.hostname.startsWith('192.168.')
+    || /^172\.(1[6-9]|2\d|3[01])\./.test(location.hostname)
+  const API_ORIGIN = isLocalHost
+    ? `http://${location.hostname}:8787`
+    : 'https://preview.drovyu.com'
+  const MAX_BYTES = 10 * 1024 * 1024
+  const MAX_FILES = 100
+  const MAX_ZIP_RATIO = 100
+  const ALLOWED_EXTENSIONS = new Set([
+    '.html', '.htm', '.md', '.txt', '.json', '.xml', '.map', '.css', '.js', '.mjs', '.cjs',
+    '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.avif',
+    '.woff', '.woff2', '.ttf', '.otf', '.mp4', '.webm', '.mp3', '.wav', '.pdf',
+  ])
+  const IGNORED_FILES = new Set(['.DS_Store', '.gitkeep', 'Thumbs.db', 'desktop.ini'])
+  const IGNORED_DIRECTORIES = new Set(['.git', '.hg', '.svn', 'node_modules'])
+  const MIME_TYPES = {
+    '.html': 'text/html', '.htm': 'text/html', '.md': 'text/markdown', '.txt': 'text/plain',
+    '.json': 'application/json', '.xml': 'application/xml', '.map': 'application/json',
+    '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.cjs': 'text/javascript',
+    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif',
+    '.svg': 'image/svg+xml', '.webp': 'image/webp', '.ico': 'image/x-icon', '.avif': 'image/avif',
+    '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.otf': 'font/otf',
+    '.mp4': 'video/mp4', '.webm': 'video/webm', '.mp3': 'audio/mpeg', '.wav': 'audio/wav',
+    '.pdf': 'application/pdf',
+  }
+
+  const dialog = document.getElementById('trial-dialog')
+  const picker = document.getElementById('trial-picker')
+  const summary = document.getElementById('trial-summary')
+  const progress = document.getElementById('trial-progress')
+  const result = document.getElementById('trial-result')
+  const footer = document.getElementById('trial-footer')
+  const errorOutput = document.getElementById('trial-error')
+  const confirmButton = document.getElementById('trial-confirm')
+  const resetButton = document.getElementById('trial-reset')
+  const closeButton = document.getElementById('trial-close')
+  const dropzone = document.getElementById('trial-dropzone')
+  const fileInput = document.getElementById('trial-file-input')
+  const folderInput = document.getElementById('trial-folder-input')
+  let prepared = null
+  let busy = false
+
+  const RESULT_KEY = 'dvyu-trial-result'
+  const titleDefault = document.getElementById('trial-title-default')
+  const titleConfirm = document.getElementById('trial-title-confirm')
+  const existingLabel = document.getElementById('trial-result-existing')
+
+  function setTitle(state) {
+    titleDefault.hidden = state === 'confirm'
+    titleConfirm.hidden = state !== 'confirm'
+  }
+
+  function loadSavedResult() {
+    try {
+      const raw = localStorage.getItem(RESULT_KEY)
+      if (!raw) return null
+      const saved = JSON.parse(raw)
+      if (!saved || typeof saved.url !== 'string' || typeof saved.expiresAt !== 'number' || saved.expiresAt <= Date.now()) {
+        localStorage.removeItem(RESULT_KEY)
+        return null
+      }
+      return saved
+    } catch {
+      localStorage.removeItem(RESULT_KEY)
+      return null
+    }
+  }
+
+  function saveResult(url) {
+    try {
+      localStorage.setItem(RESULT_KEY, JSON.stringify({ url, expiresAt: Date.now() + 24 * 60 * 60 * 1000 }))
+    } catch {}
+  }
+
+  function showResult(url, savedExpiresAt) {
+    document.getElementById('trial-result-url').textContent = url
+    document.getElementById('trial-open-result').href = url
+    picker.hidden = true
+    summary.hidden = true
+    progress.hidden = true
+    result.hidden = false
+    footer.hidden = true
+    closeButton.disabled = false
+    setTitle('default')
+    showError('')
+    if (savedExpiresAt) {
+      const hours = Math.max(1, Math.ceil((savedExpiresAt - Date.now()) / 3600000))
+      existingLabel.textContent = message(`作成済みのプレビュー（残り約${hours}h）`, `Your existing preview (about ${hours}h left)`)
+      existingLabel.hidden = false
+    } else {
+      existingLabel.hidden = true
+    }
+  }
+
+  function language() {
+    return document.documentElement.classList.contains('lang-en') ? 'en' : 'ja'
+  }
+
+  function message(ja, en) {
+    return language() === 'en' ? en : ja
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / 1024 / 1024).toFixed(1)} MB`
+  }
+
+  function extensionOf(path) {
+    const name = path.slice(path.lastIndexOf('/') + 1)
+    const index = name.lastIndexOf('.')
+    return index > 0 ? name.slice(index).toLowerCase() : ''
+  }
+
+  function normalizePath(value) {
+    const normalized = value.replaceAll('\\', '/').replace(/^\.\//, '')
+    const segments = normalized.split('/')
+    if (!normalized || normalized.startsWith('/') || segments.some((part) => !part || part === '.' || part === '..')) {
+      throw new Error(message('安全でないファイルパスが含まれています。', 'The input contains an unsafe file path.'))
+    }
+    return segments.join('/')
+  }
+
+  function ignoredPath(path) {
+    const segments = path.split('/')
+    return IGNORED_FILES.has(segments[segments.length - 1]) || segments.slice(0, -1).some((part) => IGNORED_DIRECTORIES.has(part))
+  }
+
+  function stripCommonRoot(entries) {
+    if (entries.length === 0) return entries
+    const roots = new Set(entries.map((entry) => entry.path.split('/')[0]))
+    if (roots.size !== 1 || entries.some((entry) => !entry.path.includes('/'))) return entries
+    return entries.map((entry) => ({ ...entry, path: entry.path.slice(entry.path.indexOf('/') + 1) }))
+  }
+
+  function validateEntries(entries) {
+    const filtered = stripCommonRoot(entries.filter((entry) => !ignoredPath(entry.path)))
+      .sort((a, b) => a.path.localeCompare(b.path))
+    if (filtered.length === 0) throw new Error(message('アップロードできるファイルがありません。', 'No uploadable files were found.'))
+    if (filtered.length > MAX_FILES) throw new Error(message(`ファイル数は${MAX_FILES}件までです。`, `The file limit is ${MAX_FILES}.`))
+    let totalSize = 0
+    const seen = new Set()
+    for (const entry of filtered) {
+      entry.path = normalizePath(entry.path)
+      if (seen.has(entry.path)) throw new Error(message('同じパスのファイルが複数あります。', 'The input contains duplicate file paths.'))
+      seen.add(entry.path)
+      entry.extension = extensionOf(entry.path)
+      if (!ALLOWED_EXTENSIONS.has(entry.extension)) {
+        throw new Error(message(`許可されていない拡張子です: ${entry.path}`, `Unsupported extension: ${entry.path}`))
+      }
+      totalSize += entry.bytes.byteLength
+      if (totalSize > MAX_BYTES) throw new Error(message('合計サイズは10MBまでです。', 'The total size limit is 10MB.'))
+      entry.mime = MIME_TYPES[entry.extension] || 'application/octet-stream'
+    }
+    const entrypoint = filtered.some((entry) => entry.path === 'index.html')
+      ? 'index.html'
+      : filtered.find((entry) => entry.extension === '.html' || entry.extension === '.htm')?.path
+    if (!entrypoint) throw new Error(message('HTMLファイルが必要です。', 'An HTML file is required.'))
+    return { entries: filtered, entrypoint, totalSize }
+  }
+
+  async function entriesFromFiles(files) {
+    const entries = []
+    for (const file of files) {
+      const path = file.webkitRelativePath || file.name
+      entries.push({ path: normalizePath(path), bytes: new Uint8Array(await file.arrayBuffer()) })
+    }
+    return entries
+  }
+
+  function findEocd(bytes) {
+    const min = Math.max(0, bytes.length - 65557)
+    for (let index = bytes.length - 22; index >= min; index -= 1) {
+      if (bytes[index] === 0x50 && bytes[index + 1] === 0x4b && bytes[index + 2] === 0x05 && bytes[index + 3] === 0x06) return index
+    }
+    return -1
+  }
+
+  function inspectZip(bytes) {
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+    const eocd = findEocd(bytes)
+    if (eocd < 0) throw new Error(message('ZIPの構造を確認できません。', 'The ZIP structure could not be read.'))
+    const count = view.getUint16(eocd + 10, true)
+    const centralSize = view.getUint32(eocd + 12, true)
+    const centralOffset = view.getUint32(eocd + 16, true)
+    if (count === 0xffff || centralSize === 0xffffffff || centralOffset === 0xffffffff) {
+      throw new Error(message('ZIP64には対応していません。', 'ZIP64 is not supported.'))
+    }
+    if (count > MAX_FILES || centralOffset + centralSize > bytes.length) {
+      throw new Error(message('ZIPのファイル数または構造が上限を超えています。', 'The ZIP file count or structure exceeds the limit.'))
+    }
+    let offset = centralOffset
+    let expandedSize = 0
+    for (let index = 0; index < count; index += 1) {
+      if (view.getUint32(offset, true) !== 0x02014b50) throw new Error(message('ZIPの構造が壊れています。', 'The ZIP structure is invalid.'))
+      const flags = view.getUint16(offset + 8, true)
+      const compressed = view.getUint32(offset + 20, true)
+      const expanded = view.getUint32(offset + 24, true)
+      const nameLength = view.getUint16(offset + 28, true)
+      const extraLength = view.getUint16(offset + 30, true)
+      const commentLength = view.getUint16(offset + 32, true)
+      const externalAttributes = view.getUint32(offset + 38, true)
+      if ((flags & 1) !== 0) throw new Error(message('暗号化ZIPには対応していません。', 'Encrypted ZIP files are not supported.'))
+      if (((externalAttributes >>> 16) & 0xf000) === 0xa000) throw new Error(message('シンボリックリンクを含むZIPは使用できません。', 'ZIP files containing symbolic links are not supported.'))
+      expandedSize += expanded
+      if (expandedSize > MAX_BYTES || (compressed > 0 && expanded / compressed > MAX_ZIP_RATIO)) {
+        throw new Error(message('ZIPの展開後サイズまたは圧縮率が上限を超えています。', 'The expanded ZIP size or compression ratio exceeds the limit.'))
+      }
+      offset += 46 + nameLength + extraLength + commentLength
+      if (offset > centralOffset + centralSize) throw new Error(message('ZIPの構造が壊れています。', 'The ZIP structure is invalid.'))
+    }
+  }
+
+  async function entriesFromZip(file) {
+    if (file.size > MAX_BYTES) throw new Error(message('ZIPは10MBまでです。', 'The ZIP file limit is 10MB.'))
+    const zipBytes = new Uint8Array(await file.arrayBuffer())
+    inspectZip(zipBytes)
+    let unpacked
+    try {
+      unpacked = unzipSync(zipBytes)
+    } catch {
+      throw new Error(message('ZIPを展開できませんでした。', 'The ZIP file could not be extracted.'))
+    }
+    return Object.entries(unpacked)
+      .filter(([path]) => !path.endsWith('/'))
+      .map(([path, bytes]) => ({ path: normalizePath(path), bytes }))
+  }
+
+  async function readDirectoryEntry(entry, parent = '') {
+    if (entry.isFile) {
+      const file = await new Promise((resolve, reject) => entry.file(resolve, reject))
+      return [{ path: `${parent}${file.name}`, bytes: new Uint8Array(await file.arrayBuffer()) }]
+    }
+    if (!entry.isDirectory || IGNORED_DIRECTORIES.has(entry.name)) return []
+    const reader = entry.createReader()
+    const children = []
+    while (true) {
+      const batch = await new Promise((resolve, reject) => reader.readEntries(resolve, reject))
+      if (batch.length === 0) break
+      children.push(...batch)
+    }
+    const output = []
+    for (const child of children) output.push(...await readDirectoryEntry(child, `${parent}${entry.name}/`))
+    return output
+  }
+
+  async function entriesFromDrop(dataTransfer) {
+    const items = [...dataTransfer.items]
+    const webkitEntries = items.map((item) => item.webkitGetAsEntry?.()).filter(Boolean)
+    if (webkitEntries.length > 0) {
+      const output = []
+      for (const entry of webkitEntries) output.push(...await readDirectoryEntry(entry))
+      return output
+    }
+    return entriesFromFiles([...dataTransfer.files])
+  }
+
+  async function prepareInput(entries, sourceLabel) {
+    const validated = validateEntries(entries)
+    prepared = { ...validated, sourceLabel }
+    document.getElementById('trial-source').textContent = sourceLabel
+    document.getElementById('trial-file-count').textContent = String(validated.entries.length)
+    document.getElementById('trial-size').textContent = formatBytes(validated.totalSize)
+    document.getElementById('trial-entrypoint').textContent = validated.entrypoint
+    picker.hidden = true
+    summary.hidden = false
+    resetButton.hidden = false
+    confirmButton.disabled = false
+    setTitle('confirm')
+    showError('')
+  }
+
+  async function handleFiles(files) {
+    if (!files.length) return
+    try {
+      const zipFiles = files.filter((file) => file.name.toLowerCase().endsWith('.zip'))
+      if (zipFiles.length > 0 && files.length !== 1) throw new Error(message('ZIPは単独で選択してください。', 'Select a ZIP file by itself.'))
+      const entries = zipFiles.length === 1 ? await entriesFromZip(zipFiles[0]) : await entriesFromFiles(files)
+      await prepareInput(entries, files.length === 1 ? files[0].name : message(`${files.length}個の選択項目`, `${files.length} selected items`))
+    } catch (error) {
+      showError(error instanceof Error ? error.message : message('ファイルを読み込めませんでした。', 'The files could not be read.'))
+    }
+  }
+
+  function showError(value) {
+    errorOutput.textContent = value
+    errorOutput.hidden = !value
+  }
+
+  function resetState() {
+    prepared = null
+    busy = false
+    picker.hidden = false
+    summary.hidden = true
+    progress.hidden = true
+    result.hidden = true
+    footer.hidden = false
+    resetButton.hidden = true
+    resetButton.disabled = false
+    confirmButton.disabled = true
+    closeButton.disabled = false
+    fileInput.value = ''
+    folderInput.value = ''
+    existingLabel.hidden = true
+    setTitle('default')
+    showError('')
+  }
+
+  function base64Url(bytes) {
+    let binary = ''
+    for (const byte of bytes) binary += String.fromCharCode(byte)
+    return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '')
+  }
+
+  function randomStorageKey() {
+    return base64Url(crypto.getRandomValues(new Uint8Array(24)))
+  }
+
+  function trialId() {
+    const key = 'dvyu-browser-trial-id'
+    let value = localStorage.getItem(key)
+    if (!value || !/^[0-9a-f-]{36}$/i.test(value)) {
+      value = crypto.randomUUID()
+      localStorage.setItem(key, value)
+    }
+    return value
+  }
+
+  async function encrypt(key, bytes) {
+    const iv = crypto.getRandomValues(new Uint8Array(12))
+    const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, bytes))
+    return { bytes: encrypted, iv: base64Url(iv) }
+  }
+
+  function setProgress(value, ja, en) {
+    const rounded = Math.max(0, Math.min(100, Math.round(value)))
+    document.getElementById('trial-progress-bar').style.width = `${rounded}%`
+    document.getElementById('trial-progress-value').textContent = `${rounded}%`
+    document.getElementById('trial-progress-text').textContent = message(ja, en)
+  }
+
+  async function apiRequest(url, options) {
+    const response = await fetch(url, options)
+    if (!response.ok) {
+      let detail = ''
+      try { detail = (await response.json()).error || '' } catch {}
+      if (response.status === 429) {
+        const limitError = new Error(message('このブラウザでは試用プレビューを1件作成済みです。24時間後にもう一度お試しください。', 'This browser already has a trial preview. Try again after 24 hours.'))
+        limitError.trialLimit = true
+        throw limitError
+      }
+      throw new Error(detail || message('プレビューAPIでエラーが発生しました。', 'The preview API returned an error.'))
+    }
+    return response
+  }
+
+  async function uploadFiles(uploadBase, headers, files) {
+    let next = 0
+    let completed = 0
+    const workers = Array.from({ length: Math.min(4, files.length) }, async () => {
+      while (true) {
+        const index = next++
+        const file = files[index]
+        if (!file) return
+        await apiRequest(`${uploadBase}/files/${file.storageKey}`, {
+          method: 'PUT', headers: { ...headers, 'content-type': 'application/octet-stream' }, body: file.encrypted,
+        })
+        completed += 1
+        setProgress(45 + (completed / files.length) * 42, `暗号化ファイルをアップロード中 (${completed}/${files.length})`, `Uploading encrypted files (${completed}/${files.length})`)
+      }
+    })
+    await Promise.all(workers)
+  }
+
+  async function createPreview() {
+    if (!prepared || busy) return
+    busy = true
+    summary.hidden = true
+    progress.hidden = false
+    confirmButton.disabled = true
+    resetButton.disabled = true
+    closeButton.disabled = true
+    showError('')
+    const headers = { 'x-dvy-trial-id': trialId() }
+    let created = null
+    try {
+      const rawKey = crypto.getRandomValues(new Uint8Array(32))
+      const key = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['encrypt'])
+      const encryptedFiles = []
+      for (let index = 0; index < prepared.entries.length; index += 1) {
+        const entry = prepared.entries[index]
+        const encrypted = await encrypt(key, entry.bytes)
+        encryptedFiles.push({
+          ...entry,
+          storageKey: randomStorageKey(),
+          encrypted: encrypted.bytes,
+          iv: encrypted.iv,
+        })
+        setProgress(5 + ((index + 1) / prepared.entries.length) * 35, `ブラウザ内で暗号化中 (${index + 1}/${prepared.entries.length})`, `Encrypting in your browser (${index + 1}/${prepared.entries.length})`)
+      }
+      const createResponse = await apiRequest(`${API_ORIGIN}/api/trials`, {
+        method: 'POST',
+        headers: { ...headers, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          totalSize: prepared.totalSize,
+          encryptedSize: encryptedFiles.reduce((sum, file) => sum + file.encrypted.byteLength, 0),
+          fileCount: encryptedFiles.length,
+          files: encryptedFiles.map((file) => ({ storageKey: file.storageKey, encryptedSize: file.encrypted.byteLength, extension: file.extension })),
+        }),
+      })
+      created = await createResponse.json()
+      setProgress(45, 'アップロードを開始しています', 'Starting upload')
+      await uploadFiles(created.uploadBase, headers, encryptedFiles)
+
+      const manifest = {
+        version: 1,
+        id: created.id,
+        entrypoint: prepared.entrypoint,
+        files: encryptedFiles.map((file) => ({
+          path: file.path,
+          storageKey: file.storageKey,
+          mime: file.mime,
+          size: file.bytes.byteLength,
+          encryptedSize: file.encrypted.byteLength,
+          encryption: { alg: 'AES-GCM', iv: file.iv },
+        })),
+      }
+      const encryptedManifest = await encrypt(key, new TextEncoder().encode(JSON.stringify(manifest)))
+      setProgress(92, 'マニフェストを暗号化しています', 'Encrypting manifest')
+      await apiRequest(`${created.uploadBase}/manifest`, {
+        method: 'PUT',
+        headers: { ...headers, 'content-type': 'application/json' },
+        body: JSON.stringify({ version: 1, encryption: { alg: 'AES-GCM', iv: encryptedManifest.iv }, ciphertext: base64Url(encryptedManifest.bytes) }),
+      })
+      const url = `${API_ORIGIN}/p/${created.id}#k=${base64Url(rawKey)}`
+      setProgress(100, '完了しました', 'Complete')
+      saveResult(url)
+      showResult(url, null)
+    } catch (error) {
+      if (created?.uploadBase) {
+        fetch(created.uploadBase, { method: 'DELETE', headers }).catch(() => {})
+      }
+      busy = false
+      resetButton.disabled = false
+      closeButton.disabled = false
+      if (error && error.trialLimit) {
+        const saved = loadSavedResult()
+        if (saved) {
+          showResult(saved.url, saved.expiresAt)
+          return
+        }
+      }
+      progress.hidden = true
+      summary.hidden = false
+      showError(error instanceof Error ? error.message : message('プレビューを作成できませんでした。', 'The preview could not be created.'))
+      confirmButton.disabled = false
+    }
+  }
+
+  document.getElementById('trial-open').addEventListener('click', () => {
+    resetState()
+    const saved = loadSavedResult()
+    if (saved) showResult(saved.url, saved.expiresAt)
+    dialog.showModal()
+  })
+  closeButton.addEventListener('click', () => { if (!busy || !closeButton.disabled) dialog.close() })
+  dialog.addEventListener('cancel', (event) => { if (busy && closeButton.disabled) event.preventDefault() })
+  document.getElementById('trial-files').addEventListener('click', () => fileInput.click())
+  document.getElementById('trial-folder').addEventListener('click', () => folderInput.click())
+  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]))
+  folderInput.addEventListener('change', () => handleFiles([...folderInput.files]))
+  resetButton.addEventListener('click', resetState)
+  confirmButton.addEventListener('click', createPreview)
+  dropzone.addEventListener('click', () => fileInput.click())
+  dropzone.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); fileInput.click() }
+  })
+  for (const type of ['dragenter', 'dragover']) dropzone.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.add('is-dragging') })
+  for (const type of ['dragleave', 'drop']) dropzone.addEventListener(type, (event) => { event.preventDefault(); dropzone.classList.remove('is-dragging') })
+  dropzone.addEventListener('drop', async (event) => {
+    try {
+      const entries = await entriesFromDrop(event.dataTransfer)
+      const files = [...event.dataTransfer.files]
+      if (files.length === 1 && files[0].name.toLowerCase().endsWith('.zip')) return handleFiles(files)
+      await prepareInput(entries, message('ドラッグ＆ドロップ', 'Drag and drop'))
+    } catch (error) {
+      showError(error instanceof Error ? error.message : message('ファイルを読み込めませんでした。', 'The files could not be read.'))
+    }
+  })
+  let trialToastTimer = null
+  document.getElementById('trial-copy').addEventListener('click', async () => {
+    const url = document.getElementById('trial-result-url').textContent
+    if (!url) return
+    try { await navigator.clipboard.writeText(url) } catch {}
+    const toast = document.getElementById('toast')
+    if (toast) {
+      toast.classList.add('is-visible')
+      if (trialToastTimer) clearTimeout(trialToastTimer)
+      trialToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 1600)
+    }
+  })
+</script>
