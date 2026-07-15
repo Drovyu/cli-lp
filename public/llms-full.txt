@@ -15,6 +15,8 @@ The product is intended for reviewing static HTML output from tools such as Astr
 5. The CLI returns a preview URL whose fragment contains the decryption key.
 6. A visitor's browser downloads and decrypts the preview after opening the full URL.
 
+Viewer links use `https://<preview-id>.dvyu.link#k=<decryption-key>`. Each preview has its own origin so root-based static asset paths can resolve within that preview. The API and legacy viewer remain on `preview.drovyu.com`; legacy `/p/...` links redirect to the corresponding `dvyu.link` origin.
+
 ## Security model
 
 - Encryption happens before upload on the user's device.
@@ -39,6 +41,7 @@ The product is intended for reviewing static HTML output from tools such as Astr
 - Product: https://cli.drovyu.com/
 - Documentation: https://cli.drovyu.com/docs/
 - Help: https://cli.drovyu.com/help/
+- Release notes and roadmap: https://cli.drovyu.com/updates/
 - Contact: https://cli.drovyu.com/contact/
 - Security: https://cli.drovyu.com/security/
 - Transparency and Trust: https://cli.drovyu.com/trust/
