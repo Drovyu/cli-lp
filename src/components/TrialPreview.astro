@@ -523,7 +523,17 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
         headers: { ...headers, 'content-type': 'application/json' },
         body: JSON.stringify({ version: 1, encryption: { alg: 'AES-GCM', iv: encryptedManifest.iv }, ciphertext: base64Url(encryptedManifest.bytes) }),
       })
-      const url = `${API_ORIGIN}/p/${created.id}#k=${base64Url(rawKey)}`
+      let previewBase = `${API_ORIGIN}/p/${created.id}`
+      if (typeof created.previewUrl === 'string' && created.previewUrl.length <= 512) {
+        try {
+          const parsed = new URL(created.previewUrl)
+          const localHttp = parsed.protocol === 'http:' && ['localhost', '127.0.0.1', '::1'].includes(parsed.hostname)
+          if ((parsed.protocol === 'https:' || localHttp) && !parsed.username && !parsed.password && !parsed.search && !parsed.hash && (parsed.pathname === '/' || parsed.pathname === '')) {
+            previewBase = created.previewUrl.replace(/\/$/, '')
+          }
+        } catch {}
+      }
+      const url = `${previewBase}#k=${base64Url(rawKey)}`
       setProgress(100, '完了しました', 'Complete')
       saveResult(url)
       showResult(url, null)
