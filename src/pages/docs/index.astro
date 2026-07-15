@@ -291,11 +291,11 @@ dvyu supporter unlink</code></pre><button type="button" data-copy="dvyu supporte
         <section class="doc-section" id="assets">
           <h2><span class="lang-block-ja">アセットパス</span><span class="lang-block-en">Asset paths</span></h2>
           <div class="lang-block-ja">
-            <p>安定して表示するには、静的サイトを相対アセットパスでビルドするのが理想です。Astro など一部のビルダーは <code>/_astro/...</code> のような root path を出力しますが、Drovyu Preview の viewer は下層ページも含めて同一 origin の asset link を補完します。外部 origin への完全な絶対 URL はそのまま扱います。</p>
+            <p>各プレビューは <code>https://&lt;preview-id&gt;.dvyu.link</code> という固有の origin で配信されます。Astro、Storybook などが出力する <code>/_astro/...</code> や <code>/assets/...</code> のような root path は、APIや別のプレビューと衝突せず、そのプレビュー内で解決されます。下層ページと同一 origin の asset linkにも対応しますが、外部 origin への完全な絶対 URL はそのまま扱います。</p>
             <p>手動でビルドしてから <code>dvyu create</code> する場合は、以下を優先してください。</p>
           </div>
           <div class="lang-block-en">
-            <p>For the most reliable previews, build static sites with relative asset paths. Astro and some other builders emit root paths such as <code>/_astro/...</code>. The Drovyu Preview viewer rewrites those paths, including nested pages, but fully absolute URLs to external origins are left as-is.</p>
+            <p>Each preview is served from its own <code>https://&lt;preview-id&gt;.dvyu.link</code> origin. Root paths such as <code>/_astro/...</code> and <code>/assets/...</code> emitted by Astro, Storybook, and other builders resolve within that preview without colliding with the API or another preview. Same-origin asset links on nested pages are supported, while fully absolute URLs to external origins are left unchanged.</p>
             <p>If you build manually before running <code>dvyu create</code>, prefer:</p>
           </div>
           <div class="doc-code"><pre><code>vite build --base=./
@@ -343,7 +343,7 @@ astro build</code></pre><button type="button" data-copy="vite build --base=./" a
               <li>Drovyu Preview は完全なセキュリティサンドボックスではありません。</li>
               <li>Viewer JavaScriptと配信基盤も信頼境界に含まれます。本サービスはactive-server zero-knowledgeを保証しません。</li>
               <li>機密情報、NDA対象、個人情報、秘密鍵、credentialには使用しないでください。</li>
-              <li>ビューアーは暗号化プレビュー内の同一オリジンのアセットリンクを補完しますが、特殊なランタイムルーティングや外部絶対 URL のアセットはプロジェクト側の調整が必要になる場合があります。</li>
+              <li>プレビューは固有の <code>&lt;preview-id&gt;.dvyu.link</code> originでroot pathと同一originのasset linkを解決しますが、特殊なruntime routingや外部絶対URLのassetはプロジェクト側の調整が必要になる場合があります。</li>
               <li>発行されたプレビューリンクは公開せず、必要な相手にだけ共有してください。</li>
               <li>支援者 credential は <code>~/.dvyu/support.json</code> へ保存されます。device token と recovery token を含むため、このファイルを共有したり repository へ commit したりしないでください。</li>
             </ul>
@@ -356,7 +356,7 @@ astro build</code></pre><button type="button" data-copy="vite build --base=./" a
               <li>Drovyu Preview is not a full security sandbox.</li>
               <li>The Viewer JavaScript and delivery infrastructure are part of the trust boundary. The service does not claim active-server zero knowledge.</li>
               <li>Do not use the service for confidential, NDA, or personal data, private keys, or credentials.</li>
-              <li>The viewer rewrites same-origin asset links for encrypted previews, but unusual runtime routing or external absolute assets may still need project-side adjustment.</li>
+              <li>Each <code>&lt;preview-id&gt;.dvyu.link</code> origin resolves root paths and same-origin asset links, but unusual runtime routing or external absolute assets may still need project-side adjustment.</li>
               <li>Keep generated preview links private.</li>
               <li>Supporter credentials are stored in <code>~/.dvyu/support.json</code>. It contains the device and recovery tokens, so never share it or commit it to a repository.</li>
             </ul>

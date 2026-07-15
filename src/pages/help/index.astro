@@ -94,8 +94,8 @@ const categories = [
           <details class="faq-item">
             <summary><span class="lang-block-ja">画像やCSSが読み込まれない</span><span class="lang-block-en">Images or CSS do not load</span></summary>
             <div class="faq-body">
-              <div class="lang-block-ja"><p>静的サイトは相対アセットパスでビルドするのが理想です。手動でビルドする場合は <code>vite build --base=./</code> を使ってください。Astro は通常どおり <code>astro build</code> でビルドすれば、<code>/_astro/...</code> のような root path は viewer 側で補完されます。外部 origin への完全な絶対 URL はそのまま扱われるため、プロジェクト側の調整が必要になる場合があります。</p></div>
-              <div class="lang-block-en"><p>Build static sites with relative asset paths when possible. For manual builds, use <code>vite build --base=./</code>. Astro can be built normally with <code>astro build</code>; the viewer rewrites root paths such as <code>/_astro/...</code>. Fully absolute URLs to external origins are left as-is and may need project-side adjustment.</p></div>
+              <div class="lang-block-ja"><p>各previewは固有の <code>&lt;preview-id&gt;.dvyu.link</code> originで配信されるため、<code>/_astro/...</code> や <code>/assets/...</code> のようなroot pathはそのpreview内で解決されます。手動のVite buildでは <code>vite build --base=./</code>、Astroでは通常どおり <code>astro build</code> を使えます。外部originへの完全な絶対URLや特殊なruntime routingは、プロジェクト側の調整が必要になる場合があります。</p></div>
+              <div class="lang-block-en"><p>Each preview is served from its own <code>&lt;preview-id&gt;.dvyu.link</code> origin, so root paths such as <code>/_astro/...</code> and <code>/assets/...</code> resolve within that preview. For manual builds, use <code>vite build --base=./</code> for Vite and the normal <code>astro build</code> for Astro. Fully absolute URLs to external origins or unusual runtime routing may still need project-side adjustment.</p></div>
             </div>
           </details>
           <details class="faq-item">

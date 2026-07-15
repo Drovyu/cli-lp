@@ -1,0 +1,123 @@
+---
+import InfoPageLayout from '../../layouts/InfoPageLayout.astro'
+
+const LINKS = {
+  releases: 'https://github.com/Drovyu/preview-cli/releases',
+  v011: 'https://github.com/Drovyu/preview-cli/releases/tag/v0.1.1',
+  v010: 'https://github.com/Drovyu/preview-cli/releases/tag/v0.1.0',
+  npm: 'https://www.npmjs.com/package/@dvyu/cli',
+  issues: 'https://github.com/Drovyu/preview-cli/issues',
+}
+---
+
+<InfoPageLayout
+  title="リリースノート・ロードマップ — Drovyu Preview"
+  description="Drovyu Preview CLIのリリース内容と、今後優先する改善項目を公開します。"
+  eyebrow="Release notes & roadmap"
+  headingJa="更新情報"
+  headingEn="Product updates"
+  copyJa="公開済みの変更と、これから優先する改善をまとめています。"
+  copyEn="Shipped changes and the improvements currently being prioritized."
+>
+  <section class="doc-section" id="release-notes">
+    <h2><span class="lang-block-ja">リリースノート</span><span class="lang-block-en">Release notes</span></h2>
+    <div class="lang-block-ja"><p>npmの最新版は<a href={LINKS.npm} target="_blank" rel="noreferrer"><code>@dvyu/cli</code></a>で確認できます。各releaseに対応するtag、commit、変更履歴は<a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Releases</a>を正本とします。</p></div>
+    <div class="lang-block-en"><p>Check <a href={LINKS.npm} target="_blank" rel="noreferrer"><code>@dvyu/cli</code></a> for the latest npm version. <a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Releases</a> is the source of truth for each release tag, commit, and change record.</p></div>
+  </section>
+
+  <section class="doc-section" id="v0-1-1">
+    <h2><a href={LINKS.v011} target="_blank" rel="noreferrer">v0.1.1</a> <span class="lang-block-ja">— 2026年7月15日</span><span class="lang-block-en">— July 15, 2026</span></h2>
+    <div class="lang-block-ja">
+      <p>プレビューのorigin分離と、root-based asset pathへの対応を強化したreleaseです。</p>
+      <ul>
+        <li>閲覧URLを <code>https://&lt;preview-id&gt;.dvyu.link#k=...</code> 形式へ変更</li>
+        <li>プレビューごとにoriginを分離し、Storybook、Astro、Viteなどの <code>/assets/...</code> や <code>/_astro/...</code> を解決</li>
+        <li>旧 <code>preview.drovyu.com/p/...</code> URLから新URLへの互換redirectを追加</li>
+        <li>CLIがAPIから返された正式な閲覧URLを保存・表示するよう変更</li>
+        <li>サブドメイン間の分離、旧URL互換、暗号化uploadの自動testを追加・更新</li>
+      </ul>
+    </div>
+    <div class="lang-block-en">
+      <p>This release isolates preview origins and improves support for root-based asset paths.</p>
+      <ul>
+        <li>Changed viewer links to <code>https://&lt;preview-id&gt;.dvyu.link#k=...</code></li>
+        <li>Isolated each preview on its own origin so Storybook, Astro, Vite, and similar builds can resolve <code>/assets/...</code> and <code>/_astro/...</code></li>
+        <li>Added compatibility redirects from legacy <code>preview.drovyu.com/p/...</code> URLs</li>
+        <li>Updated the CLI to save and display the canonical viewer URL returned by the API</li>
+        <li>Added and updated automated tests for subdomain isolation, legacy URLs, and encrypted uploads</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="doc-section" id="v0-1-0">
+    <h2><a href={LINKS.v010} target="_blank" rel="noreferrer">v0.1.0</a> <span class="lang-block-ja">— 2026年7月11日</span><span class="lang-block-en">— July 11, 2026</span></h2>
+    <div class="lang-block-ja">
+      <p>Drovyu Preview CLIの最初の公開releaseです。</p>
+      <ul>
+        <li>静的build、単一HTML、Vite、Astro、Storybookからのpreview作成</li>
+        <li>AES-256-GCMによる端末上のfile・manifest暗号化</li>
+        <li><code>create</code>、<code>update</code>、<code>recreate</code>、<code>list</code>、<code>delete</code>などのpreview管理</li>
+        <li>48時間の通常previewと、Ko-fi支援者向け保持期間・容量特典</li>
+        <li>Source-AvailableなGitHub公開とnpm provenance付きpackage配信</li>
+      </ul>
+    </div>
+    <div class="lang-block-en">
+      <p>The first public release of Drovyu Preview CLI.</p>
+      <ul>
+        <li>Preview creation from static builds, a single HTML file, Vite, Astro, and Storybook</li>
+        <li>On-device AES-256-GCM encryption for files and the manifest</li>
+        <li>Preview management through <code>create</code>, <code>update</code>, <code>recreate</code>, <code>list</code>, and <code>delete</code></li>
+        <li>Standard 48-hour previews and retention and storage benefits for Ko-fi supporters</li>
+        <li>A Source-Available GitHub repository and npm package publishing with provenance</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="doc-section" id="roadmap">
+    <h2><span class="lang-block-ja">ロードマップ</span><span class="lang-block-en">Roadmap</span></h2>
+    <div class="lang-block-ja"><p>以下は現時点の優先順位であり、提供時期や実装を保証するものではありません。安全性、利用状況、技術検証の結果に応じて順序や内容を変更します。</p></div>
+    <div class="lang-block-en"><p>These are current priorities, not commitments to a delivery date or final implementation. Order and scope may change based on safety, usage, and technical validation.</p></div>
+
+    <h3><span class="lang-block-ja">現在優先していること</span><span class="lang-block-en">Current priorities</span></h3>
+    <div class="lang-block-ja"><ul>
+      <li>Storybook、Astro、Viteと下層ページを含むpreview互換性の継続改善</li>
+      <li>upload、build、復号、Service Worker失敗時の診断とerror message改善</li>
+      <li>容量監視、不正利用対策、障害通知など、認証なしで安全に運用するための基盤強化</li>
+    </ul></div>
+    <div class="lang-block-en"><ul>
+      <li>Continue improving preview compatibility for Storybook, Astro, Vite, and nested pages</li>
+      <li>Improve diagnostics and error messages for upload, build, decryption, and Service Worker failures</li>
+      <li>Strengthen capacity monitoring, abuse controls, and incident notifications for safe account-free operation</li>
+    </ul></div>
+
+    <h3><span class="lang-block-ja">計画している改善</span><span class="lang-block-en">Planned improvements</span></h3>
+    <div class="lang-block-ja"><ul>
+      <li>CLIのlocal preview履歴と更新・削除操作の使いやすさ向上</li>
+      <li>公開利用統計、status、incident情報の分かりやすい提供</li>
+      <li>日本語・英語の文言、アクセシビリティ、help導線の継続改善</li>
+    </ul></div>
+    <div class="lang-block-en"><ul>
+      <li>Improve local preview history and update and deletion workflows in the CLI</li>
+      <li>Present public usage statistics, status, and incident information more clearly</li>
+      <li>Continue improving Japanese and English copy, accessibility, and help paths</li>
+    </ul></div>
+
+    <h3><span class="lang-block-ja">検討中</span><span class="lang-block-en">Under consideration</span></h3>
+    <div class="lang-block-ja"><ul>
+      <li>必要性が明確になった場合のoptionalな認証・team共有機能</li>
+      <li>支援者向けの追加管理機能。ただし暗号化と匿名性を損なわない範囲に限定</li>
+    </ul></div>
+    <div class="lang-block-en"><ul>
+      <li>Optional authentication and team sharing if a clear need emerges</li>
+      <li>Additional supporter management features, limited to designs that preserve encryption and anonymity</li>
+    </ul></div>
+  </section>
+
+  <section class="doc-section">
+    <h2><span class="lang-block-ja">フィードバック</span><span class="lang-block-en">Feedback</span></h2>
+    <div class="lang-block-ja"><p>不具合や互換性の問題は<a href={LINKS.issues} target="_blank" rel="noreferrer">GitHub Issues</a>または<a href="/contact">お問い合わせフォーム</a>から報告できます。プレビューURL、復号キー、credential、個人情報は公開Issueへ投稿しないでください。</p></div>
+    <div class="lang-block-en"><p>Report bugs and compatibility issues through <a href={LINKS.issues} target="_blank" rel="noreferrer">GitHub Issues</a> or the <a href="/contact">contact form</a>. Never post preview URLs, decryption keys, credentials, or personal information in a public issue.</p></div>
+  </section>
+
+  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月15日</span><span class="lang-block-en">Last updated: July 15, 2026</span></p>
+</InfoPageLayout>

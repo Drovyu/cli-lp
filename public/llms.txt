@@ -4,11 +4,14 @@
 
 The CLI encrypts preview files locally before upload. The URL fragment contains the decryption key and is not sent to the preview server in an HTTP request.
 
+Viewer links use `https://<preview-id>.dvyu.link#k=<decryption-key>`. Each preview has its own origin. The API and legacy viewer remain on `preview.drovyu.com`.
+
 ## Official pages
 
 - [Home](https://cli.drovyu.com/): Product overview, installation, and core workflow.
 - [Documentation](https://cli.drovyu.com/docs/): Commands, options, supported projects, limits, and security details.
 - [Help Center](https://cli.drovyu.com/help/): Troubleshooting and frequently asked questions.
+- [Release notes and roadmap](https://cli.drovyu.com/updates/): Shipped versions and current product priorities.
 - [Contact](https://cli.drovyu.com/contact/): Private contact form for questions, bug reports, and requests.
 - [Security](https://cli.drovyu.com/security/): Encryption design, URL handling, package verification, and vulnerability reporting.
 - [Transparency and Trust](https://cli.drovyu.com/trust/): Public assurance scope, Viewer trust boundary, and recommended use.
