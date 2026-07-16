@@ -15,6 +15,7 @@ const toc = [
   { id: 'browser-trial', ja: 'ブラウザで試す', en: 'Browser trial' },
   { id: 'install', ja: 'インストール', en: 'Install' },
   { id: 'quickstart', ja: 'クイックスタート', en: 'Quick start' },
+  { id: 'comments', ja: 'コメントとレビュー', en: 'Comments and review' },
   { id: 'commands', ja: 'コマンドリファレンス', en: 'Command reference' },
   { id: 'projects', ja: '対応プロジェクト', en: 'Supported projects' },
   { id: 'files', ja: '対応ファイル', en: 'Supported files' },
@@ -63,11 +64,11 @@ const toc = [
         <section class="doc-section" id="overview">
           <h2><span class="lang-block-ja">概要</span><span class="lang-block-en">Overview</span></h2>
           <div class="lang-block-ja">
-            <p>Drovyu Preview CLI は、静的ビルドから一時的なプレビューリンクを作成する CLI です。Vite、React、Storybook などの静的ビルドを、本番公開せずに共有したいときに使います。</p>
+            <p>Drovyu Preview CLI は、静的ビルドから一時的なプレビューリンクを作成する CLI です。Vite、React、Storybook などの静的ビルドを、本番公開せずに共有し、ページ上でコメントを受け取りたいときに使います。</p>
             <p>CLI は各ファイルと manifest をローカルで暗号化してからアップロードします。AES 鍵は <code>#k=</code> URL fragment にだけ保持され、HTTP リクエストでは送信されません。</p>
           </div>
           <div class="lang-block-en">
-            <p>Drovyu Preview CLI creates temporary preview links for static builds. It is useful when you want to share a Vite, React, or Storybook static build without deploying it as a permanent site.</p>
+            <p>Drovyu Preview CLI creates temporary preview links for static builds. It is useful when you want to share a Vite, React, or Storybook static build and collect comments directly on the page without deploying it as a permanent site.</p>
             <p>The CLI encrypts every file and its manifest locally before upload. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request.</p>
           </div>
           <div class="doc-code"><pre><code>dvyu create ./dist</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
@@ -79,14 +80,14 @@ const toc = [
             <p>製品ページの「ブラウザで試す」から、CLIをインストールせずに静的プレビューを1件作成できます。<code>index.html</code>、静的出力フォルダ、またはZIPを選択し、内容と制限を確認してから作成します。確認前にファイルが送信されることはありません。</p>
             <p>ファイル内容、ファイル名、パス、MIMEタイプ、エントリーポイントはブラウザ内で暗号化します。サーバーで禁止形式を拒否するため、各ファイルの拡張子だけは平文で送信します。</p>
             <ul>
-              <li>合計10MiB、100ファイルまで</li><li>HTMLファイル必須。CLIと同じ許可拡張子だけを受付</li><li>作成から24時間で失効</li><li>1ブラウザにつき有効な試用プレビュー1件</li><li>更新、延長、手動削除には非対応</li>
+              <li>合計10MiB、100ファイルまで</li><li>HTMLファイル必須。CLIと同じ許可拡張子だけを受付</li><li>暗号化コメントを利用可能</li><li>作成から24時間で失効</li><li>1ブラウザにつき有効な試用プレビュー1件</li><li>更新、延長、手動削除には非対応</li>
             </ul>
           </div>
           <div class="lang-block-en">
             <p>The “Try in browser” action creates one static preview without installing the CLI. Select an <code>index.html</code> file, a static output folder, or a ZIP, then review the selection and limits before creating it. No file is sent before confirmation.</p>
             <p>File contents, names, paths, MIME types, and the entrypoint are encrypted in the browser. Only each file extension is sent in plaintext so the server can reject prohibited formats.</p>
             <ul>
-              <li>Up to 10 MiB and 100 files</li><li>An HTML file is required; only the CLI allowlist is accepted</li><li>Expires 24 hours after creation</li><li>One active trial preview per browser</li><li>No update, extension, or manual deletion</li>
+              <li>Up to 10 MiB and 100 files</li><li>An HTML file is required; only the CLI allowlist is accepted</li><li>Encrypted comments are available</li><li>Expires 24 hours after creation</li><li>One active trial preview per browser</li><li>No update, extension, or manual deletion</li>
             </ul>
           </div>
         </section>
@@ -129,6 +130,35 @@ npx @dvyu/cli create ./dist</code></pre><button type="button" data-copy="npx @dv
           <div class="lang-block-en"><p>Send the printed URL. The decryption key lives in the <code>#k=</code> fragment, and the preview expires after 48 hours.</p></div>
         </section>
 
+        <section class="doc-section" id="comments">
+          <h2><span class="lang-block-ja">コメントとレビュー</span><span class="lang-block-en">Comments and review</span></h2>
+          <div class="lang-block-ja">
+            <p>プレビュー右下のコメントボタンから、閲覧者はページ上の位置または範囲を選んでコメントを追加できます。複数の下書きをまとめて送信でき、既存コメントへの返信と任意の表示名にも対応します。</p>
+            <p>コメント本文、表示名、返信関係、対象ページ、座標は、プレビューと同じ鍵を使ってブラウザ内で暗号化します。<code>dvyu update</code>はURLと鍵を維持するため、内容を差し替えてもコメントを引き継ぎます。</p>
+            <ul>
+              <li>通常利用はデバイス全体で最大300件、サポーターは最大10,000件。超過時は古いものから削除</li>
+              <li>返信も1件として数えます</li>
+              <li>自然失効後も30日間は同じ完全URLからコメントを確認可能</li>
+              <li><code>dvyu delete</code>による明示削除ではコメントも即時削除</li>
+            </ul>
+            <p>コメントを受け付けない場合は、作成または更新時に<code>--no-comments</code>を指定します。<code>update</code>で無効化しても暗号化済みコメントは保持され、次回このオプションなしで更新すると再表示されます。</p>
+          </div>
+          <div class="lang-block-en">
+            <p>From the comment button at the bottom right, reviewers can select a point or region on the page and add feedback. Multiple drafts can be sent together, and replies and optional display names are supported.</p>
+            <p>Comment text, display names, reply relationships, target routes, and coordinates are encrypted in the browser with the same key as the preview. Because <code>dvyu update</code> keeps the URL and key, comments remain available after replacing preview content.</p>
+            <ul>
+              <li>Up to 300 comments per standard device or 10,000 per supporter; oldest comments are removed first</li>
+              <li>Each reply counts as one comment</li>
+              <li>Comments remain readable from the same complete URL for 30 days after natural expiry</li>
+              <li>An explicit <code>dvyu delete</code> removes comments immediately</li>
+            </ul>
+            <p>To publish without comments, add <code>--no-comments</code> when creating or updating. Disabling comments with <code>update</code> retains encrypted comments and restores them after a later update without this option.</p>
+          </div>
+          <div class="doc-code"><pre><code>dvyu preview --no-comments
+dvyu create ./dist --no-comments
+dvyu update --no-comments</code></pre><button type="button" data-copy="dvyu preview --no-comments" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+        </section>
+
         <section class="doc-section" id="commands">
           <h2><span class="lang-block-ja">コマンドリファレンス</span><span class="lang-block-en">Command reference</span></h2>
 
@@ -139,12 +169,14 @@ npx @dvyu/cli create ./dist</code></pre><button type="button" data-copy="npx @dv
             <div class="doc-code"><pre><code>dvyu create
 dvyu create ./dist
 dvyu create ./example.html
-dvyu create ./dist -p</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+dvyu create ./dist -p
+dvyu create ./dist --no-comments</code></pre><button type="button" data-copy="dvyu create ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
             <table class="doc-table">
               <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
               <tbody>
                 <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">アクセスが 1 ヶ月ない場合だけ削除される永続プレビューを作成します。<code>--ttl</code> と同時に指定できません。</span><span class="lang-block-en">Keep the preview alive until it has no access for 1 month. Cannot be combined with <code>--ttl</code>.</span></td></tr>
                 <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します（例: <code>--ttl 7d</code>）。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>, such as <code>--ttl 7d</code>.</span></td></tr>
+                <tr><td><code>--no-comments</code></td><td><span class="lang-block-ja">コメントUIを無効にして作成します。</span><span class="lang-block-en">Create the preview without the comment UI.</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -157,13 +189,15 @@ dvyu create ./dist -p</code></pre><button type="button" data-copy="dvyu create .
 dvyu preview ./my-app
 dvyu preview --out-dir build
 dvyu preview -p
-dvyu preview --ttl 7d</code></pre><button type="button" data-copy="dvyu preview ./my-app" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+dvyu preview --ttl 7d
+dvyu preview --no-comments</code></pre><button type="button" data-copy="dvyu preview ./my-app" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
             <table class="doc-table">
               <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
               <tbody>
                 <tr><td><code>-o, --out-dir &lt;path&gt;</code></td><td><span class="lang-block-ja">ビルドの出力ディレクトリを指定します。</span><span class="lang-block-en">Override the build output directory.</span></td></tr>
                 <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">アクセスが 1 ヶ月ない場合だけ削除される永続プレビューを作成します。</span><span class="lang-block-en">Keep the preview alive until it has no access for 1 month.</span></td></tr>
                 <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+                <tr><td><code>--no-comments</code></td><td><span class="lang-block-ja">コメントUIを無効にして作成します。</span><span class="lang-block-en">Create the preview without the comment UI.</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -175,12 +209,14 @@ dvyu preview --ttl 7d</code></pre><button type="button" data-copy="dvyu preview 
             <div class="doc-code"><pre><code>dvyu update
 dvyu update ./dist
 dvyu update &lt;id&gt; ./dist
-dvyu update -p</code></pre><button type="button" data-copy="dvyu update ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+dvyu update -p
+dvyu update --no-comments</code></pre><button type="button" data-copy="dvyu update ./dist" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
             <table class="doc-table">
               <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
               <tbody>
                 <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">更新時に永続プレビューへ切り替えます。</span><span class="lang-block-en">Switch the preview to permanence on update.</span></td></tr>
                 <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+                <tr><td><code>--no-comments</code></td><td><span class="lang-block-ja">コメントUIを無効化します。既存コメントは保持され、次回オプションなしで更新すると再表示します。</span><span class="lang-block-en">Disable the comment UI. Existing comments are retained and return after a later update without this option.</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -190,12 +226,14 @@ dvyu update -p</code></pre><button type="button" data-copy="dvyu update ./dist" 
             <div class="lang-block-ja"><p>古いプレビューを削除し、同じローカルパスから新しい URL で作り直します。URL を変えたくない場合は <code>update</code> を使います。</p></div>
             <div class="lang-block-en"><p>Deletes the old preview and creates a new preview URL from the same local path. Use <code>update</code> when the URL must stay the same.</p></div>
             <div class="doc-code"><pre><code>dvyu recreate
-dvyu recreate ./dist</code></pre><button type="button" data-copy="dvyu recreate" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
+dvyu recreate ./dist
+dvyu recreate --no-comments</code></pre><button type="button" data-copy="dvyu recreate" aria-label="Copy"><Copy size={14} strokeWidth={2} /></button></div>
             <table class="doc-table">
               <thead><tr><th><span class="lang-block-ja">オプション</span><span class="lang-block-en">Option</span></th><th><span class="lang-block-ja">説明</span><span class="lang-block-en">Description</span></th></tr></thead>
               <tbody>
                 <tr><td><code>-p, --permanence</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja">作り直したプレビューを永続にします。</span><span class="lang-block-en">Make the recreated preview permanent.</span></td></tr>
                 <tr><td><code>--ttl &lt;duration&gt;</code> <span class="sup-badge">supporter</span></td><td><span class="lang-block-ja"><code>1h</code> から <code>30d</code> までの有効期限を指定します。</span><span class="lang-block-en">Set a lifetime from <code>1h</code> to <code>30d</code>.</span></td></tr>
+                <tr><td><code>--no-comments</code></td><td><span class="lang-block-ja">コメントUIを無効にして作り直します。</span><span class="lang-block-en">Recreate the preview without the comment UI.</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -336,6 +374,7 @@ astro build</code></pre><button type="button" data-copy="vite build --base=./" a
               <tr><td><span class="lang-block-ja">永続オプション</span><span class="lang-block-en">Permanence</span></td><td><span class="lang-block-ja">利用不可</span><span class="lang-block-en">Not available</span></td><td><code>-p, --permanence</code></td></tr>
               <tr><td><span class="lang-block-ja">プレビューバッジ</span><span class="lang-block-en">Preview badge</span></td><td><span class="lang-block-ja">表示</span><span class="lang-block-en">Shown</span></td><td><span class="lang-block-ja">非表示</span><span class="lang-block-en">Hidden</span></td></tr>
               <tr><td><span class="lang-block-ja">登録端末</span><span class="lang-block-en">Linked devices</span></td><td><span class="lang-block-ja">端末単位</span><span class="lang-block-en">Device-scoped</span></td><td><span class="lang-block-ja">最大 <code>2台</code></span><span class="lang-block-en">Up to <code>2</code></span></td></tr>
+              <tr><td><span class="lang-block-ja">保持コメント</span><span class="lang-block-en">Retained comments</span></td><td><span class="lang-block-ja">端末全体で最大 <code>300件</code></span><span class="lang-block-en">Up to <code>300</code> per device</span></td><td><span class="lang-block-ja">支援者全体で最大 <code>10,000件</code></span><span class="lang-block-en">Up to <code>10,000</code> per supporter</span></td></tr>
             </tbody>
           </table>
           <div class="lang-block-ja">
@@ -355,7 +394,7 @@ astro build</code></pre><button type="button" data-copy="vite build --base=./" a
         <section class="doc-section" id="security">
           <h2><span class="lang-block-ja">セキュリティと注意事項</span><span class="lang-block-en">Security and notes</span></h2>
           <div class="lang-block-ja">
-            <p>CLI は各ファイルと manifest を AES-256-GCM でローカル暗号化してからアップロードします。AES 鍵は URL の <code>#k=</code> fragment にだけ保持され、HTTP リクエストでは送信されません。サーバーは元のファイル内容・ファイル名・MIME type・entrypoint・AES 鍵を受け取りません。一方、運用に必要な preview ID、device ID、合計サイズ、ファイル数、作成・アクセス日時、有効期限、保持モードは暗号化されずに保存します。暗号化設計と検証手順は <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.ja.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.ja.md</a> を参照してください。</p>
+            <p>CLI は各ファイルと manifest を AES-256-GCM でローカル暗号化してからアップロードします。コメント本文、表示名、返信関係、対象ページ、座標もブラウザ内で同じ鍵を使って暗号化します。返信もコメント1件として上限と累計に含まれます。AES 鍵は URL の <code>#k=</code> fragment にだけ保持され、HTTP リクエストでは送信されません。サーバーは元のファイル内容・ファイル名・MIME type・entrypoint・コメント平文・AES 鍵を受け取りません。一方、運用に必要な preview ID、device ID、合計サイズ、ファイル数、comment IDと暗号文size、作成・アクセス日時、有効期限、保持モードは暗号化されずに保存します。暗号化設計と検証手順は <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.ja.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.ja.md</a> を参照してください。</p>
             <p>注意事項:</p>
             <ul>
               <li>プレビューリンクは、信頼できる相手への一時共有を想定しています。</li>
@@ -368,7 +407,7 @@ astro build</code></pre><button type="button" data-copy="vite build --base=./" a
             </ul>
           </div>
           <div class="lang-block-en">
-            <p>The CLI encrypts every file and its manifest locally with AES-256-GCM before upload. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request. The server does not receive original file contents, filenames, MIME types, the entrypoint, or the AES key. Operational metadata remains unencrypted, including the preview and device ids, aggregate sizes, file count, creation and access times, expiry, and retention mode. See <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.md</a> for the encryption design and executable verification.</p>
+            <p>The CLI encrypts every file and its manifest locally with AES-256-GCM before upload. Comment text, display names, reply relationships, target routes, and coordinates are encrypted in the browser with the same key. Each reply counts as one comment for limits and cumulative statistics. The AES key is kept in the <code>#k=</code> URL fragment and is never sent in an HTTP request. The server does not receive original file contents, filenames, MIME types, the entrypoint, plaintext comments, or the AES key. Operational metadata remains unencrypted, including preview and device ids, aggregate sizes, file count, comment ids and ciphertext sizes, creation and access times, expiry, and retention mode. See <a href="https://github.com/Drovyu/preview-cli/blob/main/docs/ENCRYPTION.md" target="_blank" rel="noreferrer">docs/ENCRYPTION.md</a> for the encryption design and executable verification.</p>
             <p>Notes:</p>
             <ul>
               <li>Preview links are intended for temporary sharing with trusted recipients.</li>

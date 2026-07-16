@@ -476,7 +476,12 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
     let created = null
     try {
       const rawKey = crypto.getRandomValues(new Uint8Array(32))
+      const keyString = base64Url(rawKey)
       const key = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', false, ['encrypt'])
+      const commentAuthKey = base64Url(new Uint8Array(await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(`dvyu-comment-auth-v1:${keyString}`),
+      )))
       const encryptedFiles = []
       for (let index = 0; index < prepared.entries.length; index += 1) {
         const entry = prepared.entries[index]
@@ -497,6 +502,7 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
           encryptedSize: encryptedFiles.reduce((sum, file) => sum + file.encrypted.byteLength, 0),
           fileCount: encryptedFiles.length,
           files: encryptedFiles.map((file) => ({ storageKey: file.storageKey, encryptedSize: file.encrypted.byteLength, extension: file.extension })),
+          commentAuthKey,
         }),
       })
       created = await createResponse.json()
@@ -533,7 +539,7 @@ const acceptedExtensions = '.html,.htm,.md,.txt,.json,.xml,.map,.css,.js,.mjs,.c
           }
         } catch {}
       }
-      const url = `${previewBase}#k=${base64Url(rawKey)}`
+      const url = `${previewBase}#k=${keyString}`
       setProgress(100, '完了しました', 'Complete')
       saveResult(url)
       showResult(url, null)
