@@ -25,7 +25,7 @@ const features = [
   { chip: 'dvyu update', key: 'f3', title: 'URLを変えずに更新', body: '修正したら dvyu update。同じURLのまま中身だけ差し替わるので、送ったリンクを貼り直す必要がありません。' },
   { chip: '--permanence', key: 'f4', title: '期限つきで、あと腐れなく', body: 'プレビューは48時間で自動失効。--permanence を付ければ、アクセスが1ヶ月途切れるまで残せます。' },
   { chip: 'dvyu create ./file.html', key: 'f5', title: 'HTML 1枚からでも', body: 'dvyu create ./example.html のように、単一のHTMLファイルからもプレビューを作れます。ちょっとしたモックの共有に。' },
-  { chip: 'Encrypted comments', key: 'f6', title: 'その場にコメントできる', body: '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、dvyu update 後も引き継がれます。' },
+  { chip: 'Encrypted comments', key: 'f6', title: 'その場にコメントできる', body: '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、ブラウザ通知も設定できます。' },
 ]
 
 const commands = [
@@ -422,7 +422,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'review-step1-title': '位置や範囲を選ぶ',
         'review-step1-body': 'ページ上で確認してほしい箇所をクリック、またはドラッグして選択します。',
         'review-step2-title': 'コメントして返信する',
-        'review-step2-body': '複数の指摘をまとめて送信。表示名を設定し、届いたコメントへ返信できます。',
+        'review-step2-body': '複数の指摘をまとめて送信。表示名、返信、新着コメントのブラウザ通知も設定できます。',
         'review-step3-title': '修正して、そのまま更新',
         'review-step3-body': 'dvyu updateで内容を差し替えても、URLと暗号化されたコメントは維持されます。',
         'features-label': '機能',
@@ -438,7 +438,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'f5-title': 'HTML 1枚からでも',
         'f5-body': 'dvyu create ./example.html のように、単一のHTMLファイルからもプレビューを作れます。ちょっとしたモックの共有に。',
         'f6-title': 'その場にコメントできる',
-        'f6-body': '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、dvyu update 後も引き継がれます。',
+        'f6-body': '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、ブラウザ通知も設定できます。',
         'commands-label': 'コマンド',
         'commands-title': 'これだけ覚えれば、<em>全部</em>使えます。',
         'commands-copy': '日常的に使うのは create / preview / update が中心です。',
@@ -511,7 +511,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'review-step1-title': 'Select a point or region',
         'review-step1-body': 'Click or drag over the exact part of the page that needs attention.',
         'review-step2-title': 'Comment and reply',
-        'review-step2-body': 'Send multiple notes together, set a display name, and reply to existing feedback.',
+        'review-step2-body': 'Send multiple notes together, set a display name, reply, and enable browser notifications for new feedback.',
         'review-step3-title': 'Fix it and update in place',
         'review-step3-body': 'dvyu update replaces the content while keeping the URL and encrypted comments.',
         'features-label': 'Features',
@@ -527,7 +527,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'f5-title': 'Even a single HTML file',
         'f5-body': 'dvyu create ./example.html works too. Handy for sharing a quick mockup.',
         'f6-title': 'Comment directly on the page',
-        'f6-body': 'Reviewers can select a point or region, leave a comment, and reply. Feedback uses the same encryption key and survives dvyu update.',
+        'f6-body': 'Reviewers can select a point or region, comment, reply, and enable browser notifications. Feedback uses the same encryption key.',
         'commands-label': 'Commands',
         'commands-title': 'Learn these and you know <em>everything</em>.',
         'commands-copy': 'Day to day you will mostly use create, preview, and update.',
@@ -918,7 +918,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         comments: document.querySelector('[data-stat="comments"]'),
       }
       try {
-        const response = await fetch('https://stats.preview.drovyu.com/stats.json')
+        const response = await fetch('https://stats.preview.drovyu.com/stats.json?v=comments-20260716')
         if (!response.ok) throw new Error('Could not load public stats')
         const stats = await response.json()
         const values = {
