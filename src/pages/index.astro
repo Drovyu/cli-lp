@@ -129,7 +129,7 @@ const fileTypesReversed = [...fileTypes].reverse()
           </div>
           <div class="stat-card reveal" style="--delay:240ms">
             <span class="stat-value" data-stat="devices" data-count="0" data-suffix="">0</span>
-            <span class="stat-label" data-i18n="stat-devices">利用中のデバイス</span>
+            <span class="stat-label" data-i18n="stat-devices">累計利用デバイス</span>
           </div>
         </div>
       </div>
@@ -342,7 +342,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'stats-label': 'これまでの利用状況',
         'stat-previews': '作成されたプレビュー',
         'stat-transferred': '配信した暗号化データ',
-        'stat-devices': '利用中のデバイス',
+        'stat-devices': '累計利用デバイス',
         'start-label': 'はじめかた',
         'start-title': 'インストールして、<br><em>つくって、送る。</em>',
         'step1-title': 'インストール',
@@ -418,7 +418,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'stats-label': 'Usage so far',
         'stat-previews': 'previews created',
         'stat-transferred': 'encrypted data served',
-        'stat-devices': 'active devices',
+        'stat-devices': 'devices to date',
         'start-label': 'Getting started',
         'start-title': 'Install it. Build it.<br><em>Send the link.</em>',
         'step1-title': 'Install',
@@ -813,7 +813,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         const values = {
           previews: Number(stats.previewsCreated),
           transferred: Number(stats.encryptedGigabytesPublished),
-          devices: Number(stats.devices),
+          devices: Number(stats.devicesEver),
         }
         Object.entries(elements).forEach(([key, el]) => {
           const value = values[key]

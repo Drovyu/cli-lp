@@ -1227,7 +1227,7 @@ button {
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 40px;
 }
 
@@ -2036,6 +2036,50 @@ button {
   .scrolly-terminal .terminal-body {
     font-size: 0.9rem;
     min-height: 380px;
+  }
+}
+
+/* Keep the sticky story clear of the fixed navigation on shorter laptops. */
+@media (min-width: 769px) and (max-height: 820px) {
+  .scrolly-stage {
+    top: 52px;
+    height: calc(100vh - 52px);
+  }
+
+  .scrolly-head {
+    margin-bottom: 20px;
+  }
+
+  .scrolly-head .section-label {
+    margin-bottom: 10px;
+  }
+
+  .scrolly-head .section-title {
+    font-size: clamp(1.8rem, 5vh, 2.25rem);
+    line-height: 1.05;
+  }
+
+  .scrolly-terminal .terminal-body {
+    min-height: 360px;
+    padding: 20px 22px 24px;
+    gap: 8px;
+  }
+
+  .scrolly-captions {
+    gap: 8px;
+  }
+
+  .scrolly-caption {
+    padding: 12px 16px;
+  }
+
+  .browser-body {
+    padding: 10px 12px 12px;
+    gap: 6px;
+  }
+
+  .skel.skel-block {
+    height: 32px;
   }
 }
 
