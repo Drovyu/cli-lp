@@ -25,6 +25,30 @@ const LINKS = {
     <div class="lang-block-en"><p>Check <a href={LINKS.npm} target="_blank" rel="noreferrer"><code>@dvyu/cli</code></a> for the latest npm version. <a href={LINKS.releases} target="_blank" rel="noreferrer">GitHub Releases</a> is the source of truth for each release tag, commit, and change record.</p></div>
   </section>
 
+  <section class="doc-section" id="service-2026-07-16">
+    <h2><span class="lang-block-ja">サービス更新 — 2026年7月16日</span><span class="lang-block-en">Service update — July 16, 2026</span></h2>
+    <div class="lang-block-ja">
+      <p>プレビュー上で確認箇所を指定できる、暗号化コメント機能を追加しました。</p>
+      <ul>
+        <li>ページ上の点または範囲にコメントを追加し、複数件をまとめて送信</li>
+        <li>コメントへの返信、任意の表示名、コメント一覧と件数表示に対応</li>
+        <li>本文、表示名、返信関係、対象ページ、座標をプレビューと同じ鍵で暗号化</li>
+        <li><code>dvyu update</code>後もコメントを維持し、自然失効後は30日間確認可能</li>
+        <li><code>--no-comments</code>でコメントUIを無効化可能</li>
+      </ul>
+    </div>
+    <div class="lang-block-en">
+      <p>Added encrypted comments for placing feedback directly on a preview.</p>
+      <ul>
+        <li>Add comments to a point or selected region and send multiple drafts together</li>
+        <li>Supports replies, optional display names, a comment list, and a count badge</li>
+        <li>Encrypts text, display names, reply relationships, target routes, and coordinates with the preview key</li>
+        <li>Preserves comments across <code>dvyu update</code> and keeps them readable for 30 days after natural expiry</li>
+        <li>Allows the comment UI to be disabled with <code>--no-comments</code></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="doc-section" id="v0-1-1">
     <h2><a href={LINKS.v011} target="_blank" rel="noreferrer">v0.1.1</a> <span class="lang-block-ja">— 2026年7月15日</span><span class="lang-block-en">— July 15, 2026</span></h2>
     <div class="lang-block-ja">
@@ -103,24 +127,24 @@ const LINKS = {
     <h3><span class="lang-block-ja">現在優先していること</span><span class="lang-block-en">Current priorities</span></h3>
     <div class="lang-block-ja"><ul>
       <li>互換性の拡張: Storybook、Astro、Viteをはじめとするフレームワーク、下層ページ、アセットパス、クライアント側ルーティングへの対応を継続改善</li>
+      <li>コメント通知、位置追従、レビュー操作など、コメント機能の使いやすさを継続改善</li>
       <li>upload、build、復号、Service Worker失敗時の診断とerror message改善</li>
       <li>容量監視、不正利用対策、障害通知など、認証なしで安全に運用するための基盤強化</li>
     </ul></div>
     <div class="lang-block-en"><ul>
       <li>Expand compatibility across frameworks such as Storybook, Astro, and Vite, including nested pages, asset paths, and client-side routing</li>
+      <li>Continue improving comment notifications, anchor tracking, and review workflows</li>
       <li>Improve diagnostics and error messages for upload, build, decryption, and Service Worker failures</li>
       <li>Strengthen capacity monitoring, abuse controls, and incident notifications for safe account-free operation</li>
     </ul></div>
 
     <h3><span class="lang-block-ja">計画している改善</span><span class="lang-block-en">Planned improvements</span></h3>
     <div class="lang-block-ja"><ul>
-      <li>プレビューへのコメント機能: 閲覧者がページや確認箇所にコメントを残せるレビュー機能。アクセス制御、迷惑投稿対策、コメントの保存期間を含めて設計</li>
       <li>CLIのlocal preview履歴と更新・削除操作の使いやすさ向上</li>
       <li>公開利用統計、status、incident情報の分かりやすい提供</li>
       <li>日本語・英語の文言、アクセシビリティ、help導線の継続改善</li>
     </ul></div>
     <div class="lang-block-en"><ul>
-      <li>Preview comments: a review workflow for visitors to leave feedback on a page or review point, designed together with access controls, spam prevention, and comment retention</li>
       <li>Improve local preview history and update and deletion workflows in the CLI</li>
       <li>Present public usage statistics, status, and incident information more clearly</li>
       <li>Continue improving Japanese and English copy, accessibility, and help paths</li>
@@ -143,5 +167,5 @@ const LINKS = {
     <div class="lang-block-en"><p>Report bugs and compatibility issues through <a href={LINKS.issues} target="_blank" rel="noreferrer">GitHub Issues</a> or the <a href="/contact">contact form</a>. Never post preview URLs, decryption keys, credentials, or personal information in a public issue.</p></div>
   </section>
 
-  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月15日</span><span class="lang-block-en">Last updated: July 15, 2026</span></p>
+  <p class="prose-updated"><span class="lang-block-ja">最終更新日: 2026年7月16日</span><span class="lang-block-en">Last updated: July 16, 2026</span></p>
 </InfoPageLayout>

@@ -1227,19 +1227,28 @@ button {
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 40px;
+}
+
+.stat-card {
+  min-width: 0;
+  container-type: inline-size;
 }
 
 .stat-value {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-size: clamp(2.4rem, 3.4vw, 3rem);
   letter-spacing: -0.03em;
   line-height: 1.05;
   color: var(--purple-lt);
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.05em;
   margin-bottom: 10px;
+  white-space: nowrap;
 }
 
 .stat-label {
@@ -1452,6 +1461,266 @@ button {
   position: static;
   height: auto;
   overflow: visible;
+}
+
+/* ------------------------------------------------------------------------
+   11b. Review flow
+   ------------------------------------------------------------------------ */
+.review-section {
+  height: 300vh;
+  background: var(--lt-bg);
+}
+
+.review-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  overflow: hidden;
+}
+
+.review-stage .section-inner {
+  width: 100%;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+.review-preview {
+  overflow: hidden;
+  background: var(--lt-bg);
+  border: 1px solid var(--lt-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 16px 44px rgba(36, 41, 47, 0.1);
+}
+
+.review-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: var(--lt-alt);
+  border-bottom: 1px solid var(--lt-border);
+}
+
+.review-browser-body {
+  position: relative;
+  min-height: 350px;
+  padding: 54px 42px;
+}
+
+.review-skeleton {
+  display: block;
+  height: 11px;
+  margin-bottom: 13px;
+  border-radius: 4px;
+  background: #e7e9ed;
+}
+
+.review-skeleton-title {
+  width: 48%;
+  height: 24px;
+  margin-bottom: 24px;
+  background: var(--purple-tint-strong);
+}
+
+.review-skeleton-copy {
+  width: 78%;
+}
+
+.review-skeleton-copy.is-short {
+  width: 58%;
+}
+
+.review-selection {
+  position: absolute;
+  top: 48px;
+  left: 34px;
+  width: 76%;
+  height: 118px;
+  border: 2px solid #0a84ff;
+  background: rgba(10, 132, 255, 0.08);
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: top left;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.review-marker {
+  position: absolute;
+  top: 146px;
+  left: 73%;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: #0a84ff;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.review-comment {
+  position: absolute;
+  right: 28px;
+  bottom: 58px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  width: min(290px, calc(100% - 56px));
+  padding: 13px 15px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #fff;
+  background: #0a84ff;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(10, 132, 255, 0.25);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.review-avatar {
+  display: grid;
+  flex: 0 0 22px;
+  height: 22px;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+}
+
+.review-launcher {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #fff;
+  background: #0a84ff;
+  border-radius: 8px;
+  box-shadow: 0 5px 14px rgba(10, 132, 255, 0.28);
+}
+
+.review-update-status {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--purple-lt);
+  background: var(--purple-tint);
+  border-radius: var(--radius-button);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.review-section[data-step="1"] .review-selection,
+.review-section[data-step="1"] .review-marker,
+.review-section[data-step="2"] .review-selection,
+.review-section[data-step="2"] .review-marker,
+.review-section[data-step="3"] .review-selection,
+.review-section[data-step="3"] .review-marker {
+  opacity: 1;
+  transform: none;
+}
+
+.review-section[data-step="2"] .review-comment,
+.review-section[data-step="3"] .review-comment {
+  opacity: 1;
+  transform: none;
+}
+
+.review-section[data-step="3"] .review-selection {
+  opacity: 0.35;
+}
+
+.review-section[data-step="3"] .review-update-status {
+  opacity: 1;
+  transform: none;
+}
+
+.review-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-step {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  padding: 18px 20px;
+  border: 1px solid var(--lt-border);
+  border-radius: var(--radius-card);
+  opacity: 0.5;
+  transition: opacity 0.35s ease, border-color 0.35s ease;
+}
+
+.review-step .cap-num {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--purple-lt);
+}
+
+.review-step h3 {
+  margin-bottom: 4px;
+  font-size: 1.05rem;
+  color: var(--lt-text);
+}
+
+.review-step p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--lt-secondary);
+}
+
+.review-step.active {
+  opacity: 1;
+  border-color: rgba(138, 63, 242, 0.45);
+}
+
+.review-section.is-static {
+  height: auto;
+  padding-block: var(--section-pad);
+}
+
+.review-section.is-static .review-stage {
+  position: static;
+  height: auto;
+  overflow: visible;
+}
+
+.review-section.is-static .review-selection,
+.review-section.is-static .review-marker,
+.review-section.is-static .review-comment,
+.review-section.is-static .review-update-status {
+  opacity: 1;
+  transform: none;
 }
 
 .scrolly.is-static .scrolly-grid {
@@ -2166,6 +2435,27 @@ button {
   .scrolly-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .review-section {
+    height: auto;
+    padding-block: var(--section-pad);
+  }
+
+  .review-stage {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .review-browser-body {
+    min-height: 300px;
+    padding: 46px 28px;
   }
 
   .scrolly-caption {

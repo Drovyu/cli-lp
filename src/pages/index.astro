@@ -4,6 +4,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  MessageCirclePlus,
 } from '@lucide/astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import SiteFooter from '../components/SiteFooter.astro'
@@ -24,7 +25,7 @@ const features = [
   { chip: 'dvyu update', key: 'f3', title: 'URLを変えずに更新', body: '修正したら dvyu update。同じURLのまま中身だけ差し替わるので、送ったリンクを貼り直す必要がありません。' },
   { chip: '--permanence', key: 'f4', title: '期限つきで、あと腐れなく', body: 'プレビューは48時間で自動失効。--permanence を付ければ、アクセスが1ヶ月途切れるまで残せます。' },
   { chip: 'dvyu create ./file.html', key: 'f5', title: 'HTML 1枚からでも', body: 'dvyu create ./example.html のように、単一のHTMLファイルからもプレビューを作れます。ちょっとしたモックの共有に。' },
-  { chip: 'dvyu usage', key: 'f6', title: '使用量がすぐわかる', body: 'dvyu usage で使用中の容量を、dvyu list で有効なプレビューと期限を確認。上限は 100MB・20 プレビューです。' },
+  { chip: 'Encrypted comments', key: 'f6', title: 'その場にコメントできる', body: '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、dvyu update 後も引き継がれます。' },
 ]
 
 const commands = [
@@ -56,7 +57,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         <div class="reveal">
           <div class="hero-eyebrow" data-i18n="hero-eyebrow">Drovyu Preview CLI</div>
           <h1 class="hero-title" data-i18n-html="hero-title">静的ビルドを、<br />そのまま<em>共有URL</em>に。</h1>
-          <p class="hero-copy" data-i18n="hero-copy">dvyu create を実行するだけで、暗号化された一時プレビューURLが手に入ります。デプロイもアカウント登録も不要。ターミナルだけで完結します。</p>
+          <p class="hero-copy" data-i18n="hero-copy">dvyu create を実行するだけで、暗号化された一時プレビューURLが手に入ります。共有先ではページ上に暗号化コメントも残せます。デプロイもアカウント登録も不要です。</p>
           <div class="install-bar">
             <div class="install-tab-list" role="tablist" aria-label="Package manager">
               <button type="button" class="active" data-tab="pnpm">pnpm</button>
@@ -131,6 +132,10 @@ const fileTypesReversed = [...fileTypes].reverse()
             <span class="stat-value" data-stat="devices" data-count="0" data-suffix="">0</span>
             <span class="stat-label" data-i18n="stat-devices">累計利用デバイス</span>
           </div>
+          <div class="stat-card reveal" style="--delay:360ms">
+            <span class="stat-value" data-stat="comments" data-count="0" data-suffix="">0</span>
+            <span class="stat-label" data-i18n="stat-comments">作成されたコメント</span>
+          </div>
         </div>
       </div>
     </section>
@@ -191,6 +196,62 @@ const fileTypesReversed = [...fileTypes].reverse()
       </div>
     </section>
 
+    <section class="review-section" id="review">
+      <div class="review-stage">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="section-label" data-i18n="review-label">レビュー</p>
+            <h2 class="section-title" data-i18n-html="review-title">共有して、<br /><em>その場でフィードバック。</em></h2>
+            <p class="section-copy" data-i18n="review-copy">URLを受け取った相手は、気になった位置や範囲を選んでコメントできます。別のツールへ画面を貼り直す必要はありません。</p>
+          </div>
+          <div class="review-grid">
+            <div class="review-preview" aria-hidden="true">
+            <div class="review-browser-bar">
+              <span class="browser-dots"><i></i><i></i><i></i></span>
+              <span class="browser-url">7f1688945bb2ff998c0d8265.dvyu.link</span>
+            </div>
+            <div class="review-browser-body">
+              <span class="review-skeleton review-skeleton-title"></span>
+              <span class="review-skeleton review-skeleton-copy"></span>
+              <span class="review-skeleton review-skeleton-copy is-short"></span>
+              <span class="review-selection"></span>
+              <span class="review-marker">1</span>
+              <div class="review-comment">
+                <span class="review-avatar">D</span>
+                <span data-i18n="review-demo-comment">ここの余白を少し狭くしたいです</span>
+              </div>
+              <span class="review-update-status"><Check size={14} strokeWidth={2.4} /> dvyu update</span>
+              <span class="review-launcher"><MessageCirclePlus size={18} strokeWidth={2} /></span>
+            </div>
+            </div>
+            <div class="review-steps">
+            <div class="review-step">
+              <span class="cap-num">01</span>
+              <div class="cap-text">
+                <h3 data-i18n="review-step1-title">位置や範囲を選ぶ</h3>
+                <p data-i18n="review-step1-body">ページ上で確認してほしい箇所をクリック、またはドラッグして選択します。</p>
+              </div>
+            </div>
+            <div class="review-step">
+              <span class="cap-num">02</span>
+              <div class="cap-text">
+                <h3 data-i18n="review-step2-title">コメントして返信する</h3>
+                <p data-i18n="review-step2-body">複数の指摘をまとめて送信。表示名を設定し、届いたコメントへ返信できます。</p>
+              </div>
+            </div>
+            <div class="review-step">
+              <span class="cap-num">03</span>
+              <div class="cap-text">
+                <h3 data-i18n="review-step3-title">修正して、そのまま更新</h3>
+                <p data-i18n="review-step3-body">dvyu updateで内容を差し替えても、URLと暗号化されたコメントは維持されます。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
     <section class="section is-alt" id="features">
       <div class="section-inner">
         <div class="section-head reveal">
@@ -245,6 +306,7 @@ const fileTypesReversed = [...fileTypes].reverse()
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-free-2">アクティブ容量 100MB</span></li>
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-free-3">同時プレビュー 20件</span></li>
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-free-4">有効期限 48時間</span></li>
+              <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-free-5">暗号化コメント 最大300件</span></li>
             </ul>
           </div>
           <div class="plan-card is-supporter reveal" style="--delay:120ms">
@@ -259,6 +321,7 @@ const fileTypesReversed = [...fileTypes].reverse()
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-sup-4">--permanence でアクセスが続く限り保持（30日アクセスがなければ削除）</span></li>
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-sup-5">--ttl で有効期限を自由に設定（1時間〜30日）</span></li>
               <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-sup-6">プレビューバッジを非表示</span></li>
+              <li><Check size={15} strokeWidth={2.4} /><span data-i18n="plan-sup-7">暗号化コメント 最大10,000件</span></li>
             </ul>
             <a class="plan-cta" href={LINKS.kofi} target="_blank" rel="noreferrer">
               <span data-i18n="plan-sup-cta">Ko-fi で応援する</span>
@@ -333,7 +396,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'nav-community': 'コミュニティ',
         'hero-eyebrow': 'Drovyu Preview CLI',
         'hero-title': '静的ビルドを、<br>そのまま<em>共有URL</em>に。',
-        'hero-copy': 'dvyu create を実行するだけで、暗号化された一時プレビューURLが手に入ります。デプロイもアカウント登録も不要。ターミナルだけで完結します。',
+        'hero-copy': 'dvyu create を実行するだけで、暗号化された一時プレビューURLが手に入ります。共有先ではページ上に暗号化コメントも残せます。デプロイもアカウント登録も不要です。',
         'hero-cta': 'コマンド一覧を見る',
         'hero-req': 'Node.js 20 以上',
         'all-commands': 'すべてのコマンドを見る',
@@ -343,6 +406,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'stat-previews': '作成されたプレビュー',
         'stat-transferred': '配信した暗号化データ',
         'stat-devices': '累計利用デバイス',
+        'stat-comments': '作成されたコメント',
         'start-label': 'はじめかた',
         'start-title': 'インストールして、<br><em>つくって、送る。</em>',
         'step1-title': 'インストール',
@@ -351,6 +415,16 @@ const fileTypesReversed = [...fileTypes].reverse()
         'step2-body': 'ビルド済みの dist を渡すと、ローカルで暗号化してからアップロードします。',
         'step3-title': 'URLを送る',
         'step3-body': '発行されたURLを相手に送るだけ。48時間で自動的に失効します。',
+        'review-label': 'レビュー',
+        'review-title': '共有して、<br><em>その場でフィードバック。</em>',
+        'review-copy': 'URLを受け取った相手は、気になった位置や範囲を選んでコメントできます。別のツールへ画面を貼り直す必要はありません。',
+        'review-demo-comment': 'ここの余白を少し狭くしたいです',
+        'review-step1-title': '位置や範囲を選ぶ',
+        'review-step1-body': 'ページ上で確認してほしい箇所をクリック、またはドラッグして選択します。',
+        'review-step2-title': 'コメントして返信する',
+        'review-step2-body': '複数の指摘をまとめて送信。表示名を設定し、届いたコメントへ返信できます。',
+        'review-step3-title': '修正して、そのまま更新',
+        'review-step3-body': 'dvyu updateで内容を差し替えても、URLと暗号化されたコメントは維持されます。',
         'features-label': '機能',
         'features-title': 'デプロイするほどじゃない。<br>でも<em>見せたい</em>ときのために。',
         'f1-title': 'アップロード前に暗号化',
@@ -363,8 +437,8 @@ const fileTypesReversed = [...fileTypes].reverse()
         'f4-body': 'プレビューは48時間で自動失効。サポーターなら --permanence で、アクセスが30日途切れるまで残せます。',
         'f5-title': 'HTML 1枚からでも',
         'f5-body': 'dvyu create ./example.html のように、単一のHTMLファイルからもプレビューを作れます。ちょっとしたモックの共有に。',
-        'f6-title': '使用量がすぐわかる',
-        'f6-body': 'dvyu usage で使用中の容量を、dvyu list で有効なプレビューと期限を確認。上限は 100MB・20 プレビューです。',
+        'f6-title': 'その場にコメントできる',
+        'f6-body': '共有相手はページ上の位置や範囲を選んでコメント・返信。内容は同じ鍵で暗号化され、dvyu update 後も引き継がれます。',
         'commands-label': 'コマンド',
         'commands-title': 'これだけ覚えれば、<em>全部</em>使えます。',
         'commands-copy': '日常的に使うのは create / preview / update が中心です。',
@@ -388,6 +462,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'plan-free-2': 'アクティブ容量 100MB',
         'plan-free-3': '同時プレビュー 20件',
         'plan-free-4': '有効期限 48時間',
+        'plan-free-5': '暗号化コメント 最大300件',
         'plan-sup-name': 'サポーター',
         'plan-sup-price': '金額は自由',
         'plan-sup-desc': 'Ko-fi での支援1回につき、30日間の特典。',
@@ -397,6 +472,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'plan-sup-4': '--permanence でアクセスが続く限り保持（30日アクセスがなければ削除）',
         'plan-sup-5': '--ttl で有効期限を自由に設定（1時間〜30日）',
         'plan-sup-6': 'プレビューバッジを非表示',
+        'plan-sup-7': '暗号化コメント 最大10,000件',
         'plan-sup-cta': 'Ko-fi で応援する',
         'plan-sup-note': '特典の有効化は dvyu supporter から。',
       },
@@ -409,7 +485,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'nav-community': 'Community',
         'hero-eyebrow': 'Drovyu Preview CLI',
         'hero-title': 'Turn your static build<br>into a <em>shareable URL</em>.',
-        'hero-copy': 'Run dvyu create and get an encrypted, temporary preview URL. No deploys, no account. Everything happens in your terminal.',
+        'hero-copy': 'Run dvyu create and get an encrypted, temporary preview URL. Reviewers can leave encrypted comments directly on the page. No deploys or accounts required.',
         'hero-cta': 'See all commands',
         'hero-req': 'Requires Node.js 20+',
         'all-commands': 'See all commands in the docs',
@@ -419,6 +495,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'stat-previews': 'previews created',
         'stat-transferred': 'encrypted data served',
         'stat-devices': 'devices to date',
+        'stat-comments': 'comments created',
         'start-label': 'Getting started',
         'start-title': 'Install it. Build it.<br><em>Send the link.</em>',
         'step1-title': 'Install',
@@ -427,6 +504,16 @@ const fileTypesReversed = [...fileTypes].reverse()
         'step2-body': 'Point it at your built dist. Files are encrypted locally, then uploaded.',
         'step3-title': 'Send the URL',
         'step3-body': 'Share the URL it prints. It expires on its own after 48 hours.',
+        'review-label': 'Review',
+        'review-title': 'Share it.<br><em>Get feedback in place.</em>',
+        'review-copy': 'Reviewers can select the exact point or region they want to discuss. There is no need to paste screenshots into another tool.',
+        'review-demo-comment': 'Could we tighten the spacing here?',
+        'review-step1-title': 'Select a point or region',
+        'review-step1-body': 'Click or drag over the exact part of the page that needs attention.',
+        'review-step2-title': 'Comment and reply',
+        'review-step2-body': 'Send multiple notes together, set a display name, and reply to existing feedback.',
+        'review-step3-title': 'Fix it and update in place',
+        'review-step3-body': 'dvyu update replaces the content while keeping the URL and encrypted comments.',
         'features-label': 'Features',
         'features-title': 'Not worth a deploy,<br>but worth <em>showing</em>.',
         'f1-title': 'Encrypted before upload',
@@ -439,8 +526,8 @@ const fileTypesReversed = [...fileTypes].reverse()
         'f4-body': 'Previews expire after 48 hours. Supporters can add --permanence to keep one alive until it goes 30 days without access.',
         'f5-title': 'Even a single HTML file',
         'f5-body': 'dvyu create ./example.html works too. Handy for sharing a quick mockup.',
-        'f6-title': 'Usage at a glance',
-        'f6-body': 'dvyu usage shows your storage, dvyu list shows active previews and expiry. Limits are 100MB and 20 previews.',
+        'f6-title': 'Comment directly on the page',
+        'f6-body': 'Reviewers can select a point or region, leave a comment, and reply. Feedback uses the same encryption key and survives dvyu update.',
         'commands-label': 'Commands',
         'commands-title': 'Learn these and you know <em>everything</em>.',
         'commands-copy': 'Day to day you will mostly use create, preview, and update.',
@@ -464,6 +551,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'plan-free-2': '100MB active storage',
         'plan-free-3': '20 active previews',
         'plan-free-4': 'Expires after 48 hours',
+        'plan-free-5': 'Up to 300 encrypted comments',
         'plan-sup-name': 'Supporter',
         'plan-sup-price': 'Any amount',
         'plan-sup-desc': '30 days of perks for each Ko-fi support.',
@@ -473,6 +561,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         'plan-sup-4': 'Keep previews while they remain active with --permanence (removed after 30 days without access)',
         'plan-sup-5': 'Custom lifetime with --ttl (1 hour to 30 days)',
         'plan-sup-6': 'No preview branding badge',
+        'plan-sup-7': 'Up to 10,000 encrypted comments',
         'plan-sup-cta': 'Support on Ko-fi',
         'plan-sup-note': 'Activate your perks with dvyu supporter.',
       },
@@ -720,11 +809,31 @@ const fileTypesReversed = [...fileTypes].reverse()
     function evalScrollyMode() {
       scrollyStatic = prefersReducedMotion || narrowViewport.matches
       scrollySection.classList.toggle('is-static', scrollyStatic)
+      reviewSection.classList.toggle('is-static', scrollyStatic)
       if (scrollyStatic) {
         renderScrolly(1)
+        renderReview(1)
       } else {
         updateScrolly()
+        updateReview()
       }
+    }
+
+    const reviewSection = document.getElementById('review')
+    const reviewSteps = document.querySelectorAll('.review-step')
+
+    function renderReview(p) {
+      const active = p < 0.34 ? 0 : p < 0.68 ? 1 : 2
+      reviewSection.dataset.step = String(active + 1)
+      reviewSteps.forEach((el, i) => el.classList.toggle('active', scrollyStatic || i === active))
+    }
+
+    function updateReview() {
+      if (scrollyStatic) return
+      const top = reviewSection.offsetTop
+      const range = reviewSection.offsetHeight - window.innerHeight
+      const p = Math.min(Math.max((window.scrollY - top) / Math.max(range, 1), 0), 1)
+      renderReview(p)
     }
 
     window.addEventListener('resize', evalScrollyMode, { passive: true })
@@ -742,6 +851,7 @@ const fileTypesReversed = [...fileTypes].reverse()
       const docRange = document.documentElement.scrollHeight - window.innerHeight
       navProgress.style.transform = 'scaleX(' + (docRange > 0 ? Math.min(y / docRange, 1) : 0).toFixed(4) + ')'
       updateScrolly()
+      updateReview()
     }
 
     window.addEventListener('scroll', () => {
@@ -805,6 +915,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         previews: document.querySelector('[data-stat="previews"]'),
         transferred: document.querySelector('[data-stat="transferred"]'),
         devices: document.querySelector('[data-stat="devices"]'),
+        comments: document.querySelector('[data-stat="comments"]'),
       }
       try {
         const response = await fetch('https://stats.preview.drovyu.com/stats.json')
@@ -814,6 +925,7 @@ const fileTypesReversed = [...fileTypes].reverse()
           previews: Number(stats.previewsCreated),
           transferred: Number(stats.encryptedGigabytesPublished),
           devices: Number(stats.devicesEver),
+          comments: Number(stats.commentsCreated),
         }
         Object.entries(elements).forEach(([key, el]) => {
           const value = values[key]
