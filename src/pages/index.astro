@@ -918,7 +918,7 @@ const fileTypesReversed = [...fileTypes].reverse()
         comments: document.querySelector('[data-stat="comments"]'),
       }
       try {
-        const response = await fetch('https://stats.preview.drovyu.com/stats.json')
+        const response = await fetch('https://stats.preview.drovyu.com/stats.json?v=comments-20260716')
         if (!response.ok) throw new Error('Could not load public stats')
         const stats = await response.json()
         const values = {
