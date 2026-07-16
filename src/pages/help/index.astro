@@ -105,6 +105,20 @@ const categories = [
               <div class="lang-block-en"><p>Run <code>dvyu delete &lt;id&gt;</code>. You can find the id with <code>dvyu list</code>. To remove every preview created from this device, run <code>dvyu delete all</code>. Deleted previews are no longer viewable.</p></div>
             </div>
           </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">コメントを受け付けずにプレビューを作りたい</span><span class="lang-block-en">How do I create a preview without comments?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p><code>dvyu preview --no-comments</code>または<code>dvyu create ./dist --no-comments</code>を使います。既存プレビューは<code>dvyu update --no-comments</code>でコメントUIを無効化できます。暗号化済みコメントは保持され、次回オプションなしで更新すると再表示します。</p></div>
+              <div class="lang-block-en"><p>Use <code>dvyu preview --no-comments</code> or <code>dvyu create ./dist --no-comments</code>. For an existing preview, <code>dvyu update --no-comments</code> disables the comment UI. Encrypted comments are retained and return after a later update without the option.</p></div>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary><span class="lang-block-ja">プレビュー失効後もコメントを確認できますか</span><span class="lang-block-en">Can I read comments after the preview expires?</span></summary>
+            <div class="faq-body">
+              <div class="lang-block-ja"><p>自然失効後30日間は、<code>#k=</code>を含む同じ完全URLから暗号化コメントを確認できます。<code>dvyu delete</code>で明示的に削除した場合、コメントも即時削除されます。</p></div>
+              <div class="lang-block-en"><p>For 30 days after natural expiry, encrypted comments remain readable from the same complete URL including <code>#k=</code>. An explicit <code>dvyu delete</code> removes the comments immediately.</p></div>
+            </div>
+          </details>
         </div>
       </section>
 
